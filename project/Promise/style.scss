@@ -1,0 +1,28 @@
+
+body {
+  background: #844;
+  display: flex;
+  justify-content: center;
+}
+
+#box {
+  width: 90vh;
+  display: grid;
+  place-items: center;
+  grid-template-areas:
+    "a1 . ."
+    ". a2 ."
+    ". . a3";
+}
+
+#a1 {
+  grid-area: a1;
+}
+
+#a2 {
+  grid-area: a2;
+}
+
+#a3 {
+  grid-area: a3;
+}

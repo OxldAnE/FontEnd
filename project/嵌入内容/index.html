@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+    <title>index</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+<header>
+    <h1>嵌入内容</h1>
+    <img alt="火狐图标" src="火狐120.png">
+</header>
+
+<main>
+    <section class="para">
+        <iframe height="225"
+                src="https://player.bilibili.com/player.html?aid=3303261&amp;bvid=BV1rs411d7hC&amp;cid=5221342&amp;page=2"
+                width="400"></iframe>
+        <div class="text"><h2>文本段区域</h2>
+            <p>相当长的文本</p></div>
+    </section>
+
+    <section class="images clearfix">
+        <img alt="火狐" sizes="
+                (max-width:500px) 120px,
+                400px" src="火狐400.png" srcset="火狐120.png 120w,
+                火狐400.png 400w">
+        <img alt="恐龙头" sizes="(max-width:500px) 120px,
+                400px" src="恐龙头400.png" srcset="恐龙头120.png 120w,
+                恐龙头400.png 400w ">
+        <img alt="火狐裂开" sizes="(max-width:500px) 120px,
+                400px" src="火狐裂开400.png" srcset="火狐裂开120.png 120w,
+                火狐裂开400.png 400w ">
+        <img alt="矢量图" src="矢量图.svg">
+    </section>
+
+    <section class="picture">
+        <picture>
+            <source media="(max-width:800px)" srcset="熊800.png">
+            <img alt="小熊猫" src="熊1200.png">
+        </picture>
+    </section>
+
+</main>
+</body>
+</html>
