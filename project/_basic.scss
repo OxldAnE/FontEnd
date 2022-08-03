@@ -11,6 +11,11 @@ $border-color: #880088;
   padding: 0;
 }
 
+/* 盒子模型以边框为界计算盒子大小 */
+* {
+  box-sizing: border-box;
+}
+
 /* 主体背景颜色，字体，字体颜色 */
 html {
   background-color: $background-color;
@@ -18,11 +23,6 @@ html {
   Helvetica,
   Arial,
   \\5B8B\4F53, sans-serif;
-}
-
-/* 盒子模型以边框为界计算盒子大小 */
-* {
-  box-sizing: border-box;
 }
 
 /* 合并相邻表格单元格的边框 */
