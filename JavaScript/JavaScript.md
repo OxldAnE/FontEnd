@@ -2,22 +2,18 @@
 
 # `JavaScript`
 
-
-
 ## `HTML`中的 `js`
 
 ### 脚本执行方式
 
-- `defer`推迟
+- `defer`
   - 浏览器等待页面解析
   - 脚本按照在页面中出现的顺序加载和运行
-- `async`异步
+- `async`
   - 适合页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本
   - 浏览器遇到脚本时，不会阻塞页面渲染，而是直接下载然后运行
   - 脚本的运行次序无法控制
 - 动态加载
-
-[增删改选项卡](..\project\增删改选项卡)
 
 ---
 
@@ -28,14 +24,12 @@
 - 跨域技术
   - 不同源的页面进行交互
   - `JSONP`
-    - 利用` <script> `允许请求不同源的脚本实现跨域的方法
+    - 利用` <script> `允许请求不同源的脚本实现跨域
     - 只支持 `GET`，不支持 `POST`
 
 ![image-20220804231132193](assets/image-20220804231132193.png)
 
 ![image-20220804231145944](assets/image-20220804231145944.png)
-
----
 
 - `CORS`
 
@@ -47,8 +41,12 @@
 
 ### 关键字
 
-- `typeof`：检测数据类型
-- `instanceof`：检测左侧对象是否由右侧的构造函数实例化
+- `typeof`
+  - 检测数据类型
+
+- `instanceof`
+  - 检测左侧对象是否由右侧的构造函数实例化
+
 
 ![image-20220802230337265](assets/image-20220802230337265.png)
 
@@ -58,13 +56,79 @@
 
 ### 变量
 
+#### 数组
+
+- `length()`
+  - 数组长度
+
+- `push()`
+  - 在数组末尾添加元素
+- `pop()`
+  - 移除数组末尾的元素，并将其返回
+- `unshift()`
+  - 在数组开头添加元素
+- `shift()`
+  - 移除数组开头的元素，并将其返回
+
+- `splice()`
+  - 从索引位置移除个数的元素和插入元素，并将移除子数组返回
+
+
+```js
+let arr = [1, 2, 3, 4, 5]
+
+console.log(arr.splice(1)) // [ 2, 3, 4, 5 ]
+console.log(arr)  // [ 1 ]
+```
+
+```js
+let arr = [1, 2, 3, 4, 5]
+
+console.log(arr.splice(1, 2)) // [ 2, 3 ]
+console.log(arr)  // [ 1, 4, 5 ]
+```
+
+```js
+let arr = [1, 2, 3, 4, 5]
+
+console.log(arr.splice(1, 2, 6, 7)) // [ 2, 3 ]
+console.log(arr)  // [ 1, 6, 7, 4, 5 ]
+```
+
+- `slice()`
+  - 复制开始索引到结束索引(不包括结束)的元素
+
+```js
+let arr = [1, 2, 3, 4, 5]
+
+console.log(arr.slice(1)) // [ 2, 3, 4, 5 ]
+console.log(arr)  // [1, 2, 3, 4, 5]
+```
+
+```js
+let arr = [1, 2, 3, 4, 5]
+
+console.log(arr.slice(1, 3)) // [ 2, 3 ]
+console.log(arr)  // [1, 2, 3, 4, 5]
+```
+
+- `indexOf()`
+  - 返回元素在数组中的索引
+
+```js
+let arr = [1, 2, 3, 4, 5]
+
+console.log(arr.indexOf(3)) // 2
+console.log(arr.indexOf(0)) //-1
+```
+
+---
+
 - 对调两个变量
 
 ```js
 let [a, b] = [1, 2]
 ```
-
----
 
 - 临时变量
 
@@ -74,15 +138,11 @@ a = b
 b = c
 ```
 
----
-
 - 解构赋值
 
 ```js
-[a, b]=[b, a]
+[a, b] = [b, a]
 ```
-
-------
 
 - 加减法
 
@@ -91,8 +151,6 @@ a = a + b
 b = a - b
 a = a - b
 ```
-
----
 
 - 按位异或
 
@@ -115,7 +173,7 @@ a = a ^ b
 
 - `const`
 
-  - 除数组和对象外不能修改值
+  - 不能修改栈上的值
 
 ---
 
@@ -128,8 +186,6 @@ const arr = [1, 2, 3]
 const [, ...x] = arr
 console.log(x) // [ 2, 3 ]
 ```
-
----
 
 - 对象
 
@@ -179,9 +235,9 @@ h[0].i = 3
 console.log(f, h) // [ { i: 2 } ] [ { i: 3 } ]
 ```
 
----
+- 利用`JSON`深拷贝的问题
 
-- `JSON`深拷贝的问题
+![image-20220804112637428](assets/image-20220804112637428.png)
 
 ```js
 const obj = {
@@ -192,16 +248,11 @@ const obj = {
   f    : function () {},
   time : new Date(), // 键值转为字符串
   regex: /\d/ // 正则表达式转为空对象
-
 }
 const json = JSON.parse(JSON.stringify(obj))
 
 console.log(obj, json)
 ```
-
-![image-20220804112637428](assets/image-20220804112637428.png)
-
----
 
 - 手写深拷贝
 
@@ -214,6 +265,8 @@ const obj = {
 
 const newObj = {}
 
+let k = 0
+
 function deepCopy (newObj, obj) {
   for (let i in obj) {
     // 根据键值类型，执行不同操作
@@ -225,6 +278,7 @@ function deepCopy (newObj, obj) {
       newObj[i] = {}
       deepCopy(newObj[i], obj[i])
     }
+    // 递进终止条件：不是数组和对象
     else {
       newObj[i] = obj[i]
     }
@@ -238,8 +292,6 @@ console.log(obj, newObj)
 
 ![image-20220804114038745](assets/image-20220804114038745.png)
 
-
-
 ---
 
 ### 数据类型
@@ -250,7 +302,7 @@ console.log(obj, newObj)
   - ``NaN`
 - `String`
 - `Symbol`
-- `object`
+- `Object`
   - `null`
   - `function`
   - `Array`
@@ -259,19 +311,45 @@ console.log(obj, newObj)
 
 ### 操作符
 
-- `==`会自动类型转换，`===`不会
+- `==`
+  - 会自动类型转换
+
+- `===`
+  - 不会
+
 
 ---
 
 - `+`
+
   - 从左到右转化为基本数据类型运算
+
   - 经过`valueof`、`toString`方法，仍不是基本数据类型，则报错
-  - `true`和`false`通过`toNumber`转化为0和1
-  - `{}`作为对象时，转化为`[object Object]`
+
+  - `true`和`false`通过`toNumber`转为0和1
+
+  - `{}`作为对象时，转为`[object Object]`
 
 ![image-20220803003003991](assets/image-20220803003003991.png)
 
 ![image-20220803003013687](assets/image-20220803003013687.png)
+
+---
+
+- 模板字面量
+  - 用于创建复杂字符串
+  - `${表达式}`
+  - 支持多行字符串
+
+```js
+let a = 'a'
+let b = 'b'
+
+console.log(`a + b = 
+${a + b}`)
+// a + b =
+// ab
+```
 
 ---
 
@@ -284,6 +362,8 @@ console.log(obj, newObj)
 ### 作用域
 
 - 函数
+  - 使用到外部的全局变量 `a`
+
 
 ```js
 var a = 1
@@ -296,9 +376,8 @@ function f () {
 f()
 ```
 
-- 函数使用到外部的全局变量 `a`
-
----
+- `var`变量会提升到函数内部的最上方
+- `undefined`先 `++`得到 `NaN`
 
 ```js
 var a = 1
@@ -312,56 +391,44 @@ function f () {
 f()
 ```
 
-- `var`变量会提升到函数内部的最上方
-- `undefined`先 `++`得到 `NaN`
-
-```js
-var a = 1
-
-function f () {
-  var a
-  console.log(a) // undefined
-  console.log(a++) // NaN
-  a = 'a'
-}
-
-f()
-```
-
----
-
 - 块
+  - `var`变量不受块作用域限制
+
 
 ```js
 if (true) {
   var a = 1
 }
+
 console.log(a) // 1
 ```
-
-- `var`变量不受块作用域限制
 
 ---
 
 ### 匿名函数
 
-- 标准的函数定义应该包括关键字、函数名、参数名、函数体
+- 标准的函数定义
+  - 关键字、函数名、参数名、函数体
+
 
 ![image-20220803104517211](assets/image-20220803104517211.png)
 
 ![image-20220803104555720](assets/image-20220803104555720.png)
 
-- 如果将函数名去掉，在函数外面加`()`将函数声明变为表达式（不局限于`()`，解析到符号会当成表达式处理，而不是函数声明），在最后面加 `()`执调用，便是匿名函数的自运行
+- 将函数名去掉，在函数外面加`()`使得函数声明变为表达式，在最后面加 `()`执调用，便是匿名函数的自运行
+- 不局限于`()`，解析到操作符会当成表达式处理，而不是函数声明
 
 ```js
 +function () {
-  console.log(1)
+  console.log(1) // 1
 }()
 ```
 
-- 匿名函数的自运行，在函数创建时，便会立即执行；与直接书写函数体的执行效果的是一样的，好处在于，匿名函数在内部形成封闭的作用域，内部变量不会对外部造成命名污染
+- 匿名函数的自运行好处在于，其内部形成封闭的作用域，内部变量不会对外部造成命名污染
 
 ---
+
+- 普通函数调用两种不同方式对比
 
 ```js
 f() // 函数声明会提升，顺利执行
@@ -396,7 +463,8 @@ var f = function () {
 
 ```js
 function f (n) {
-  if (n === 1) { // 递进终止条件
+  // 递进终止条件
+  if (n === 1) {
     return 1
   }
     
@@ -488,15 +556,23 @@ f1(f3)
 ### `Promise`
 
 - 通过`Promise`链的方式，避免回调嵌套调用，并在末尾对错误进行处理
-- `async`进行异步函数声明，`await`等待`Promise`完成，返回`Promise`对象
-- `Promise.all()`：全部实现
-- `Promise.any()`：任一个实现
-- `resolve`：成功时调用
-- `reject`：失败时调用
+- `async`进行异步函数声明，`await`等待`Promise`完成后，返回`Promise`对象
+- `Promise.all()`
+  - 全部实现
+
+- `Promise.any()`
+  - 任一个实现
+
+- `resolve`
+  - 成功时调用
+
+- `reject`
+  - 失败时调用
+
 
 ---
 
-#### 手写`Promise`
+- 手写`Promise`
 
 ```js
 class Promise {
@@ -585,9 +661,17 @@ class Promise {
 
 ### 构造函数
 
+
+
+
+
+---
+
+- 手写 `new`
+
 ```js
 function myNew (constructor, ...args) {
-  // i创建实例对象，并指向构造函数原型
+  // 创建实例对象，并指向构造函数原型
   const obj = Object.create(constructor.prototype)
 
   // 执行构造函数，this指向实例对象
@@ -611,19 +695,45 @@ console.log(obj) // f { name: 1 }
 
 ### 闭包函数
 
+- 
+
 ```js
 function f () {
-  let a = 1
-  return function g () {
+  let a = 0
+  a++
+  console.log(a)
+}
+
+f() // 1
+f() // 1
+```
+
+```js
+function f () {
+  let a = 0
+  return function () {
+    a++
     console.log(a)
   }
 }
 
-const f1 = f()
-f1() // 1
+f()() // 1
+f()() // 1
 ```
 
-- 外部函数 `f1`通过闭包函数 `g`访问到闭包 `f`里的变量 `a`
+```js
+function f () {
+  let a = 0
+  return function () {
+    a++
+    console.log(a)
+  }
+}
+
+let g = f()
+g() // 1
+g() // 2
+```
 
 ---
 
@@ -959,6 +1069,78 @@ images.forEach(image => {
 
 ## 面向对象
 
+### 方法
+
+- `hasOwnProperty()`
+
+  - 是否由指定的属性，返回`true`或`false`
+- `Object.freeze()`
+  - 不允许修改对象
+
+
+- `delete`
+  - 删除属性
+
+```js
+let obj = { a: 1 }
+Object.freeze(obj)
+obj.b = 2
+
+console.log(obj) // { a: 1 }
+```
+
+---
+
+- `Object.keys()`
+  - 获取键值
+- `Object.values()`
+  - 获取属性值
+
+```js
+let obj = {
+  a: 1,
+  b: 2
+}
+console.log(Object.keys(obj)) // [ 'a', 'b' ]
+console.log(Object.values(obj)) // [ 1, 2 ]
+
+let arr = [1, 2]
+console.log(Object.keys(arr)) // [ '0', '1' ]
+console.log(Object.values(arr)) // [ 1, 2 ]
+```
+
+---
+
+- `for in`
+  - 键值
+- `for of`
+  - 迭代器访问元素
+
+```js
+let obj = {
+  a: 1,
+  b: 2
+}
+for (let i in obj) {
+  console.log(i) // a b
+}
+// 报错
+// for (let i of obj) {
+//   console.log(i)
+// }
+
+let arr = [1, 2]
+for (let i in arr) {
+  console.log(i) // 0 1
+  console.log(typeof i) // string string
+}
+for (let i of arr) {
+  console.log(i) // 1 2
+}
+```
+
+---
+
 ### 原型对象
 
 ```js
@@ -1017,6 +1199,8 @@ a0.f()
 ---
 
 [弹跳彩球](..\project\弹跳彩球)
+
+[增删改选项卡](..\project\增删改选项卡)
 
 ---
 
@@ -1446,6 +1630,67 @@ Promise.resolve()
 ---
 
 ### 正则表达式
+
+- 默认从左到右找到首个匹配停止
+
+- 方法
+
+  - `test()`
+    - 字符串是否有匹配的子串
+
+  - `match()`
+    - 返回匹配的子串
+
+  - `search()`
+    - 返回匹配子串的起始位置
+
+  - replace()
+    - 替换匹配子串
+  - `trim()`
+    - 删除字符串开头和末尾的空格
+
+```js
+let str = 'ababb'
+let regex = /b/
+
+console.log(regex.test(str)) // true
+console.log(str.match(regex)) // b
+console.log(str.search(regex)) // 1
+console.log(str.replace(regex, 'c')) // acabb
+```
+
+---
+
+- 修饰符
+  - `i`
+    - 不区分大小写
+  - `g`
+    - 将匹配首个改为匹配所有
+
+---
+
+|  符号  |                      作用                      |
+| :----: | :--------------------------------------------: |
+|  `^`   |                    开始位置                    |
+|  `$`   |                    结束位置                    |
+|  `*`   |                   0次到多次                    |
+|  `+`   |                   1次到多次                    |
+|  `?`   |                    0次或1次                    |
+|  `.`   |                    任意字符                    |
+|  `|`   |                       或                       |
+|  `-`   |                       到                       |
+|  `()`  |                     字符组                     |
+| `(?=)` |                      存在                      |
+| `(?!)` |                     不存在                     |
+|  `[]`  |                     字符集                     |
+| `[^]`  |                   否定字符集                   |
+|  `{}`  |                      次数                      |
+|  `\w`  |                 `[A-Za-z0-9_]`                 |
+|  `\W`  |                `[^A-Za-z0-9_]`                 |
+|  `\d`  |                      数字                      |
+|  `\D`  |                     非数字                     |
+|  `\s`  | 空白<br />空格、回车符、制表符、换页符、换行符 |
+|  `\S`  |                     非空白                     |
 
 
 
