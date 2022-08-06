@@ -210,7 +210,6 @@ console.log(x, y) // 2 undefined
 - 深拷贝
   - 每一层都会拷贝
 - 嵌套对象的扩展运算符是浅拷贝，可通过 `JSON`实现深拷贝
--  `assign`为浅拷贝
 
 ```js
 const a = {
@@ -695,10 +694,21 @@ console.log(obj) // f { name: 1 }
 
 ### 闭包函数
 
-- 
+```js
+let a = 0
+let f = function () {
+  ++a
+  console.log(a)
+}
+f() // 1
+f() // 2
+```
+
+- 将变量`a`封装起来
+  - 函数每次执行完后，`a`会消亡
 
 ```js
-function f () {
+let f = function () {
   let a = 0
   a++
   console.log(a)
@@ -708,23 +718,12 @@ f() // 1
 f() // 1
 ```
 
-```js
-function f () {
-  let a = 0
-  return function () {
-    a++
-    console.log(a)
-  }
-}
-
-f()() // 1
-f()() // 1
-```
+- 内嵌函数依赖于变量`a`，`g`的存在使得`a`不能消亡
 
 ```js
 function f () {
   let a = 0
-  return function () {
+  return () => {
     a++
     console.log(a)
   }
@@ -738,6 +737,8 @@ g() // 2
 ---
 
 ### 函数柯里化
+
+- 传入的参数在闭包中保存
 
 ```js
 function url (protocol) {
@@ -770,7 +771,7 @@ function add () {
   }
 
   // 函数返回被 toString 隐式转换
-  inner.toString = function () {
+  inner.toString = () => {
     return args.reduce((i, j) => i + j)
   }
 
@@ -786,8 +787,8 @@ console.log(Number(result())) // 15.1
 ### 库函数
 
 - `map()`
+  - `数组.map(函数(元素, 索引, 数组))`
 
-- `数组.map(函数(元素, 索引, 数组))`
 
 ```js
 const arr = [1, 10, 100]
@@ -795,7 +796,11 @@ const result = arr.map((item, index) => item + index)
 console.log(result) // [ 1, 11, 102 ]
 ```
 
----
+- `parseInt(字符串，进制)`
+
+  - 将按照进制表示的字符串，转化为十进制数字
+
+  - 进制为 `2~36`，`0`为十进制
 
 ```js
 const arr = [1, 10, 100]
@@ -812,16 +817,14 @@ console.log(result)
 // [ 1, NaN, 4 ]
 ```
 
-- `parseInt(字符串，进制)`
-  - 将按照进制表示的字符串，转化为十进制数字
-  - 进制为 `2~36`，`0`为十进制
-
 ---
 
 - `setTimeout`
-  - 延迟一段时间执行任务
+  - 延迟一段时间将任务加入执行队列
 - `setInterval`
   - 每间隔一段时间将任务加到任务队列中
+  - 无视报错
+  - 无视网络延迟
 
 ```html
 <button class="setTimeout">setTimeout</button>
@@ -856,6 +859,8 @@ mySetInterval.addEventListener('click', () => {
 ```
 
 ---
+
+- `setTimeout()` 实现 `setInterval()`
 
 ```js
 function newInterval (func, millisecond) {
@@ -894,90 +899,20 @@ function f () {
   console.log(i++)
 }
 
-button.addEventListener('click', f)
-```
-
-- 给按钮添加点击事件
-
----
-
-```js
-function debounce (f) {
-  f()
-}
-
-button.addEventListener('click', debounce(f))
-```
-
-- 在绑定监听函数的时候会直接执行函数，应使用闭包
-
-```js
-function debounce (f) {
-  return function () {
-    f()
-  }
-}
-```
-
----
-
-```js
+// 绑定函数表达式
 function debounce (f, delay) {
+  // 点击事件共享1个定时器
+  let timer
   return function () {
-    let timer
+    // 先取消定时器
     clearTimeout(timer)
-    timer = setTimeout(f, delay)
+    // 设置定时器任务
+    // 如果用普通函数应该绑定 this
+    timer = setTimeout(() => f(), delay)
   }
 }
 
 button.addEventListener('click', debounce(f, 500))
-```
-
-- 给点击事件增加延时功能
-- 但此时，每个点击事件是相互独立的，连续单击会各自输出
-
----
-
-```js
-function debounce (f, delay) {
-  let timer
-  return function () {
-    clearTimeout(timer)
-    timer = setTimeout(f, delay)
-  }
-}
-```
-
-- 通过闭包，共用一个延时事件，实现防抖功能
-- 但这时候，防抖函数由于回调函数的关系，是在 `Window`下运行
-
----
-
-- 绑定 `this`
-
-```js
-function debounce (f, delay) {
-  let timer
-  return function () {
-    let context = this
-    clearTimeout(timer)
-    timer = setTimeout(f.call(context), delay)
-  }
-}
-```
-
----
-
-- 箭头函数
-
-```js
-function debounce (f, delay) {
-  let timer
-  return function () {
-    clearTimeout(timer)
-    timer = setTimeout(() => f(), delay)
-  }
-}
 ```
 
 ---
@@ -1143,46 +1078,86 @@ for (let i of arr) {
 
 ### 原型对象
 
+- 对象具有属性
+  - `__proto__`
+    - 原型链
+    - 沿着该属性向上查找
+  - `constructor`
+    - 指向对象的构造函数
+    - `Funtion` 是所有构造函数的构造函数
+- 函数是一种对象，且具有属性
+  - `prototype`
+    - 指向构造函数所创建实例的原型对象
+    - 用于由构造函数所创建实例添加公共的属性和方法
+
 ```js
-const a = {
-  a0: 0,
-  f () {
-    console.log(this)
-  }
+function F () {
+  let a = 0
+  // 添加到实例对象的属性
+  this.b = a
 }
 
-const a0 = Object.create(a)
-const a1 = Object.create(a, { 'a1': { value: 1 } })
-const a2 = Object.create(a, { 'a2': { value: 2 } })
+let f = new F()
+// F 是 f 的构造函数
+console.log(f.constructor === F)
+// Function 是所有构造函数的构造函数
+console.log(F.constructor === Function)
 
-a.f()
-a0.f()
-a1.f()
-a2.f()
+console.log(f.__proto__ === F.prototype) // true
+f.__proto__.x = function () {
+  console.log('x')
+}
+f.y = function () {
+  console.log('y')
+}
+// 在原型对象中添加公共的属性和方法，提高代码复用
+new F().x() // x
+f.y() // y
+// f 实例私有的
+// new F().y() // 1
+
+function G () {}
+
+// 将 F 的实例作为 G 的原型对象
+// 由 G 创建的实例 g 能够访问 F 原型对象中的方法
+G.prototype = new F()
+let g = new G()
+g.x() //x
 ```
-
-![image-20220803165322064](assets/image-20220803165322064.png)
-
-- `a`为对象自身，`a0`为以`a`作为原型对象的空对象
-- `a1`和`a2`以`a`作为原型对象，并添加了自己的属性
 
 ---
 
+-  `Object.create()`指定原型对象
+
 ```js
-const a = {
-  a0: 0,
-  f () {
-    console.log(this)
-  }
+let a = {
+  x: 1
 }
 
-const a0 = Object.assign({}, a)
-a0.f()
+let a1 = Object.create(a)
+console.log(a1.__proto__ === a) // true
+
+let a2 = Object.create(a, {y: {value: 2}})
+console.log(a1.y) // undefined
+console.log(a2.y) // 2
 ```
 
-![image-20220803171425031](assets/image-20220803171425031.png)
+---
 
-- 将`a`的所有可枚举属性复制到 目标对象`{}`中，并返回目标对象
+- `assign()`浅拷贝
+
+```js
+let a = {
+  x: [1]
+}
+
+const a1 = Object.assign({y: 2}, a)
+console.log(a1) // { y: 2, x: [ 1 ] }
+
+a1.x[0] = 0
+console.log(a1) // { y: 2, x: [ 0 ] }
+console.log(a) // { x: [ 0 ] }
+```
 
 ---
 
