@@ -93,24 +93,6 @@ a:hover {
 - `src`
   - 资源直接下载，嵌入到文档中
 
----
-
-### 属性
-
-- `data-`
-  - 自定义属性
-- `contenteditable`
-  - 用户可编辑
-- `dir`
-  - 文字方向
-- `draggable`
-  - 拖放
-  - `dropzone`
-- `hidden`
-  - 隐藏元素
-- `tabindex`
-  - 按`Tab`键切换元素
-
 
 ---
 
@@ -153,29 +135,29 @@ a:hover {
 
 ### 表单控件
 
-|  控件类型  |              功能              |
-| :--------: | :----------------------------: |
-|   `text`   |            单行文本            |
-| `password` |              密码              |
-|  `radio`   |             单选框             |
-| `checkbox` |             复选框             |
-|  `submit`  |              提交              |
-|  `reset`   |              重置              |
-|  `button`  | 没有默认效果，用于 `js` 自定义 |
-|   `file`   |            文件选择            |
-|  `email`   |            电子邮件            |
-|  `search`  |             搜索栏             |
-|   `tel`    |            电话号码            |
-|   `url`    |              网址              |
-|  `number`  |              数值              |
-|  `range`   |              滑块              |
-|   `date`   |              日期              |
-|   `time`   |              时间              |
-|  `color`   |              颜色              |
-| `textarea` |            多行文本            |
-|  `select`  |             下拉框             |
-|  `option`  |            下拉选项            |
-| `progress` |             进度条             |
+|  控件类型  |       功能       |
+| :--------: | :--------------: |
+|   `text`   |     单行文本     |
+| `password` |       密码       |
+|  `radio`   |      单选框      |
+| `checkbox` |      复选框      |
+|  `submit`  |       提交       |
+|  `reset`   |       重置       |
+|  `button`  | 用于 `js` 自定义 |
+|   `file`   |     文件选择     |
+|  `email`   |     电子邮件     |
+|  `search`  |      搜索栏      |
+|   `tel`    |     电话号码     |
+|   `url`    |       网址       |
+|  `number`  |       数值       |
+|  `range`   |       滑块       |
+|   `date`   |       日期       |
+|   `time`   |       时间       |
+|  `color`   |       颜色       |
+| `textarea` |     多行文本     |
+|  `select`  |      下拉框      |
+|  `option`  |     下拉选项     |
+| `progress` |      进度条      |
 
 ---
 
@@ -196,21 +178,12 @@ a:hover {
 ### 响应式图片
 
 - 裁剪图片
+  - `piceture`
 
-```html
-<picture>
-    <source media="(max-width:799px)" srcset="裁剪图片400宽.png">
-    <source media="(min-width: 800px)" srcset="裁剪图片800宽.png">
-    
-    <img src="裁剪图片800宽.png" alt="裁剪图片">
-</picture>
-```
 
 - 分辨率切换
+  - `srcset`
 
-```html
-<img src="分辨率800.png" alt="不同分辨率的图片" srcset="分辨率400.png,分辨率600.png 1.5x,分辨率800.png 2x">
-```
 
 ---
 
