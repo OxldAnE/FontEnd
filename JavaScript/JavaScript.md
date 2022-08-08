@@ -73,12 +73,10 @@
 ```js
 let arr = [10, 1, 2]
 arr.sort() // 默认按字符编码的顺序排序
-// [1, 10, 2]
-console.log(arr)
+console.log(arr) // [1, 10, 2]
 
 arr.sort((i, j) => i - j) // 升序
-// [ 1, 2, 10 ]
-console.log(arr)
+console.log(arr) // [ 1, 2, 10 ]
 ```
 
 ```js
@@ -88,16 +86,13 @@ let arr = [0, 1, , 4]
 arr.forEach(item => {
   console.log(++item) // 1 2 5
 })
-// false
-console.log(arr.every((item, index) => item === index ** 2))
-// true
-console.log(arr.some((item, index) => item === index ** 2))
+
+console.log(arr.every((item, index) => item === index ** 2)) // false
+console.log(arr.some((item, index) => item === index ** 2)) // true
 // [ 0, 0, <1 empty item>, 1 ]
 console.log(arr.map((item, index) => item - index))
-// [ 1, 4 ]
-console.log(arr.filter(item => item > 0))
-// 5
-console.log(arr.reduce((acc, item) => acc - item, 10)) 
+console.log(arr.filter(item => item > 0)) // [ 1, 4 ]
+console.log(arr.reduce((acc, item) => acc - item, 10)) // 5 
 ```
 
 ---
@@ -155,8 +150,7 @@ a = a ^ b
 ```js
 const arr = [1, 2, 3]
 const [, ...x] = arr
-// [ 2, 3 ]
-console.log(x) 
+console.log(x) // [ 2, 3 ]
 ```
 
 - 对象
@@ -170,16 +164,17 @@ const {
   b: x,
   c: y
 } = obj
-// 2 undefined
-console.log(x, y) 
+console.log(x, y) // 2 undefined
 ```
 
 ---
 
 #### 拷贝
 
-| | 浅拷贝 | 深拷贝 | | :--: | :----------------------------: | :--------------: | |
-特点 | 只拷贝一层，嵌套对象只拷贝地址 | 每一层都会拷贝 | | 使用 | 扩展运算符、`assign()`     | `JSON`实现深拷贝 |
+| | 浅拷贝 | 深拷贝 | 
+| :--: | :----------------------------: | :--------------: | 
+|特点 | 只拷贝一层，嵌套对象只拷贝地址 | 每一层都会拷贝 | 
+| 使用 | 扩展运算符、`assign()`     | `JSON`实现深拷贝 |
 
 ```js
 const a = {
@@ -187,25 +182,21 @@ const a = {
 }
 const b = {...a}
 b.i = 2
-// { i: 1 } { i: 2 }
-console.log(a, b)
+console.log(a, b) // { i: 1 } { i: 2 }
 
 const x = [1]
 const y = [...x]
 y[0] = 2
-// [ 1 ] [ 2 ]
-console.log(x, y)
+console.log(x, y) // [ 1 ] [ 2 ]
 
 const f = [{i: 1}]
 const g = [...f]
 g[0].i = 2
-// [ { i: 2 } ] [ { i: 2 } ]
-console.log(f, g)
+console.log(f, g) // [ { i: 2 } ] [ { i: 2 } ]
 
 const h = JSON.parse(JSON.stringify(f))
 h[0].i = 3
-// [ { i: 2 } ] [ { i: 3 } ]
-console.log(f, h) 
+console.log(f, h) // [ { i: 2 } ] [ { i: 3 } ]
 ```
 
 - 使用`JSON`深拷贝的问题
@@ -294,12 +285,9 @@ console.log(newObj)
 
 ```js
 let a = 10
-// 100
-console.log(a.toString() + 0)
-// 1010
-console.log(a.toString(2))
-// a
-console.log(a.toString(16))
+console.log(a.toString() + 0) // 100
+console.log(a.toString(2)) // 1010
+console.log(a.toString(16)) // a
 ```
 
 - 类型转换过程
@@ -318,10 +306,10 @@ console.log(a.toString(16))
 
 - `==`结果为`true`的特例
 
-|     `Infinity`      |
-| :-----------------: |
-| `null`/`undefined`  |
-| 0/`''`/`false`/`[]` |
+|      `Infinity`       |
+| :-------------------: |
+|  `null`/`undefined`   |
+| `0`/`''`/`false`/`[]` |
 
 ---
 
@@ -498,65 +486,67 @@ console.log(f(4))
 ```js
 let a = 1
 
-function f1 () {
+function f () {
   setTimeout(function () {
     a = 'a'
   }, 1000)
 }
 
-function f2 () {
+function f1 () {
   console.log(a) // 1
 }
 
+f()
 f1()
-f2()
 ```
 
 ```js
 let a = 1
 
-function f1 () {
+function f () {
   setTimeout(function () {
     a = 'a'
-    f2()
+    f1()
   }, 1000)
 }
 
-function f2 () {
+function f1 () {
   console.log(a) // a
 }
 
-f1()
+f()
 ```
 
-- 一种更好的方式将该函数作为参数传入异步函数，这便是回调函数的作用，并且可提高代码的复用率
+- 将函数作为参数传入异步函数，这便是回调函数，提高代码复用率
 - 回调函数存在回调深度嵌套和处理错误困难的难题
 
 ```js
 let a = 1
 
-function f1 (f) {
+function f (callback) {
   setTimeout(function () {
     a = 'a'
-    f()
+    callback()
   }, 1000)
 }
 
-function f2 () {
+function f1 () {
   console.log(a) // a
 }
 
-function f3 () {
+function f2 () {
   console.log(a.charCodeAt()) // 97
 }
 
-f1(f2)
-f1(f3)
+f(f1)
+f(f2)
 ```
 
-- `函数.call(绑定对象,参数1,参数2)`
+---
+
+- `函数.call(绑定对象,...参数)`
 - `函数.apply(绑定对象,参数数组)`
-- `函数.bind(绑定对象,参数1,参数2)`
+- `函数.bind(绑定对象,...参数)`
     - 返回函数
 
 - 手写 `call()`
@@ -574,20 +564,24 @@ function f (x, y) {
   }
 }
 
-console.log(f.call(obj, 2, 3)) // { a: 1, x: 2, y: 3 }
+// { a: 1, x: 2, y: 3 }
+console.log(f.call(obj, 2, 3))
 
 Function.prototype.newCall = function () {
-  // 当前的 this 指向调用的函数
+  // 当前的 this 指向调用的函数 f
   // 在对象内添加函数并执行，最后再删除
   // 避免 obj 为 null
   let obj = arguments[0] || window
   let [, ...args] = arguments
   obj.f = this
+  // 执行结果
   let result = obj.f(...args)
   delete obj.f
   return result
 }
-console.log(f.newCall(obj, 2, 3)) // { a: 1, x: 2, y: 3 }
+
+// { a: 1, x: 2, y: 3 }
+console.log(f.newCall(obj, 2, 3))
 ```
 
 - 手写`apply()`
@@ -605,18 +599,21 @@ function f (x, y) {
   }
 }
 
-console.log(f.apply(obj, [2, 3])) // { a: 1, x: 2, y: 3 }
+// { a: 1, x: 2, y: 3 }
+console.log(f.apply(obj, [2, 3]))
 
 Function.prototype.newApply = function () {
   let obj = arguments[0] || window
-  // 这里和 call() 有区别
+  // 对第二个数组参数展开
   let [, [...args]] = arguments
   obj.f = this
   let result = obj.f(...args)
   delete obj.f
   return result
 }
-console.log(f.newApply(obj, [2, 3])) // { a: 1, x: 2, y: 3 }
+
+// { a: 1, x: 2, y: 3 }
+console.log(f.newApply(obj, [2, 3]))
 ```
 
 - 手写 `bind()`
@@ -634,8 +631,9 @@ function f (x, y) {
   }
 }
 
-// 这里执行了
-console.log(f.bind(obj, 2, 3)()) // { a: 1, x: 2, y: 3 }
+// 返回的是函数表达式
+// { a: 1, x: 2, y: 3 }
+console.log(f.bind(obj, 2, 3)())
 
 Function.prototype.newBind = function () {
   let obj = arguments[0] || window
@@ -649,291 +647,14 @@ Function.prototype.newBind = function () {
     return reult
   }
 }
-console.log(f.newBind(obj, 2, 3)())// { a: 1, x: 2, y: 3 }
+
+// { a: 1, x: 2, y: 3 }
+console.log(f.newBind(obj, 2, 3)())
 ```
 
 ---
 
-### `Promise`
-
-- 通过`Promise`链的方式，避免回调嵌套调用，并在末尾对错误进行处理
-- `async`进行异步函数声明，`await`等待`Promise`完成后，返回`Promise`对象
-- `Promise.all()`
-    - 全部实现
-
-- `Promise.any()`
-    - 任一个实现
-
-- `resolve`
-    - 成功时调用
-
-- `reject`
-    - 失败时调用
-
----
-
-- 手写`Promise`
-
-```js
-class Promise {
-  // 传入执行函数
-  constructor (executor) {
-    // 初始化为待定状态
-    this.status = 'pending'
-    // 保存结果
-    this.result = null
-    // 用于待定状态时，保存函数
-    this.resolveCallbacks = []
-    this.rejectCallbacks = []
-
-    // 生成实例时，进行检错
-    try {
-      // 回调函数绑定到对象
-      executor(this.resolve.bind(this), this.reject.bind(this))
-    }
-    catch (error) {
-      this.reject(error)
-    }
-  }
-
-  // 两个回调函数都是异步函数
-  resolve (result) {
-    setTimeout(() => {
-      if (this.status === 'pending') {
-        this.status = 'fulfilled'
-        this.result = result
-
-        // 执行 then 放进数组的处理函数
-        this.resolveCallbacks.forEach(callback => {
-          callback(result)
-        })
-      }
-    })
-  }
-
-  reject (result) {
-    setTimeout(() => {
-      if (this.status === 'pending') {
-        this.status = 'rejected'
-        this.result = result
-
-        this.rejectCallbacks.forEach(callback => {
-          callback(result)
-        })
-      }
-    })
-  }
-
-  then (onFulfilled, onRejected) {
-    // 返回新的实例，实现链式调用
-    return new Promise((resolve, reject) => {
-      // 判断传进来的参数是否为函数，把不是函数的参数改为空函数
-      onFulfilled = typeof onFulfilled === 'function'
-                    ? onFulfilled
-                    : () => {}
-      onRejected = typeof onRejected === 'function'
-                   ? onRejected
-                   : () => {}
-
-      // 待定状态，处理函数还未获取结果，需要用数组保存函数
-      if (this.status === 'pending') {
-        this.resolveCallbacks.push(onFulfilled)
-        this.rejectCallbacks.push(onRejected)
-      }
-
-      if (this.status === 'fulfilled') {
-        setTimeout(() => {
-          onFulfilled(this.result)
-        })
-      }
-
-      if (this.status === 'rejected') {
-        setTimeout(() => {
-          onRejected(this.result)
-        })
-      }
-    })
-  }
-}
-```
-
----
-
-### 构造函数
-
-- 普通函数
-
-```js
-function F (a) {
-  let obj = {}
-  obj.a = a
-  obj.f = function () {
-    console.log(this.a)
-  }
-  return obj
-}
-
-let a = F(1)
-console.log(a instanceof F) // false
-console.log(a.__proto__ === Object.prototype) // true
-```
-
-- 构造函数
-
-```js
-function F (a) {
-  this.a = a
-
-  this.f = function () {
-    console.log(this.a)
-  }
-  return this
-}
-
-let a = new F(1)
-console.log(a instanceof F) // true
-console.log(a.__proto__ === F.prototype) // true
-```
-
-- 面向对象
-
-```js
-class F {
-  constructor (a) {
-    this.a = a
-  }
-
-  f () {
-    console.log(this.a)
-  }
-}
-
-let a = new F(1)
-console.log(a instanceof F) // true
-console.log(a.__proto__ === F.prototype) // true
-```
-
----
-
-- 手写 `new`
-
-```js
-function myNew (constructor, ...args) {
-  // 创建实例对象，并指向构造函数的原型对象
-  const obj = Object.create(constructor.prototype)
-
-  // 执行构造函数，this指向实例对象
-  const result = constructor.apply(obj, args)
-
-  // 判断是否为对象实例，并返回
-  return result instanceof Object
-         ? result
-         : obj
-}
-
-function f (name) {
-  this.name = name
-}
-
-const obj = myNew(f, 1)
-console.log(obj) // f { name: 1 }
-```
-
----
-
-### 闭包函数
-
-```js
-let a = 0
-let f = function () {
-  ++a
-  console.log(a)
-}
-f() // 1
-f() // 2
-```
-
-- 将变量`a`封装起来
-    - 函数每次执行完后，`a`会消亡
-
-```js
-let f = function () {
-  let a = 0
-  a++
-  console.log(a)
-}
-
-f() // 1
-f() // 1
-```
-
-- 内嵌函数依赖于变量`a`，`g`的存在使得`a`不能消亡
-
-```js
-function f () {
-  let a = 0
-  return () => {
-    a++
-    console.log(a)
-  }
-}
-
-let g = f()
-g() // 1
-g() // 2
-```
-
----
-
-### 函数柯里化
-
-- 传入的参数在闭包中保存
-
-```js
-function url (protocol) {
-  return function (hostName) {
-    return function (pathName) {
-      return `${protocol}${hostName}${pathName}`
-    }
-  }
-}
-
-const web = url('https://')('www.a.com')
-const html = web('/index.html')
-const css = web('/styles/style.css')
-const js = web('/scripts/main.js')
-
-console.log(html) // https://www.a.com/index.html
-console.log(css) // https://www.a.com/styles/style.css
-console.log(js) // https://www.a.com/scripts/main.js
-```
-
----
-
-```js
-function add () {
-  let args = [...arguments]
-
-  let inner = function () {
-    args.push(...arguments)
-    return inner
-  }
-
-  // 函数返回被 toString 隐式转换
-  inner.toString = () => {
-    return args.reduce((i, j) => i + j)
-  }
-
-  return inner
-}
-
-const result = add(1, 2, 3)(4, 5.1)
-console.log(Number(result())) // 15.1
-```
-
----
-
-### 库函数
+### 
 
 - `setTimeout(回调函数,延时)`
     - 延迟一段时间将任务加入执行队列
@@ -975,8 +696,6 @@ mySetInterval.addEventListener('click', () => {
 })
 ```
 
----
-
 - `setTimeout()` 实现 `setInterval()`
 
 ```js
@@ -1005,7 +724,6 @@ newInterval(f, 1000)
 - 高频触发事件只有足够长间隔的最后一次会执行
 
 ```html
-
 <button>提交</button>
 ```
 
@@ -1110,29 +828,299 @@ images.forEach(image => {
 
 ---
 
-## 面向对象
+### `Promise`
 
-### 方法
+- 通过`Promise`链的方式，避免回调嵌套调用，并在末尾对错误进行处理
+- `async`进行异步函数声明，`await`等待`Promise`完成后，返回`Promise`对象
+- `Promise.all()`
+    - 全部实现
 
-- `对象.hasOwnProperty(键值)`
-- 是否含有指定的键值
-- `delete 对象.键值`
-    - 删除对象的属性
-- `Object.freeze(对象)`
-    - 不允许修改对象
+- `Promise.any()`
+    - 任一个实现
+
+- `resolve`
+    - 成功时调用
+
+- `reject`
+    - 失败时调用
+
+---
+
+- 手写`Promise`
 
 ```js
-let obj = {a: 1}
-Object.freeze(obj)
-obj.b = 2
+class Promise {
+  // 传入执行函数
+  constructor (executor) {
+    // 初始化为待定状态
+    this.status = 'pending'
+    // 保存结果
+    this.result = null
+    // 用于待定状态时，保存函数
+    this.resolveCallbacks = []
+    this.rejectCallbacks = []
 
-console.log(obj) // { a: 1 }
+    // 生成实例时，进行检错
+    try {
+      // 回调函数绑定到对象
+      executor(this.resolve.bind(this), this.reject.bind(this))
+    }
+    catch (error) {
+      this.reject(error)
+    }
+  }
+
+  then (onFulfilled, onRejected) {
+    // 返回新的实例，实现链式调用
+    return new Promise((resolve, reject) => {
+      // 判断传进来的参数是否为函数，把不是函数的参数改为空函数
+      onFulfilled = typeof onFulfilled === 'function'
+                    ? onFulfilled
+                    : () => {}
+      onRejected = typeof onRejected === 'function'
+                   ? onRejected
+                   : () => {}
+
+      // 待定状态，处理函数未获取结果作为参数传入，需要用数组保存函数
+      if (this.status === 'pending') {
+        this.resolveCallbacks.push(onFulfilled)
+        this.rejectCallbacks.push(onRejected)
+      }
+
+      if (this.status === 'fulfilled') {
+        setTimeout(() => {
+          onFulfilled(this.result)
+        })
+      }
+
+      if (this.status === 'rejected') {
+        setTimeout(() => {
+          onRejected(this.result)
+        })
+      }
+    })
+  }
+
+  // 两个回调函数都是异步函数
+  resolve (result) {
+    setTimeout(() => {
+      if (this.status === 'pending') {
+        this.status = 'fulfilled'
+        this.result = result
+
+        // 执行 then 放进数组的处理函数
+        this.resolveCallbacks.forEach(callback => {
+          callback(result)
+        })
+      }
+    })
+  }
+
+  reject (result) {
+    setTimeout(() => {
+      if (this.status === 'pending') {
+        this.status = 'rejected'
+        this.result = result
+
+        this.rejectCallbacks.forEach(callback => {
+          callback(result)
+        })
+      }
+    })
+  }
+}
 ```
 
-- `Object.keys()`
-    - 获取所有键值
-- `Object.values()`
-    - 获取所有属性值
+---
+
+### 构造函数
+
+- 普通函数
+
+```js
+function F (a) {
+  let obj = {}
+  obj.a = a
+  obj.f = function () {
+    console.log(this.a)
+  }
+  return obj
+}
+
+let a = F(1)
+console.log(a instanceof F) // false
+console.log(Object.getPrototypeOf(a) === Object.prototype) // true
+```
+
+- 构造函数
+
+```js
+function F (a) {
+  this.a = a
+  this.f = function () {
+    console.log(this.a)
+  }
+  return this
+}
+
+let a = new F(1)
+console.log(a instanceof F) // true
+console.log(Object.getPrototypeOf(a) === F.prototype) // true
+```
+
+- 面向对象
+
+```js
+class F {
+  constructor (a) {
+    this.a = a
+  }
+
+  f () {
+    console.log(this.a)
+  }
+}
+
+let a = new F(1)
+console.log(a instanceof F) // true
+console.log(Object.getPrototypeOf(a) === F.prototype) // true
+```
+
+- 手写 `new`
+
+```js
+function myNew (constructor, ...args) {
+  // 创建实例对象，并指向构造函数的原型对象
+  const obj = Object.create(constructor.prototype)
+  // 执行构造函数，this指向实例对象
+  const result = constructor.apply(obj, args)
+  // 如果构造函数没有显式返回一个对象，则返回新创建的对象
+  return result instanceof Object
+         ? result
+         : obj
+}
+
+// 构造函数
+function f (a, b) {
+  this.a = a
+  this.b = b
+  // 返回对象
+  return this
+}
+
+const obj = myNew(f, 1, 2)
+console.log(obj) // f { a: 1, b: 2 }
+```
+
+---
+
+### 闭包函数
+
+```js
+let a = 0
+let f = function () {
+  ++a
+  console.log(a)
+}
+f() // 1
+f() // 2
+```
+
+- 将变量`a`封装起来
+    - 函数每次执行完后，`a`会消亡
+
+```js
+let f = function () {
+  let a = 0
+  a++
+  console.log(a)
+}
+
+f() // 1
+f() // 1
+```
+
+- 闭包函数依赖于变量`a`，`g`的存在使得内部`a`不能消亡
+
+```js
+function f () {
+  let a = 0
+  return () => {
+    a++
+    console.log(a)
+  }
+}
+
+let g = f()
+g() // 1
+g() // 2
+```
+
+---
+
+### 函数柯里化
+
+- 传入的参数在闭包中保存
+
+```js
+function url (protocol) {
+  return function (hostName) {
+    return function (pathName) {
+      return `${protocol}${hostName}${pathName}`
+    }
+  }
+}
+
+const web = url('https://')('www.a.com')
+const html = web('/index.html')
+const css = web('/styles/style.css')
+const js = web('/scripts/main.js')
+
+console.log(html) // https://www.a.com/index.html
+console.log(css) // https://www.a.com/styles/style.css
+console.log(js) // https://www.a.com/scripts/main.js
+```
+
+- 手写`add()`
+
+```js
+function add () {
+  let args = [...arguments]
+
+  let inner = function () {
+    args.push(...arguments)
+    return inner
+  }
+
+  // 函数返回被 toString 隐式转换
+  inner.toString = () => {
+    return args.reduce((i, j) => i + j)
+  }
+
+  return inner
+}
+
+const result = add(1, 2, 3)(4, 5.1)
+console.log(Number(result())) // 15.1
+```
+
+
+---
+
+## 面向对象
+
+|                   方法                    |                    作用                    |
+| :---------------------------------------: | :----------------------------------------: |
+|        `对象.hasOwnProperty(键名)`        |                 是否有键值                 |
+|            `delete 对象.键名`             |               删除对象键值对               |
+|           `Object.freeze(对象)`           |               不允许修改对象               |
+|            `Object.keys(对象)`            |              获取所有对象键名              |
+|           `Object.values(对象)`           |              获取所有对象键值              |
+|       `Object.getPrototypeOf(对象)`       |             获取对象的原型对象             |
+|           `构造函数.prototype`            |           获取构造函数的原型对象           |
+| `构造函数.prototype.isPrototypeOf(对象)`  | 判断构造函数的原型对象是否为对象的原型对象 |
+| `Object.create(对象,{键名:{value:键值}})` |  创建以对象为原型对象并添加自有属性的对象  |
+|         `assign(目标对象,源对象)`         |     浅拷贝源对象的可枚举属性到目标对象     |
 
 ```js
 let obj = {
@@ -1145,6 +1133,10 @@ console.log(Object.values(obj)) // [ 1, 2 ]
 let arr = [1, 2]
 console.log(Object.keys(arr)) // [ '0', '1' ]
 console.log(Object.values(arr)) // [ 1, 2 ]
+
+let str = 'ab'
+console.log(Object.keys(str)) // [ '0', '1' ]
+console.log(Object.values(str)) // [ 'a', 'b' ]
 ```
 
 ---
@@ -1190,7 +1182,7 @@ f.y = function () {
 // 在原型对象中添加公共的属性和方法，提高代码复用
 new F().x() // x
 f.y() // y
-// y 是 f 实例私有的
+// y 是 f 实例自有的
 // new F().y() 
 
 function G () {}
@@ -1206,26 +1198,7 @@ g.x() //x
 
 ---
 
-- `Object.create(对象)`
-    - 返回以其为原型对象的对象
-
-```js
-let a = {
-  x: 1
-}
-
-let a1 = Object.create(a)
-console.log(a1.__proto__ === a) // true
-
-let a2 = Object.create(a, {y: {value: 2}})
-console.log(a1.y) // undefined
-console.log(a2.y) // 2
-```
-
----
-
-- `assign(目标对象,源对象)`
-    - 浅拷贝
+- `assign()`
 
 ```js
 let a = {
@@ -1284,14 +1257,8 @@ function F () {
 }
 
 let obj = new F()
-console.log(obj.getI()) // 
+console.log(obj.getI()) // 1 
 ```
-
----
-
-[弹跳彩球](../project/弹跳彩球)
-
-[增删改选项卡](../project/增删改选项卡)
 
 ---
 
@@ -1331,35 +1298,21 @@ console.log(obj.getI()) //
 
 ---
 
-- `document.querySelector(选择器)`
-    - 获取文档中第一个元素的引用
-- `document.querySelectorAll(选择器)`
-    - 获取文档中所有元素的引用
-- `creatElement(元素)`
-    - 创建元素
-- `creatTextNode(文本)`
-    - 创建文本节点
-- `父元素.appendChild(子元素)`
-    - 添加子元素到父元素末尾
-- `元素.remove()`
-    - 删除当前元素
-- `元素.parentNode.removeChild(当前元素)`
-    - 删除当前元素
-- `元素.style.属性`
-    - 设置内联样式
-- `元素.setAttribute(属性，值)`
-    - 设置样式
+ 
 
----
-
-- `document.write()`
-    - 文档对象中的方法
-    - 插入脚本所在位置
-    - 文档解析完后调用，覆盖原内容
-- `元素.innerHTML`
-    - 元素对象的内容
-    - 插入指定元素
-    - 直接调用，覆盖原内容
+|                  方法                   |                  作用                  |
+| :-------------------------------------: | :------------------------------------: |
+|    `document.querySelector(选择器)`     | 获取文档中选择器选中的第一个元素的引用 |
+|   `document.querySelectorAll(选择器)`   |  获取文档中选择器选中的所有元素的引用  |
+|          `creatElement(元素)`           |                创建元素                |
+|          `creatTextNode(文本)`          |              创建文本节点              |
+|      `父元素.appendChild(子元素)`       |         添加子元素到父元素末尾         |
+|             `元素.remove()`             |              删除当前元素              |
+| `元素.parentNode.removeChild(当前元素)` |              删除当前元素              |
+|            `元素.style.属性`            |              设置内联样式              |
+|      `元素.setAttribute(属性，值)`      |                设置样式                |
+|           `document.write()`            |               在脚本写入               |
+|            `元素.innerHTML`             |             重写元素的内容             |
 
 ---
 
@@ -1612,12 +1565,10 @@ button.addEventListener('click', () => {
 
 - 多线程工作
 - 变量彼此独立，只通过消息交互
-- `dedicated workers`
-    - 单个脚本完成
-- `shared workers`
-    - 多个不同脚本共享
-- `service workers`
-    - 离线时工作
+
+| `dedicated workers` | `shared workers` | `service workers` |
+| :-----------------: | :--------------: | :---------------: |
+|    单个脚本完成     | 多个不同脚本共享 |    离线时工作     |
 
 ---
 
@@ -1653,79 +1604,53 @@ console.log('同步任务')
 
 ### 正则表达式
 
-- 默认从左到右找到首个匹配停止
+| 修饰符 |          作用          |
+| :----: | :--------------------: |
+|  `i`   |      不区分大小写      |
+|  `g`   | 将匹配首个改为匹配所有 |
+|  `m`   |        多行匹配        |
 
-- 方法
 
-    - `正则表达式.test(字符串)`
-        - 字符串是否有匹配的子串
 
-    - `字符串.match(正则表达式)`
-        - 返回匹配的子串
+|                  方法                   |            作用            |
+| :-------------------------------------: | :------------------------: |
+|        `正则表达式.test(字符串)`        | 判断字符串是否有匹配的子串 |
+|       `字符串.match(正则表达式)`        |       返回匹配的子串       |
+|       `字符串.search(正则表达式)`       |   返回匹配子串的起始位置   |
+| `字符串.replace(正则表达式,替换字符串)` |       替换匹配的子串       |
+|             `字符串.trim()`             | 删除字符串开头和末尾的空格 |
 
-    - `字符串.search(正则表达式)`
-        - 返回匹配子串的起始位置
-
-    - `字符串.replace(正则表达式,替换字符串)`
-        - 替换匹配子串
-    - `字符串.trim()`
-        - 删除字符串开头和末尾的空格
-
-```js
-let str = 'ababb'
-let regex = /b/
-
-console.log(regex.test(str)) // true
-console.log(str.match(regex)) // b
-console.log(str.search(regex)) // 1
-console.log(str.replace(regex, 'c')) // acabb
-```
+|  符号  |                    作用                    |
+| :----: | :----------------------------------------: |
+|  `^`   |                  开始位置                  |
+|  `$`   |                  结束位置                  |
+|  `*`   |                 0次到多次                  |
+|  `+`   |                 1次到多次                  |
+|  `?`   |                  0次或1次                  |
+|  `.`   |                  任意字符                  |
+|  `|`   |                     或                     |
+|  `-`   |                     到                     |
+|  `()`  |                   字符组                   |
+| `(?=)` |                    存在                    |
+| `(?!)` |                   不存在                   |
+|  `[]`  |                   字符集                   |
+| `[^]`  |                 否定字符集                 |
+|  `{}`  |                    次数                    |
+|  `\w`  |               `[A-Za-z0-9_]`               |
+|  `\W`  |              `[^A-Za-z0-9_]`               |
+|  `\d`  |                    数字                    |
+|  `\D`  |                   非数字                   |
+|  `\s`  | 空白{空格、回车符、制表符、换页符、换行符} |
+|  `\S`  |                   非空白                   |
 
 ---
 
-- 修饰符
-    - `i`
-        - 不区分大小写
-    - `g`
-        - 将匹配首个改为匹配所有
+- 脚本执行方式
 
----
-
-|  符号  |                      作用                      |
-| :----: | :--------------------------------------------: |
-|  `^`   |                    开始位置                    |
-|  `$`   |                    结束位置                    |
-|  `*`   |                   0次到多次                    |
-|  `+`   |                   1次到多次                    |
-|  `?`   |                    0次或1次                    |
-|  `.`   |                    任意字符                    |
-|  `|`   |                       或                       |
-|  `-`   |                       到                       |
-|  `()`  |                     字符组                     |
-| `(?=)` |                      存在                      |
-| `(?!)` |                     不存在                     |
-|  `[]`  |                     字符集                     |
-| `[^]`  |                   否定字符集                   |
-|  `{}`  |                      次数                      |
-|  `\w`  |                 `[A-Za-z0-9_]`                 |
-|  `\W`  |                `[^A-Za-z0-9_]`                 |
-|  `\d`  |                      数字                      |
-|  `\D`  |                     非数字                     |
-|  `\s`  | 空白<br />空格、回车符、制表符、换页符、换行符 |
-|  `\S`  |                     非空白                     |
-
-## `HTML`中的 `js`
-
-### 脚本执行方式
-
-- `defer`
-    - 浏览器等待页面解析
-    - 脚本按照在页面中出现的顺序加载和运行
-- `async`
-    - 适合页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本
-    - 浏览器遇到脚本时，不会阻塞页面渲染，而是直接下载然后运行
-    - 脚本的运行次序无法控制
-- 动态加载
+|                        | `defer` | `async` |
+| :--------------------: | :-----: | :-----: |
+|   浏览器是否等待解析   |    1    |    0    |
+| 脚本是否按序加载和运行 |    1    |    0    |
 
 ---
 
