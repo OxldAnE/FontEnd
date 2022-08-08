@@ -1,7 +1,5 @@
 # `HTML`
 
-
-
 ## 文档
 
 - 初始化样式
@@ -95,6 +93,24 @@ a:hover {
 - `src`
   - 资源直接下载，嵌入到文档中
 
+---
+
+### 属性
+
+- `data-`
+  - 自定义属性
+- `contenteditable`
+  - 用户可编辑
+- `dir`
+  - 文字方向
+- `draggable`
+  - 拖放
+  - `dropzone`
+- `hidden`
+  - 隐藏元素
+- `tabindex`
+  - 按`Tab`键切换元素
+
 
 ---
 
@@ -160,8 +176,6 @@ a:hover {
 |  `select`  |             下拉框             |
 |  `option`  |            下拉选项            |
 | `progress` |             进度条             |
-
----
 
 ---
 
