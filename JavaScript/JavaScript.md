@@ -1109,18 +1109,19 @@ console.log(Number(result())) // 15.1
 
 ## 面向对象
 
-|                   方法                    |                    作用                    |
-| :---------------------------------------: | :----------------------------------------: |
-|        `对象.hasOwnProperty(键名)`        |                 是否有键值                 |
-|            `delete 对象.键名`             |               删除对象键值对               |
-|           `Object.freeze(对象)`           |               不允许修改对象               |
-|            `Object.keys(对象)`            |              获取所有对象键名              |
-|           `Object.values(对象)`           |              获取所有对象键值              |
-|       `Object.getPrototypeOf(对象)`       |             获取对象的原型对象             |
-|           `构造函数.prototype`            |           获取构造函数的原型对象           |
-| `构造函数.prototype.isPrototypeOf(对象)`  | 判断构造函数的原型对象是否为对象的原型对象 |
-| `Object.create(对象,{键名:{value:键值}})` |  创建以对象为原型对象并添加自有属性的对象  |
-|         `assign(目标对象,源对象)`         |     浅拷贝源对象的可枚举属性到目标对象     |
+|                      方法                       |                             作用                             |
+| :---------------------------------------------: | :----------------------------------------------------------: |
+|           `对象.hasOwnProperty(键名)`           |                          是否有键值                          |
+|               `delete 对象.键名`                |                        删除对象键值对                        |
+|              `Object.freeze(对象)`              |                        不允许修改对象                        |
+|               `Object.keys(对象)`               |                       获取所有对象键名                       |
+|              `Object.values(对象)`              |                       获取所有对象键值                       |
+|          `Object.getPrototypeOf(对象)`          |                      获取对象的原型对象                      |
+|              `构造函数.prototype`               |                    获取构造函数的原型对象                    |
+|    `构造函数.prototype.isPrototypeOf(对象)`     |          判断构造函数的原型对象是否为对象的原型对象          |
+| `Object.defineProperty(对象,键名,{value:键值})` |          为对象添加不可枚举、不可修改、不可删除属性          |
+|    `Object.create(对象,{键名:{value:键值}})`    | 创建以对象为原型对象并添加不可枚举、不可修改、不可删除属性的对象 |
+|        `Object.assign(目标对象,源对象)`         |              浅拷贝源对象的可枚举属性到目标对象              |
 
 ```js
 let obj = {
@@ -1137,6 +1138,49 @@ console.log(Object.values(arr)) // [ 1, 2 ]
 let str = 'ab'
 console.log(Object.keys(str)) // [ '0', '1' ]
 console.log(Object.values(str)) // [ 'a', 'b' ]
+```
+
+```js
+let number = 0
+let obj = {}
+Object.defineProperty(obj, 'a', {
+  // value       : number,
+  enumerable: true,
+  // writable    : true,
+  // configurable: true,
+  get () {
+    return number
+  },
+  set (value) {
+    number = value
+  }
+})
+number++
+
+console.log(Object.values(obj)) // [ 1 ]
+
+obj.a = 2
+console.log(number) // 2
+```
+
+- 数据代理
+
+```js
+let obj = {x: 0}
+let obj1 = {y: 1}
+Object.defineProperty(obj, 'y', {
+  enumerable: true,
+  get () {
+    return obj1.y
+  },
+  set (value) {
+    obj1.y = value
+  }
+})
+
+console.log(Object.values(obj)) // [ 0, 1 ]
+obj.y = 2 // obj 代理 obj1 的 y
+console.log(Object.values(obj1)) // [ 2 ]
 ```
 
 ---
