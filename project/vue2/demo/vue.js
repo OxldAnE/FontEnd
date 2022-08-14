@@ -398,7 +398,7 @@
     'errorCaptured',
     'serverPrefetch',
     'renderTracked',
-    'renderTriggered'
+    'renderTriggered',
   ]
 
   var config = {
@@ -476,7 +476,7 @@
     /**
      * Exposed for legacy reasons
      */
-    _lifecycleHooks: LIFECYCLE_HOOKS
+    _lifecycleHooks: LIFECYCLE_HOOKS,
   }
 
   /**
@@ -502,7 +502,7 @@
       value       : val,
       enumerable  : !!enumerable,
       writable    : true,
-      configurable: true
+      configurable: true,
     })
   }
 
@@ -551,7 +551,7 @@
         get: function () {
           /* istanbul ignore next */
           supportsPassive = true
-        }
+        },
       }) // https://github.com/facebook/flow/issues/285
       window.addEventListener('test-passive', null, opts)
     }
@@ -676,7 +676,7 @@
         return this.componentInstance
       },
       enumerable  : false,
-      configurable: true
+      configurable: true,
     })
     return VNode
   }())
@@ -723,7 +723,7 @@
                                    +
                                    'Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,BigInt,'
                                    +
-                                   'require' // for Webpack/Browserify
+                                   'require', // for Webpack/Browserify
     )
     var warnNonPresent_1 = function (target, key) {
       warn$2(
@@ -760,7 +760,7 @@
             target[key] = value
             return true
           }
-        }
+        },
       })
     }
     var hasHandler_1 = {
@@ -779,7 +779,7 @@
           }
         }
         return has || !isAllowed
-      }
+      },
     }
     var getHandler_1 = {
       get: function (target, key) {
@@ -792,7 +792,7 @@
           }
         }
         return target[key]
-      }
+      },
     }
     initProxy = function initProxy (vm) {
       if (hasProxy_1) {
@@ -915,7 +915,7 @@
     'unshift',
     'splice',
     'sort',
-    'reverse'
+    'reverse',
   ]
   /**
    * Intercept mutating methods and emit events
@@ -948,7 +948,7 @@
         ob.dep.notify({
           type  : 'array mutation' /* TriggerOpTypes.ARRAY_MUTATION */,
           target: this,
-          key   : method
+          key   : method,
         })
       }
       return result
@@ -972,7 +972,7 @@
     notify   : noop,
     depend   : noop,
     addSub   : noop,
-    removeSub: noop
+    removeSub: noop,
   }
   /**
    * Observer class that is attached to each observed
@@ -1089,7 +1089,7 @@
             dep.depend({
               target: obj,
               type  : 'get' /* TrackOpTypes.GET */,
-              key   : key
+              key   : key,
             })
           }
           if (childOb) {
@@ -1134,10 +1134,10 @@
             target  : obj,
             key     : key,
             newValue: newVal,
-            oldValue: value
+            oldValue: value,
           })
         }
-      }
+      },
     })
     return dep
   }
@@ -1186,7 +1186,7 @@
         target  : target,
         key     : key,
         newValue: val,
-        oldValue: undefined
+        oldValue: undefined,
       })
     }
     return val
@@ -1225,7 +1225,7 @@
       ob.dep.notify({
         type  : 'delete' /* TriggerOpTypes.DELETE */,
         target: target,
-        key   : key
+        key   : key,
       })
     }
   }
@@ -1379,7 +1379,7 @@
       ref.dep.notify({
         type  : 'set' /* TriggerOpTypes.SET */,
         target: ref,
-        key   : 'value'
+        key   : 'value',
       })
     }
   }
@@ -1427,7 +1427,7 @@
         else {
           source[key] = value
         }
-      }
+      },
     })
   }
 
@@ -1438,7 +1438,7 @@
         dep.depend({
           target: ref,
           type  : 'get' /* TrackOpTypes.GET */,
-          key   : 'value'
+          key   : 'value',
         })
       }
     }, function () {
@@ -1446,7 +1446,7 @@
         dep.notify({
           target: ref,
           type  : 'set' /* TriggerOpTypes.SET */,
-          key   : 'value'
+          key   : 'value',
         })
       }
     }), get = _a.get, set = _a.set
@@ -1456,7 +1456,7 @@
       },
       set value (newVal) {
         set(newVal)
-      }
+      },
     }
     def(ref, RefFlag, true)
     return ref
@@ -1489,7 +1489,7 @@
       },
       set value (newVal) {
         object[key] = newVal
-      }
+      },
     }
     def(ref, RefFlag, true)
     return ref
@@ -1561,7 +1561,7 @@
         warn$2('Set operation on key "'.concat(
           key,
           '" failed: target is readonly.'))
-      }
+      },
     })
   }
 
@@ -1612,7 +1612,7 @@
                 effect: Dep.target,
                 target: ref,
                 type  : 'get' /* TrackOpTypes.GET */,
-                key   : 'value'
+                key   : 'value',
               })
             }
             watcher.depend()
@@ -1625,7 +1625,7 @@
       },
       set value (newVal) {
         setter(newVal)
-      }
+      },
     }
     def(ref, RefFlag, true)
     def(ref, '__v_isReadonly' /* ReactiveFlags.IS_READONLY */, onlyGetter)
@@ -1673,7 +1673,7 @@
       name   : name,
       once   : once,
       capture: capture,
-      passive: passive
+      passive: passive,
     }
   })
 
@@ -2218,7 +2218,8 @@
     }
     // otherwise, render a fresh tree.
     tree = cached[index] =
-      this.$options.staticRenderFns[index].call(this._renderProxy, this._c, this // for render fns generated for functional component templates
+      this.$options.staticRenderFns[index].call(
+        this._renderProxy, this._c, this, // for render fns generated for functional component templates
       )
     markStatic$1(tree, '__static__'.concat(index), false)
     return tree
@@ -2476,7 +2477,7 @@
       Object.defineProperty(normalSlots, key, {
         get         : normalized,
         enumerable  : true,
-        configurable: true
+        configurable: true,
       })
     }
     return normalized
@@ -2574,7 +2575,7 @@
             return proxyWithRefUnwrap(vm, exposed, key)
           })
         }
-      }
+      },
     }
   }
 
@@ -2604,7 +2605,7 @@
       configurable: true,
       get         : function () {
         return instance[type][key]
-      }
+      },
     })
   }
 
@@ -3248,7 +3249,7 @@
         if (vm._isMounted && !vm._isDestroyed) {
           callHook$1(vm, 'beforeUpdate')
         }
-      }
+      },
     }
     {
       watcherOptions.onTrack =
@@ -3744,13 +3745,13 @@
           isMultiSource
           ? []
           : undefined,
-          onCleanup
+          onCleanup,
         ])
       }
       return noop
     }
     var watcher = new Watcher(currentInstance, getter, noop, {
-      lazy: true
+      lazy: true,
     })
     watcher.noRecurse = !cb
     var oldValue = isMultiSource
@@ -3782,7 +3783,7 @@
             oldValue === INITIAL_WATCHER_VALUE
             ? undefined
             : oldValue,
-            onCleanup
+            onCleanup,
           ])
           oldValue = newValue
         }
@@ -4158,7 +4159,7 @@
     var observer = new MutationObserver(flushCallbacks)
     var textNode_1 = document.createTextNode(String(counter_1))
     observer.observe(textNode_1, {
-      characterData: true
+      characterData: true,
     })
     timerFunc = function () {
       counter_1 = (counter_1 + 1) % 2
@@ -4326,7 +4327,7 @@
         delay    : delay,
         timeout  : timeout,
         error    : errorComponent,
-        loading  : loadingComponent
+        loading  : loadingComponent,
       }
     }
   }
@@ -4443,7 +4444,7 @@
     onDeactivated       : onDeactivated,
     onServerPrefetch    : onServerPrefetch,
     onRenderTracked     : onRenderTracked,
-    onRenderTriggered   : onRenderTriggered
+    onRenderTriggered   : onRenderTriggered,
   })
 
   var seenObjects = new _Set()
@@ -4701,7 +4702,7 @@
     enumerable  : true,
     configurable: true,
     get         : noop,
-    set         : noop
+    set         : noop,
   }
 
   function proxy (target, sourceKey, key) {
@@ -4929,7 +4930,7 @@
               effect: Dep.target,
               target: this,
               type  : 'get' /* TrackOpTypes.GET */,
-              key   : key
+              key   : key,
             })
           }
           watcher.depend()
@@ -5272,7 +5273,7 @@
       enumerable: true,
       get       : function () {
         return normalizeScopedSlots(parent, data.scopedSlots, this.slots())
-      }
+      },
     })
     // support for compiled functional template
     if (isCompiled) {
@@ -5391,7 +5392,7 @@
       updateChildComponent(child, options.propsData, // updated props
         options.listeners, // updated listeners
         vnode, // new parent vnode
-        options.children // new children
+        options.children, // new children
       )
     },
     insert  : function (vnode) {
@@ -5424,7 +5425,7 @@
           deactivateChildComponent(componentInstance, true /* direct */)
         }
       }
-    }
+    },
   }
   var hooksToMerge = Object.keys(componentVNodeHooks)
 
@@ -5508,7 +5509,7 @@
       // @ts-expect-error
       {
         Ctor: Ctor, propsData: propsData, listeners: listeners, tag: tag,
-        children                                                   : children
+        children                                                   : children,
       }, asyncFactory)
     return vnode
   }
@@ -5521,7 +5522,7 @@
     var options = {
       _isComponent: true,
       _parentVnode: vnode,
-      parent      : parent
+      parent      : parent,
     }
     // check inline-template render functions
     var inlineTemplate = vnode.data.inlineTemplate
@@ -6247,7 +6248,7 @@
     }
     return {
       valid       : valid,
-      expectedType: expectedType
+      expectedType: expectedType,
     }
   }
 
@@ -6539,7 +6540,7 @@
     props    : {
       include: patternTypes,
       exclude: patternTypes,
-      max    : [String, Number]
+      max    : [String, Number],
     },
     methods  : {
       cacheVNode: function () {
@@ -6552,7 +6553,7 @@
           cache[keyToCache] = {
             name             : _getComponentName(componentOptions),
             tag              : tag,
-            componentInstance: componentInstance
+            componentInstance: componentInstance,
           }
           keys.push(keyToCache)
           // prune oldest entry
@@ -6561,7 +6562,7 @@
           }
           this.vnodeToCache = null
         }
-      }
+      },
     },
     created  : function () {
       this.cache = Object.create(null)
@@ -6624,11 +6625,11 @@
         vnode.data.keepAlive = true
       }
       return vnode || (slot && slot[0])
-    }
+    },
   }
 
   var builtInComponents = {
-    KeepAlive: KeepAlive
+    KeepAlive: KeepAlive,
   }
 
   function initGlobalAPI (Vue) {
@@ -6649,7 +6650,7 @@
       warn          : warn$2,
       extend        : extend,
       mergeOptions  : mergeOptions,
-      defineReactive: defineReactive
+      defineReactive: defineReactive,
     }
     Vue.set = set
     Vue.delete = del
@@ -6675,17 +6676,17 @@
 
   initGlobalAPI(Vue)
   Object.defineProperty(Vue.prototype, '$isServer', {
-    get: isServerRendering
+    get: isServerRendering,
   })
   Object.defineProperty(Vue.prototype, '$ssrContext', {
     get: function () {
       /* istanbul ignore next */
       return this.$vnode && this.$vnode.ssrContext
-    }
+    },
   })
   // expose FunctionalRenderContext for ssr runtime helper installation
   Object.defineProperty(Vue, 'FunctionalRenderContext', {
-    value: FunctionalRenderContext
+    value: FunctionalRenderContext,
   })
   Vue.version = version
 
@@ -6758,7 +6759,7 @@
       staticClass: concat(child.staticClass, parent.staticClass),
       class      : isDef(child.class)
                    ? [child.class, parent.class]
-                   : parent.class
+                   : parent.class,
     }
   }
 
@@ -6822,7 +6823,7 @@
 
   var namespaceMap = {
     svg : 'http://www.w3.org/2000/svg',
-    math: 'http://www.w3.org/1998/Math/MathML'
+    math: 'http://www.w3.org/1998/Math/MathML',
   }
   var isHTMLTag = makeMap('html,body,base,head,link,meta,style,title,' +
                           'address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,'
@@ -6981,7 +6982,7 @@
     nextSibling    : nextSibling,
     tagName        : tagName,
     setTextContent : setTextContent,
-    setStyleScope  : setStyleScope
+    setStyleScope  : setStyleScope,
   })
 
   var ref = {
@@ -6996,7 +6997,7 @@
     },
     destroy: function (vnode) {
       registerRef(vnode, true)
-    }
+    },
   }
 
   function registerRef (vnode, isRemoval) {
@@ -7900,7 +7901,7 @@
     destroy: function unbindDirectives (vnode) {
       // @ts-expect-error emptyNode is not VNodeWithData
       updateDirectives(vnode, emptyNode)
-    }
+    },
   }
 
   function updateDirectives (oldVnode, vnode) {
@@ -8120,7 +8121,7 @@
 
   var attrs = {
     create: updateAttrs,
-    update: updateAttrs
+    update: updateAttrs,
   }
 
   function updateClass (oldVnode, vnode) {
@@ -8148,7 +8149,7 @@
 
   var klass$1 = {
     create: updateClass,
-    update: updateClass
+    update: updateClass,
   }
 
   var validDivisionCharRE = /[\w).+\-_$\]]/
@@ -8327,7 +8328,7 @@
       value       : value,
       arg         : arg,
       isDynamicArg: isDynamicArg,
-      modifiers   : modifiers
+      modifiers   : modifiers,
     }, range))
     el.plain = false
   }
@@ -8498,7 +8499,7 @@
       value     : '('.concat(value, ')'),
       expression: JSON.stringify(value),
       callback  : 'function ('.concat(baseValueExpression, ') {')
-        .concat(assignment, '}')
+        .concat(assignment, '}'),
     }
   }
 
@@ -8542,13 +8543,13 @@
       if (index > -1) {
         return {
           exp: val.slice(0, index),
-          key: '"' + val.slice(index + 1) + '"'
+          key: '"' + val.slice(index + 1) + '"',
         }
       }
       else {
         return {
           exp: val,
-          key: null
+          key: null,
         }
       }
     }
@@ -8566,7 +8567,7 @@
     }
     return {
       exp: val.slice(0, expressionPos),
-      key: val.slice(expressionPos + 1, expressionEndPos)
+      key: val.slice(expressionPos + 1, expressionEndPos),
     }
   }
 
@@ -8849,7 +8850,7 @@
     target.addEventListener(
       name, handler, supportsPassive
                      ? {
-          capture: capture, passive: passive
+          capture: capture, passive: passive,
         }
                      : capture)
   }
@@ -8878,7 +8879,7 @@
     create: updateDOMListeners,
     update: updateDOMListeners,
     // @ts-expect-error emptyNode has actually data
-    destroy: function (vnode) { return updateDOMListeners(vnode, emptyNode) }
+    destroy: function (vnode) { return updateDOMListeners(vnode, emptyNode) },
   }
 
   var svgContainer
@@ -8998,7 +8999,7 @@
 
   var domProps = {
     create: updateDOMProps,
-    update: updateDOMProps
+    update: updateDOMProps,
   }
 
   var parseStyleText = cached(function (cssText) {
@@ -9152,7 +9153,7 @@
 
   var style$1 = {
     create: updateStyle,
-    update: updateStyle
+    update: updateStyle,
   }
 
   var whitespaceRE$1 = /\s+/
@@ -9247,7 +9248,7 @@
       enterActiveClass: ''.concat(name, '-enter-active'),
       leaveClass      : ''.concat(name, '-leave'),
       leaveToClass    : ''.concat(name, '-leave-to'),
-      leaveActiveClass: ''.concat(name, '-leave-active')
+      leaveActiveClass: ''.concat(name, '-leave-active'),
     }
   })
   var hasTransition = inBrowser && !isIE9
@@ -9382,7 +9383,7 @@
       type        : type,
       timeout     : timeout,
       propCount   : propCount,
-      hasTransform: hasTransform
+      hasTransform: hasTransform,
     }
   }
 
@@ -9691,7 +9692,7 @@
         else {
           rm()
         }
-      }
+      },
     }
                    : {}
 
@@ -9771,7 +9772,7 @@
           }
         }
       }
-    }
+    },
   }
 
   function setSelected (el, binding, vm) {
@@ -9907,12 +9908,12 @@
       if (!isDestroy) {
         el.style.display = el.__vOriginalDisplay
       }
-    }
+    },
   }
 
   var platformDirectives = {
     model: directive,
-    show : show
+    show : show,
   }
 
   // Provides transition support for a single element/component.
@@ -9931,7 +9932,7 @@
     appearClass      : String,
     appearActiveClass: String,
     appearToClass    : String,
-    duration         : [Number, String, Object]
+    duration         : [Number, String, Object],
   }
   // in case the child is also an abstract component, e.g. <keep-alive>
   // we want to recursively retrieve the real component to be rendered
@@ -9965,7 +9966,7 @@
     // @ts-expect-error
     if (/\d-keep-alive$/.test(rawChild.tag)) {
       return h('keep-alive', {
-        props: rawChild.componentOptions.propsData
+        props: rawChild.componentOptions.propsData,
       })
     }
   }
@@ -10086,13 +10087,13 @@
         }
       }
       return rawChild
-    }
+    },
   }
 
   // Provides transition support for list items.
   var props = extend({
     tag      : String,
-    moveClass: String
+    moveClass: String,
   }, transitionProps)
   delete props.mode
   var TransitionGroup = {
@@ -10104,7 +10105,7 @@
         var restoreActiveInstance = setActiveInstance(_this)
         // force removing pass
         _this.__patch__(_this._vnode, _this.kept, false, // hydrating
-          true // removeOnly (!important, avoids unnecessary moves)
+          true, // removeOnly (!important, avoids unnecessary moves)
         )
         _this._vnode = _this.kept
         restoreActiveInstance()
@@ -10219,8 +10220,8 @@
         var info = getTransitionInfo(clone)
         this.$el.removeChild(clone)
         return (this._hasMove = info.hasTransform)
-      }
-    }
+      },
+    },
   }
 
   function callPendingCbs (c) {
@@ -10254,7 +10255,7 @@
 
   var platformComponents = {
     Transition     : Transition,
-    TransitionGroup: TransitionGroup
+    TransitionGroup: TransitionGroup,
   }
 
   // install platform specific utils
@@ -10347,7 +10348,7 @@
     }
     return {
       expression: tokens.join('+'),
-      tokens    : rawTokens
+      tokens    : rawTokens,
     }
   }
 
@@ -10388,7 +10389,7 @@
   var klass = {
     staticKeys   : ['staticClass'],
     transformNode: transformNode$1,
-    genData      : genData$2
+    genData      : genData$2,
   }
 
   function transformNode (el, options) {
@@ -10429,7 +10430,7 @@
   var style = {
     staticKeys   : ['staticStyle'],
     transformNode: transformNode,
-    genData      : genData$1
+    genData      : genData$1,
   }
 
   var decoder
@@ -10438,7 +10439,7 @@
       decoder = decoder || document.createElement('div')
       decoder.innerHTML = html
       return decoder.textContent
-    }
+    },
   }
 
   var isUnaryTag = makeMap(
@@ -10483,7 +10484,7 @@
     '&amp;' : '&',
     '&#10;' : '\n',
     '&#9;'  : '\t',
-    '&#39;' : '\''
+    '&#39;' : '\'',
   }
   var encodedAttr = /&(?:lt|gt|quot|amp|#39);/g
   var encodedAttrWithNewLines = /&(?:lt|gt|quot|amp|#39|#10|#9);/g
@@ -10616,7 +10617,7 @@
         if (!stack.length && options.warn) {
           options.warn(
             'Mal-formatted tag at end of template: "'.concat(html, '"'), {
-              start: index + html.length
+              start: index + html.length,
             })
         }
         return 'break'
@@ -10642,7 +10643,7 @@
         var match = {
           tagName: start[1],
           attrs  : [],
-          start  : index
+          start  : index,
         }
         advance(start[0].length)
         var end = void 0, attr = void 0
@@ -10685,7 +10686,7 @@
                                    : options.shouldDecodeNewlines
         attrs[i] = {
           name : args[1],
-          value: decodeAttr(value, shouldDecodeNewlines)
+          value: decodeAttr(value, shouldDecodeNewlines),
         }
         if (options.outputSourceRange) {
           attrs[i].start = args.start + args[0].match(/^\s*/).length
@@ -10698,7 +10699,7 @@
           lowerCasedTag: tagName.toLowerCase(),
           attrs        : attrs,
           start        : match.start,
-          end          : match.end
+          end          : match.end,
         })
         lastTag = tagName
       }
@@ -10735,7 +10736,7 @@
             options.warn(
               'tag <'.concat(stack[i].tag, '> has no matching end tag.'), {
                 start: stack[i].start,
-                end  : stack[i].end
+                end  : stack[i].end,
               })
           }
           if (options.end) {
@@ -10796,7 +10797,7 @@
       attrsMap   : makeAttrsMap(attrs),
       rawAttrsMap: {},
       parent     : parent,
-      children   : []
+      children   : [],
     }
   }
 
@@ -10851,7 +10852,7 @@
           }
           addIfCondition(root, {
             exp  : element.elseif,
-            block: element
+            block: element,
           })
         }
         else {
@@ -10964,7 +10965,7 @@
                 'spaces, quotes, <, >, / or =.', options.outputSourceRange
                                                  ? {
                     start: attr.start + attr.name.indexOf('['),
-                    end  : attr.start + attr.name.length
+                    end  : attr.start + attr.name.length,
                   }
                                                  : undefined)
             }
@@ -11038,7 +11039,7 @@
               warnOnce('text "'.concat(
                 text,
                 '" outside root element will be ignored.'), {
-                start: start
+                start: start,
               })
             }
           }
@@ -11090,7 +11091,7 @@
               type      : 2,
               expression: res.expression,
               tokens    : res.tokens,
-              text      : text
+              text      : text,
             }
           }
           else if (text !== ' ' ||
@@ -11098,7 +11099,7 @@
                    children[children.length - 1].text !== ' ') {
             child = {
               type: 3,
-              text: text
+              text: text,
             }
           }
           if (child) {
@@ -11117,7 +11118,7 @@
           var child = {
             type     : 3,
             text     : text,
-            isComment: true
+            isComment: true,
           }
           if (options.outputSourceRange) {
             child.start = start
@@ -11125,7 +11126,7 @@
           }
           currentParent.children.push(child)
         }
-      }
+      },
     })
     return root
   }
@@ -11144,7 +11145,7 @@
       for (var i = 0; i < len; i++) {
         attrs[i] = {
           name : list[i].name,
-          value: JSON.stringify(list[i].value)
+          value: JSON.stringify(list[i].value),
         }
         if (list[i].start != null) {
           attrs[i].start = list[i].start
@@ -11251,7 +11252,7 @@
       el.if = exp
       addIfCondition(el, {
         exp  : exp,
-        block: el
+        block: el,
       })
     }
     else {
@@ -11270,7 +11271,7 @@
     if (prev && prev.if) {
       addIfCondition(prev, {
         exp  : el.elseif,
-        block: el
+        block: el,
       })
     }
     else {
@@ -11523,7 +11524,7 @@
                 // handler w/ dynamic event name
                 addHandler(
                   el, '"update:"+('.concat(name, ')'), syncGen, null, false,
-                  warn, list[i], true // dynamic
+                  warn, list[i], true, // dynamic
                 )
               }
             }
@@ -11708,7 +11709,7 @@
           '('.concat(typeBinding, ')===\'checkbox\'') + ifConditionExtra
         addIfCondition(branch0, {
           exp  : branch0.if,
-          block: branch0
+          block: branch0,
         })
         // 2. add radio else-if condition
         var branch1 = cloneASTElement(el)
@@ -11717,7 +11718,7 @@
         processElement(branch1, options)
         addIfCondition(branch0, {
           exp  : '('.concat(typeBinding, ')===\'radio\'') + ifConditionExtra,
-          block: branch1
+          block: branch1,
         })
         // 3. other
         var branch2 = cloneASTElement(el)
@@ -11726,7 +11727,7 @@
         processElement(branch2, options)
         addIfCondition(branch0, {
           exp  : ifCondition,
-          block: branch2
+          block: branch2,
         })
         if (hasElse) {
           branch0.else = true
@@ -11744,7 +11745,7 @@
   }
 
   var model = {
-    preTransformNode: preTransformNode
+    preTransformNode: preTransformNode,
   }
 
   var modules = [klass, style, model]
@@ -11764,7 +11765,7 @@
   var directives = {
     model: model$1,
     text : text,
-    html : html
+    html : html,
   }
 
   var baseOptions = {
@@ -11777,7 +11778,7 @@
     canBeLeftOpenTag: canBeLeftOpenTag,
     isReservedTag   : isReservedTag,
     getTagNamespace : getTagNamespace,
-    staticKeys      : genStaticKeys$1(modules)
+    staticKeys      : genStaticKeys$1(modules),
   }
 
   var isStaticKey
@@ -11921,7 +11922,7 @@
     left  : 37,
     right : 39,
     down  : 40,
-    delete: [8, 46]
+    delete: [8, 46],
   }
   // KeyboardEvent.key aliases
   var keyNames = {
@@ -11937,7 +11938,7 @@
     right: ['Right', 'ArrowRight'],
     down : ['Down', 'ArrowDown'],
     // #9112: IE11 uses `Del` for Delete key name.
-    delete: ['Backspace', 'Delete', 'Del']
+    delete: ['Backspace', 'Delete', 'Del'],
   }
   // #4868: modifiers that prevent the execution of the listener
   // need to explicitly return null so that we can determine whether to remove
@@ -11956,7 +11957,7 @@
     meta   : genGuard('!$event.metaKey'),
     left   : genGuard('\'button\' in $event && $event.button !== 0'),
     middle : genGuard('\'button\' in $event && $event.button !== 1'),
-    right  : genGuard('\'button\' in $event && $event.button !== 2')
+    right  : genGuard('\'button\' in $event && $event.button !== 2'),
   }
 
   function genHandlers (events, isNative) {
@@ -12103,7 +12104,7 @@
   var baseDirectives = {
     on   : on,
     bind : bind,
-    cloak: noop
+    cloak: noop,
   }
 
   var CodegenState = /** @class */ (function () {
@@ -12135,7 +12136,7 @@
                : '_c("div")'
     return {
       render         : 'with(this){return '.concat(code, '}'),
-      staticRenderFns: state.staticRenderFns
+      staticRenderFns: state.staticRenderFns,
     }
   }
 
@@ -12189,7 +12190,7 @@
                        : genChildren(el, state, true)
         code = '_c('.concat(tag).concat(data
                                         ? ','.concat(data)
-                                        : '' // data
+                                        : '', // data
         ).concat(children
                  ? ','.concat(children)
                  : '' // children
@@ -12671,7 +12672,7 @@
             // slot props are camelized
             name   : camelize(attr.name),
             value  : attr.value,
-            dynamic: attr.dynamic
+            dynamic: attr.dynamic,
           })
         }))
                 : null
@@ -13078,7 +13079,7 @@
 
       return {
         compile           : compile,
-        compileToFunctions: createCompileToFunctionFn(compile)
+        compileToFunctions: createCompileToFunctionFn(compile),
       }
     }
   }
@@ -13096,7 +13097,7 @@
       return {
         ast            : ast,
         render         : code.render,
-        staticRenderFns: code.staticRenderFns
+        staticRenderFns: code.staticRenderFns,
       }
     })
 
@@ -13175,7 +13176,7 @@
           shouldDecodeNewlines       : shouldDecodeNewlines,
           shouldDecodeNewlinesForHref: shouldDecodeNewlinesForHref,
           delimiters                 : options.delimiters,
-          comments                   : options.comments
+          comments                   : options.comments,
         }, this), render = _a.render, staticRenderFns = _a.staticRenderFns
         options.render = render
         options.staticRenderFns = staticRenderFns
@@ -13214,7 +13215,7 @@
    */
   function effect (fn, scheduler) {
     var watcher = new Watcher(currentInstance, fn, noop, {
-      sync: true
+      sync: true,
     })
     if (scheduler) {
       watcher.update = function () {
