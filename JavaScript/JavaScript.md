@@ -335,16 +335,16 @@ obj.f() // f
 
 ---
 
-## 基本引用类型
+## `基本引用类型`
 
 ### `Date`
 
-|            方法             |        描述        |
-| :-------------------------: | :----------------: |
-| `对象.toLocaleDateString()` |      年/月/日      |
-| `对象.toLocaleTimeString()` |      时:分:秒      |
-|      `对象.getTime()`       |   时间的毫秒表示   |
-|    `对象.setTime(毫秒)`     | 设置时间的毫秒表示 |
+|            方法             |         描述         |
+| :-------------------------: | :------------------: |
+| `对象.toLocaleDateString()` |       年/月/日       |
+| `对象.toLocaleTimeString()` |       时:分:秒       |
+|      `对象.getTime()`       |    时间的毫秒表示    |
+|    `对象.setTime(毫秒)`     | `设置时间的毫秒表示` |
 
 ### 正则表达式
 
@@ -384,6 +384,32 @@ obj.f() // f
 |  `\s`  | 空白{空格、回车符、制表符、换页符、换行符} |
 |  `\S`  |                   非空白                   |
 
+```js
+// const str = '<a href="https://github.com">github</a>'
+// const regex = /<a href="(?<url>.*)"(?<text>.*)<\/a>/
+// console.log(regex.exec(str).groups.url) // https://github.com
+
+const str = `
+<ul>
+    <li>
+        <h2>肖生克的救赎</h2>
+        <p>上映时间：1994-09-10</p>
+    </li>
+    <li>
+        <h2>阿甘正传</h2>
+        <p>上映时间：1994-07-06</p>
+    </li>
+</ul>`
+// const regex = /<li>\s+<h2>(.*?)<\/h2>\s+<p>(.*?)<\/p>/g
+const regex = /<li>.*?<h2>(.*?)<\/h2>.*?<p>(.*?)<\/p>/gs
+const result = str.matchAll(regex)
+const arr = []
+for (let i of result) {
+  arr.push([i[1], i[2]])
+}
+// { '肖生克的救赎': '上映时间：1994-09-10', '阿甘正传': '上映时间：1994-07-06' }
+console.log(Object.fromEntries(arr))
+```
 
 ### `String`
 
@@ -429,8 +455,9 @@ obj.f() // f
 |                   `数组.reverse()`                    |                       反转数组元素次序                       |      1       |
 |       `数组.splice(开始索引,个数,...插入元素)`        | 从索引位置移除指定个数的元素和插入元素，<br />并返回移除的子数组 |      1       |
 |                 `数组.sort(回调函数)`                 |             按回调函数的返回值将数组元素进行排序             |      1       |
-|                    `数组.length()`                    |                         获取数组长度                         |      0       |
+|                    `数组.length()`                    |                         获取元素个数                         |      0       |
 |                 `数组.indexOf(元素)`                  |                获取元素在数组中首次出现的索引                |      0       |
+|                 `数组.includes(元素)`                 |                     判断数组是否包含元素                     |      0       |
 |            `数组.slice(开始索引,结束索引)`            |               获取 [开始索引,结束索引)的子数组               |      0       |
 |              `数组.concat(...元素/数组)`              |            将元素或数组拼接到数组后边，并将其返回            |      0       |
 |                  `数组.join(字符串)`                  |         用字符串将数组的元素拼接成字符串，并将其返回         |      0       |
@@ -441,6 +468,123 @@ obj.f() // f
 |        `数组.filter(回调函数(元素,索引,数组))`        |                       过滤数组中的元素                       |      0       |
 | `数组.reduce(回调函数(累计器,元素,索引,数组),初始值)` |                      返回最终迭代的结果                      |      0       |
 |                 `数组.flat(展平深度)`                 |                   将多维数组展平成一维数组                   |      0       |
+|                   `数组.flatMap()`                    |                     `flat`与`map`的结合                      |      0       |
+
+### 迭代器
+
+- 具有迭代器接口的数据类型
+  - `Array`
+  - `Arguments`
+  - `Set`
+  - `Map`
+  - `String`
+  - `TypedArray`
+  - `NodeList`
+
+```js
+const obj = {
+  n  : 0,
+  arr: [1, 2, 3],
+  [Symbol.iterator] () {
+    let index = 0
+    const length = this.arr.length
+    return {
+      next: () => index < length
+                  ? {value: this.arr[index++], done: false}
+                  : {value: undefined, done: true},
+    }
+  },
+}
+for (let i of obj) {
+  console.log(i)
+}
+```
+
+#### 生成器
+
+- 处理异步函数回调嵌套
+
+```js
+// function * f () {
+//   yield setTimeout(() => {console.log(1)}, 1000)
+//   yield setTimeout(() => {console.log(2)}, 2000)
+//   yield setTimeout(() => {console.log(3)}, 3000)
+// }
+//
+// for (let i of f()) {
+//   i
+// }
+function * f () {
+  yield setTimeout(() => {
+    console.log(1)
+    iter.next()
+  }, 1000)
+  yield setTimeout(() => {
+    console.log(2)
+    iter.next()
+  }, 1000)
+  yield setTimeout(() => {
+    console.log(3)
+    iter.next()
+  }, 1000)
+}
+
+const iter = f()
+iter.next()
+```
+
+#### `Set`
+
+|        方法         |         描述         |
+| :-----------------: | :------------------: |
+|    `集合.size()`    |     获取元素个数     |
+|  `集合.add(元素)`   |       添加元素       |
+| `集合.delete(元素)` |       删除元素       |
+|  `集合.has(元素)`   | 判断集合是否包含元素 |
+|   `集合.clear()`    |       清空元素       |
+
+```js
+const arr1 = [1, 2, 2, 3]
+const arr2 = [4, 3, 4, 5]
+
+// 并集
+const collection = [...new Set([...arr1, ...arr2])]
+// 交集
+const intersection = [...new Set(arr1)].filter(item => new Set(arr2).has(item))
+// 差集
+const difference = [...new Set(arr1)].filter(item => !new Set(arr2).has(item))
+
+console.log(collection) // [ 1, 2, 3, 4, 5 ]
+console.log(intersection) // [ 3 ]
+console.log(difference) // [ 1, 2 ]
+```
+
+#### `Map`
+
+|            方法             |        描述        |
+| :-------------------------: | :----------------: |
+| `键值对集合.set(键名,键值)` |     添加键值对     |
+|     `键值对集合.size()`     |   获取键值对个数   |
+|   `键值对集合.get(键名)`    | 获取键名对应的键值 |
+|  `键值对集合.delete(键名)`  |     删除键值对     |
+|    `键值对集合.clear()`     |     清空键值对     |
+
+```js
+function f (config) {
+  // const host = config && config.db && config.db.username
+  const host = config?.db?.username
+  console.log(host) // root
+}
+
+f({
+  db   : {
+    username: 'root',
+  },
+  cache: {
+    username: 'admin',
+  },
+})
+```
 
 ---
 
@@ -1106,13 +1250,6 @@ const obj = {
 console.log(obj.f()() === window) // true
 ```
 
-### 模块化
-
-- 分隔命名空间，降低命名冲突
-  - `import`
-  - `export`
-
----
 
 ### 函数柯里化
 
@@ -1185,6 +1322,7 @@ obj[propName] = 2
 |               `Object.keys(对象)`               |              获取所有对象键名              |
 |              `Object.values(对象)`              |              获取所有对象键值              |
 |          `Object.getPrototypeOf(对象)`          |             获取对象的原型对象             |
+|          `Object.setPrototypeOf(对象)`          |             设置对象的原型对象             |
 |              `构造函数.prototype`               |           获取构造函数的原型对象           |
 |         `原型对象.isPrototypeof(对象)`          |      判断原型对象是否为实例对象的原型      |
 | `Object.defineProperty(对象,键名,{value:键值})` | 为对象添加不可枚举、不可修改、不可删除属性 |
@@ -1192,6 +1330,7 @@ obj[propName] = 2
 |        `Object.assign(目标对象,源对象)`         |     浅拷贝源对象的可枚举属性到目标对象     |
 |         `Object.fromEntries(二维数组)`          |            将二维数组转换为对象            |
 |             `Object.entries(对象)`              |            将对象转换为二维数组            |
+|    `Object.getOwnPropertyDescriptors(对象)`     |             获取对象的描述属性             |
 
 ```js
 let obj = {
@@ -1354,33 +1493,25 @@ do {
 
 ### 继承
 
-- `extends`
-- 类继承声明
-- 基于原型链向上查找
-- `super()`
-    - 调用父类的构造函数
-- `#`
-    - 声明私有
-
----
-
-- 使用闭包访问构造函数的私有变量
-
-```js
-function F () {
-  let i = 1
-  this.getI = function () {
-    return i
-  }
-}
-
-let obj = new F()
-console.log(obj.getI()) // 1 
-```
+|   方法    |           描述           |
+| :-------: | :----------------------: |
+| `extends` |        类继承声明        |
+| `super()` |    调用父类的构造函数    |
+|    `#`    | 声明私有，只能在类内使用 |
 
 ---
 
 ## API
+
+### 模块化
+
+- 分隔命名空间，降低命名冲突，提高代码复用和维护性
+
+|   方法    |          描述          |
+| :-------: | :--------------------: |
+| `export`  |      模块对外接口      |
+| `import`  | 导入模块<br />动态引入 |
+| `default` |        默认暴露        |
 
 ### `DOM`
 
@@ -1750,7 +1881,5 @@ console.log('同步任务')
 - `CORS`
 
 ![image-20220804231346859](assets/image-20220804231346859.png)
-
----
 
 ## 设计模式
