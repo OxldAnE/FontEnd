@@ -2,92 +2,228 @@
 
 ## 关键字
 
-|    关键字    |                             描述                             |
-| :----------: | :----------------------------------------------------------: |
-|    `var`     | 声明函数作用域的局部变量<br />变量声明会自动提升到函数作用域顶部<br /><br />重复声明会合并<br />会成为`window`对象的属性 |
-|    `let`     |         声明块级作用域的局部变量<br />有利于垃圾回收         |
-|   `const`    | 声明无法修改值的变量<br />引用对象时，不影响通过变量修改对象内部的属性 |
-|   `typeof`   |                         检测数据类型                         |
-| `instanceof` |                  检测对象是否由构造函数构造                  |
+### `var`/`let`/`const`
+
+```js
+/* var 声明的变量会添加到最接近的上下文
+ * 即在函数内部时，提升到函数作用域的顶部
+ * 全局作用域下，会成为 window 的属性
+ * 可重复声明 */
+function f () {
+  console.log(a) // undefined
+  if (1) {
+    var a
+    var a = 1
+  }
+  console.log(a) // 1
+}
+
+f()
+// console.log(a) 报错
+var b = 2
+console.log(window.b) // 2
+```
+
+```js
+/* let 先声明再使用
+ * 受块级作用域限制 */
+if (1) {
+  // console.log(a) 报错
+  let a = 1
+}
+// console.log(a) 报错
+```
+
+```js
+/* const 声明的变量无法修改栈上的值
+ * 基本数据类型无法修改字面量
+ * 引用数据类型无法修改所引用对象，但可修改引用对象的内部属性 */
+const a = 1
+// a = 2 报错
+const arr = [1]
+// arr = [2] 报错
+arr[0] = 2
+console.log(arr) // [ 2 ]
+```
+
+### `typeof`/`instanceof`
+
+```js
+/* typeof 检测数据类型 */
+console.log(typeof undefined) // undefined
+console.log(typeof true) // boolean
+console.log(typeof '1') // string
+console.log(typeof function () {}) // function
+console.log(typeof Symbol(1)) // symbol
+// number
+console.log(typeof 1)
+console.log(typeof Infinity)
+console.log(typeof NaN)
+// object
+console.log(typeof null)
+console.log(typeof [1])
+console.log(typeof {1: 1})
+console.log(typeof new Number(1))
+```
+
+```js
+/* 实例对象 instanceof 构造函数
+ * 构造函数的原型对象是否在实例对象的原型链上*/
+function F () {}
+
+const f = new F()
+// true
+// console.log(f.__proto__ === F.prototype)
+console.log(f instanceof F)
+// console.log(F.prototype.__proto__ === Object.prototype)
+console.log(F.prototype instanceof Object)
+// console.log(Function.__proto__ === Function.prototype)
+console.log(Function instanceof Function)
+// console.log(Object.__proto__.__proto__ === Object.prototype)
+console.log(Object instanceof Object)
+```
 
 ---
 
 ## 数据类型
 
-|  数据类型   |                        描述                         |
-| :---------: | :-------------------------------------------------: |
-|   `Null`    |    `null`<br />空对象指针<br />初始化或垃圾回收     |
-| `Undefined` | 未初始化(未必声明了)<br />`undefined`(由`null`派生) |
-|  `Boolean`  |                   `true`/`false`                    |
-|  `Number`   |            整数/浮点数/`NaN`/`Infinity`             |
-|  `String`   |                       字符串                        |
-|  `Object`   |                  数据和功能的集合                   |
-|  `Symbol`   |              确保对象属性使用唯一标识               |
+|  数据类型   |                       描述                       |
+| :---------: | :----------------------------------------------: |
+|   `Null`    | `null`<br />空对象指针<br />用于初始化或垃圾回收 |
+| `Undefined` |            `undefined`<br />未初始化             |
+|  `Boolean`  |                  `true`/`false`                  |
+|  `Number`   |           整数/浮点数/`NaN`/`Infinity`           |
+|  `String`   |                      字符串                      |
+|  `Object`   |                 数据和功能的集合                 |
+|  `Symbol`   |                  对象的唯一标识                  |
 
 ### 转型函数
 
-|  转型函数   |     描述     |
-| :---------: | :----------: |
-| `Boolean()` | 转换为布尔值 |
-| `Number()`  |  转换为数值  |
-| `String()`  | 转换为字符串 |
-
 #### `Boolean()`
 
-|  数据类型   |   `false`   |
-| :---------: | :---------: |
-| `Undefined` | `undefined` |
-|  `String`   |    `''`     |
-|  `Number`   |  `0`/`NaN`  |
-|   `Null`    |   `null`    |
+```js
+/* Boolean() 转化为布尔值 */
+// false
+console.log(Boolean(0))
+console.log(Boolean(NaN))
+console.log(Boolean(''))
+console.log(Boolean(null))
+console.log(Boolean(undefined))
+```
 
 #### `Number()`
 
-|  数据类型   |          值          |     结果      |
-| :---------: | :------------------: | :-----------: |
-|   `Null`    |        `null`        |      `0`      |
-| `Undefined` |     `undefined`      |     `NaN`     |
-|  `Boolean`  |    `true`/`false`    |    `1`/`0`    |
-|  `String`   | `''`/`'01.0'`/`'1a'` | `0`/`1`/`NaN` |
-
-- `Object`
-  - `valueOf()`
-  - 如果结果为 `NaN`
-    - `toString()`
-      - 按照字符串类型进行转换
-- 转换方法
-  - 默认为十进制
-  - `0`为十进制，或`2~36`
-
-|           方法           |                             描述                             |
-| :----------------------: | :----------------------------------------------------------: |
-|  `数值.toString(进制)`   |                 将转化数值按进制转化为字符串                 |
-|     `Number(字符串)`     |           将字符串转为数值<br />空字符串结果为`0`            |
-| `parseInt(字符串，进制)` | 按进制解析字符串转化为整数<br />无视末尾的其他字符<br />空字符串结果为`NaN` |
-|   `parstFloat(字符串)`   | 将字符串转化为浮点数，<br />无视末尾的其他字符<br />只能解析十进制 |
+```js
+/* Number() 转化为数值 */
+console.log(Number(null)) // 0
+console.log(Number(undefined)) // NaN
+console.log(Number(true)) // 1
+console.log(Number('')) // 0
+console.log(Number('01.10')) // 1.1
+console.log(Number('1a')) // NaN
+```
 
 #### `String()`
 
-- `null`/`undefined`没有 `toString()`
+```js
+/* String() 转化为字符串
+ * null / undefined 没有 toString() */
+console.log(String(null)) // null
+console.log(String(undefined)) // undefined
+```
 
-- 模板字面量
+```js
+/* 模板字面量 用于创建复杂字符串
+ * 支持多行字符串 */
+const text = '模板字面量'
+const ul = `
+<ul>
+    <li>${text}</li>
+</ul>
+`
+// <ul>
+//     <li>模板字面量</li>
+// </ul>
+console.log(ul)
+```
 
-  - 用于创建复杂字符串
+### `Number`/`String`
 
-  - 支持多行字符串
+```js
+/* Number 与 String 的相互转换
+ * 默认进制为十进制
+ * 进制参数可选 2~36
+ * parseInt parseFloat 会忽略末尾的非法字符 */
+const num = 7
+console.log(num.toString(2)) // 111
+console.log(Number('1a')) // NaN
+console.log(parseInt('1a', 2)) // 1
+console.log(parseFloat('0.1.1')) // 0.1
+```
 
+### `Object`
+
+```js
+/* Object 的属性和方法 */
+const obj = new Object({a: 1})
+// 构造函数
+console.log(obj.constructor) // Object()
+// 判断是否存在属性
+console.log(obj.hasOwnProperty('a')) //true
+// 判断是否为原型对象
+console.log(Object.prototype.isPrototypeOf(obj)) // true
+// 判断属性是否可枚举
+console.log(obj.propertyIsEnumerable('a')) // true
+// 返回对象的字符串表示
+console.log(obj.toString()) // [object Object]
+// 返回对象的字符串表示
+console.log(obj.toLocaleString()) // [object Object]
+// 返回对象的字符串、数值、布尔值表示
+console.log(obj.valueOf()) // { a: 1 }
+```
 
 ---
 
-## 变量
+## 操作符
+
+### `+`
+
+```js
+/* + 操作符 */
+console.log(Infinity + Infinity) // Infinity
+console.log(-Infinity + -Infinity) // -Infinity
+console.log(Infinity + -Infinity) // NaN
+console.log(true + 0) // 1
+console.log(1 + 2 + '3' + 4.0) // 334
+```
+
+### `==`
+
+```js
+/* == 会进行数据类型转换 */
+// true
+console.log(Infinity == Infinity)
+console.log(null == undefined)
+console.log(0 == false)
+console.log(0 == '')
+console.log(0 == [])
+```
+
+### `**`
+
+```js
+/* ** 指数操作符 */
+console.log(3 ** 2) // 9
+```
 
 ### 解构赋值
 
 ```js
+/* 解构赋值 数组、对象、函数的使用 */
 // 数组
 const arr = [1, 2, 3]
-const [, ...k] = arr
-console.log(k) // [ 2, 3 ]
+const [, ...rest] = arr
+console.log(rest) // [ 2, 3 ]
 
 // 对象
 const obj = {
@@ -96,186 +232,147 @@ const obj = {
 }
 const {
   a: x,
-  b: y,
+  c: y,
 } = obj
-console.log(x, y) // 1 2
+console.log(x, y) // 1 undefined
+
+// 函数
+// function f (obj) {
+//   console.log(obj.a, obj.b)
+// }
+function f ({b, a}) {
+  console.log(a, b) // 1 2
+}
+
+f(obj)
 ```
 
-- 对调两个变量
+#### 交换两个变量的值
 
 ```js
-let [a, b] = [1, 2]
-```
+/* 交换两个变量的值 */
+let a = 1, b = 2
 
-|               代码                |   描述   |
-| :-------------------------------: | :------: |
-|     `let c = a; a = b; b = c`     | 临时变量 |
-|         `[a, b] = [b, a]`         | 解构赋值 |
-| `a = a + b; b = a - b; a = a - b` |  加减法  |
-| `a = a ^ b; b = a ^ b; a = a ^ b` | 按位异或 |
+// 临时变量
+/* let c = a
+ a = b
+ b = c */
+
+// 解构赋值
+/*  ;[a, b] = [b, a] */
+
+// 加减法
+/* a = a + b
+ b = a - b
+ a = a - b */
+
+// 按位异或
+a = a ^ b
+b = a ^ b
+a = a ^ b
+
+console.log(a, b) // 2 1
+```
 
 ### 拷贝
 
-| | 浅拷贝 | 深拷贝 |
-| :--: | :----------------------------: | :--------------: |
-|描述 | 只拷贝一层，嵌套对象只拷贝地址 | 每一层都会拷贝 |
-| 使用 | 扩展运算符、`assign()`     | `JSON`实现深拷贝 |
+|  概念  |              描述              |
+| :----: | :----------------------------: |
+| 浅拷贝 | 只拷贝一层，嵌套对象只拷贝地址 |
+| 深拷贝 |           每层都拷贝           |
 
 ```js
-// 对象
-const a = {
-  i: 1
-}
-const b = {...a}
-b.i = 2
-console.log(a, b) // { i: 1 } { i: 2 }
-// 数组
-const x = [1]
-const y = [...x]
-y[0] = 2
-console.log(x, y) // [ 1 ] [ 2 ]
-// 嵌套对象
-const f = [{i: 1}]
-const g = [...f]
-g[0].i = 2
-console.log(f, g) // [ { i: 2 } ] [ { i: 2 } ]
-// JSON
-const h = JSON.parse(JSON.stringify(f))
-h[0].i = 3
-console.log(f, h) // [ { i: 2 } ] [ { i: 3 } ]
+/* 拷贝
+ * 扩展运算符、 assign() 为浅拷贝
+ * 借助 JSON 实现深拷贝 */
+
+const arr = [
+  1,
+  {b: 2},
+]
+/* const arr1 = [...arr]
+ arr1[0] = 0
+ arr1[1].b = 0
+ console.log(arr) // [ 1, { b: 0 } ] */
+
+const arr1 = JSON.parse(JSON.stringify(arr))
+arr1[0] = 0
+arr1[1].b = 0
+console.log(arr) // [ 1, { b: 2 } ]
 ```
 
-- 使用`JSON`深拷贝的问题
-
-![image-20220804112637428](assets/image-20220804112637428.png)
-
 ```js
+/* JSON 深拷贝会丢失部分属性
+ * NaN Infinity -> null
+ * undefined Symbol function 忽略
+ * Date -> 字符串
+ * regex -> {} */
 const obj = {
-  a    : NaN, // 键值转为 null
-  b    : Infinity,
-  c    : undefined, // 直接忽略
-  d    : Symbol(1),
-  f    : function () {},
-  time : new Date(), // 键值转为字符串
-  regex: /\d/ // 正则表达式转为空对象
+  1: NaN,
+  2: Infinity,
+  3: undefined,
+  4: Symbol(4),
+  5: function () {},
+  6: new Date(),
+  7: /\d/,
 }
-const json = JSON.parse(JSON.stringify(obj))
+// { '1': null, '2': null, '6': '2000-01-01T00:00:00.000Z', '7': {}}
 
-console.log(obj, json)
+console.log(JSON.parse(JSON.stringify(obj)))
 ```
 
-- 手写深拷贝
-
 ```js
+/* 手写深拷贝 */
 const obj = {
   a: 1,
-  b: {i: 2},
-  c: [{j: 3}]
+  b: [2],
+  c: [[3], 4],
 }
+const result = {}
 
-const newObj = {}
-
-let k = 0
-
-function deepCopy (newObj, obj) {
+function f (result, obj) {
   for (let i in obj) {
-    // 根据键值类型，执行不同操作
-    if (obj[i] instanceof Array) {
-      newObj[i] = []
-      deepCopy(newObj[i], obj[i])
+    let value = obj[i]
+    // 根据值的不同类型，采取不同操作
+    if (value instanceof Array) {
+      result[i] = []
+      f(result[i], value)
     }
-    else if (obj[i] instanceof Object) {
-      newObj[i] = {}
-      deepCopy(newObj[i], obj[i])
+    else if (value instanceof Object) {
+      result[i] = {}
+      f(result[i], value)
     }
-    // 递进终止条件：不是数组和对象
+    // 递进终止条件：不是嵌套数据
     else {
-      newObj[i] = obj[i]
+      result[i] = obj[i]
     }
   }
 }
 
-deepCopy(newObj, obj)
-// { a: 1, b: { i: 2 }, c: [ { j: 3 } ] }
-console.log(newObj)
+f(result, obj)
+// { a: 1, b: [ 2 ], c: [ [ 3 ], 4 ] }
+console.log(result)
 ```
-
----
-
-## 操作符
-
-|               操作符               |                 描述                  |
-| :--------------------------------: | :-----------------------------------: |
-|      `+`/`-`/`*`/`/`/`%`/`**`      |         加/减/乘/除/取余/指数         |
-| `=`/`+=`/`-=`/`*=`/`/=`/`%=`/`**=` |               赋值操作                |
-|             `++`/`--`              |               自增/自减               |
-|          `~`/`&`/`|`/`^`           |          按位取反/与/或/异或          |
-|          `<<`/`>>`/`>>>`           | 左移/有符号右移/无符号右移(符号位补0) |
-|         `<<`=/`>>`=/`>>>=`         |               赋值操作                |
-|           `!`/`&&`/`||`            |             逻辑非/与/或              |
-|         `<`/`>`/`==`/`!=`          |         小于/大于/等于/不等于         |
-|       `<=`/`>=`/`===`/`!==`        |     小于等于/大于等于/全等/不全等     |
-|          `添加?为真:为假`          |              条件表达式               |
-|                `,`                 |         多个变量声明的分隔符          |
-
-### `+`
-
-|         表达式          |        结果         |
-| :---------------------: | :-----------------: |
-|  `Infinity + Infinity`  |     `Infinity`      |
-| `-Infinity + -Infinity` |     `-Infinity`     |
-| `Infinity + -Infinity`  |        `NaN`        |
-|       `+0 + +0 `        |        `+0`         |
-|       `-0 + +0 `        |        `+0`         |
-|       `-0 + -0 `        |        `-0`         |
-|       `0 + false`       |         `0`         |
-|        `{} + []`        |         `0`         |
-|        `[] + {}`        | `'[object Object]'` |
-|        `({})+[]`        | `'[object Object]'` |
-|        `0 + []`         |        `'0'`        |
-|       `0 + [,,]`        |       `'0,'`        |
-|       `0 + [0,,]`       |       `'00,'`       |
-|       `[,,0] + 0`       |      `',,00'`       |
-|       `[0] + [0]`       |       `'00'`        |
-|       `'0' + 0.0`       |       `'00'`        |
-
-### `==`
-
-- 进行数据类型转化
-
-- 结果为`true`的特例
-
-| `Infinity` | `null`/`undefined` | `0`/`''`/`false`/`[]` |
-| :--------: | :----------------: | :-------------------: |
 
 ---
 
 ## 语句
 
-- 表达式通过`Boolean()`转换为布尔值
-
-|                           语句                            |            描述             |
-| :-------------------------------------------------------: | :-------------------------: |
-|           `if(表达式){为真执行}else{为假执行}`            |          条件语句           |
-| `switch(表达式){case 值:相等执行;break;default:默认执行}` |          条件语句           |
-|                 `while(表达式){为真执行}`                 |          循环语句           |
-|                `do{为真执行}while(表达式)`                |    先执行一次的循环语句     |
-|          `for(初始化;表达式;递增变量){为真执行}`          |          循环语句           |
-|                          `break`                          |          退出循环           |
-|                        `continue`                         |        跳过本轮循环         |
-|                       `标签:循环体`                       | 嵌套循环`break`或`continue` |
-|                    `for(索引 in 对象)`                    |   枚举对象的索引(不保序)    |
-|                   `for(属性值 in 对象)`                   |   遍历可迭代对象的属性值    |
+### `for in`/`for of`
 
 ```js
+/* for in 键
+ * for of 值 */
+
 // 字符串
-let str = 'ab'
+let str = '12'
 for (let i in str) {
   console.log(i) // 0 1
 }
 for (let i of str) {
-  console.log(i) // a b
+  console.log(i) // 1 2
 }
+
 // 数组
 let arr = [1, 2]
 for (let i in arr) {
@@ -284,207 +381,198 @@ for (let i in arr) {
 for (let i of arr) {
   console.log(i) // 1 2
 }
+
 // 对象
 let obj = {
   a: 1,
-  b: 2
+  b: 2,
 }
 for (let i in obj) {
   console.log(i) // a b
 }
 // 没有迭代器 报错
-// for (let i of obj) {
-//   console.log(i)
-// }
+/*
+ for (let i of obj) {
+ console.log(i)
+ }*/
+
 ```
 
 ---
 
 ## 作用域
 
-| 变量类型 |          描述          | 作为参数传入函数是否被修改 |
-| :------: | :--------------------: | :------------------------: |
-|  原始值  |  保存在栈内存的实际值  |             0              |
-|  引用值  | 保存在堆内存对象的指针 |             1              |
+### 原始值与引用值
+
+```js
+/* 原始值 为保存在栈内存的实际值
+ * 引用值 为保存在堆内存对象的地址
+ * 函数在传入参数时，会将值复制给局部变量
+ * 原始值不会被修改，引用值的内部属性会被修改 */
+let a = 1
+let arr = [1]
+
+function f (a, arr) {
+  a = 0
+  arr[0] = 0
+}
+
+f(a, arr)
+console.log(a) // 1
+console.log(arr) // 0
+```
 
 |    概念    |                             描述                             |
 | :--------: | :----------------------------------------------------------: |
-| 执行上下文 |               函数执行环境，决定其可访问的数据               |
-|  变量对象  | 保存上下文定义的所有变量和函数<br />位于作用域链的最前端<br />无法通过代码访问变量对象，但后台需要使用 |
-|  作用域链  | 各级上下文的代码在访问变量和函数的顺序<br />标识符解析沿作用域链逐级向上搜索 |
+| 执行上下文 |          函数调用时在执行栈中生成当前函数的执行环境          |
+|  变量对象  | 保存上下文定义的所有变量和函数<br />位于作用域链的最前端<br />无法通过代码访问变量对象，但供后台使用 |
+|  作用域链  |     上下文的代码在访问变量和函数时沿作用域链逐级向上搜索     |
 |  垃圾回收  |                离开作用域的值被自动标记和回收                |
 |  标记清理  |                 给当前不使用的值加标记再回收                 |
 
 ```js
-// const obj = {
-//   f () {
-//     // 函数内部作用域不存在 f
-//     console.log(f)
-//   },
-// }
-// // 全局作用域也不存在 f
-// obj.f() // 报错
+/* 执行上文和作用域 */
+/* const obj = {
+ f () {
+ // 函数内部的执行上下文不存在 f
+ console.log(f)
+ },
+ }
+ // 全局上下文也不存在 f
+ obj.f() // 报错 */
+
 const obj = {
   f () {
-    // 在调用者 obj的内部作用域找到了 f
+    // 在调用者 obj 的上下文找到 f
     console.log(this.f)
   },
 }
-obj.f() // f
+obj.f() // f()
 ```
 
 ---
 
-## `基本引用类型`
+## 基本引用类型
 
 ### `Date`
 
-|            方法             |         描述         |
-| :-------------------------: | :------------------: |
-| `对象.toLocaleDateString()` |       年/月/日       |
-| `对象.toLocaleTimeString()` |       时:分:秒       |
-|      `对象.getTime()`       |    时间的毫秒表示    |
-|    `对象.setTime(毫秒)`     | `设置时间的毫秒表示` |
+```js
+/* Date */
+const time = new Date()
+console.log(time.toLocaleDateString()) // 年/月/日
+console.log(time.toLocaleTimeString()) // 时:分:秒
+time.setTime(1000)
+console.log(time.getTime()) // 1000
+```
 
 ### 正则表达式
 
-| 修饰符 |          作用          |
-| :----: | :--------------------: |
-|  `i`   |      不区分大小写      |
-|  `g`   | 将匹配首个改为匹配所有 |
-|  `m`   |        多行匹配        |
-
-|                  方法                   |            作用            |
-| :-------------------------------------: | :------------------------: |
-|        `正则表达式.test(字符串)`        | 判断字符串是否有匹配的子串 |
-|       `字符串.match(正则表达式)`        |       返回匹配的子串       |
-|       `字符串.search(正则表达式)`       |   返回匹配子串的起始位置   |
-| `字符串.replace(正则表达式,替换字符串)` |       替换匹配的子串       |
-
-|  符号  |                    作用                    |
-| :----: | :----------------------------------------: |
-|  `^`   |                  开始位置                  |
-|  `$`   |                  结束位置                  |
-|  `*`   |                 0次到多次                  |
-|  `+`   |                 1次到多次                  |
-|  `?`   |                  0次或1次                  |
-|  `.`   |                  任意字符                  |
-|  `|`   |                     或                     |
-|  `-`   |                     到                     |
-|  `()`  |                   字符组                   |
-| `(?=)` |                    存在                    |
-| `(?!)` |                   不存在                   |
-|  `[]`  |                   字符集                   |
-| `[^]`  |                 否定字符集                 |
-|  `{}`  |                    次数                    |
-|  `\w`  |               `[A-Za-z0-9_]`               |
-|  `\W`  |              `[^A-Za-z0-9_]`               |
-|  `\d`  |                    数字                    |
-|  `\D`  |                   非数字                   |
-|  `\s`  | 空白{空格、回车符、制表符、换页符、换行符} |
-|  `\S`  |                   非空白                   |
+| 修饰符 |        作用         |
+| :----: | :-----------------: |
+|  `i`   |    不区分大小写     |
+|  `g`   |      匹配所有       |
+|  `m`   |      多行匹配       |
+|  `s`   | `.`能匹配回车和换行 |
 
 ```js
-// const str = '<a href="https://github.com">github</a>'
-// const regex = /<a href="(?<url>.*)"(?<text>.*)<\/a>/
-// console.log(regex.exec(str).groups.url) // https://github.com
+/* 正则表达式 */
+const regex = /1/
+const str = '01a11'
+// 判断字符串是否有匹配的子串
+console.log(regex.test(str)) // true
+// 返回匹配子串的起始位置
+console.log(str.search(regex)) // 1
+// 匹配子串
+// [ '1', index: 1, input: '01a1', groups: undefined ]
+console.log(regex.exec(str))
+console.log(str.match(regex))
+console.log(str.match(regex)[0]) // 1
 
-const str = `
-<ul>
-    <li>
-        <h2>肖生克的救赎</h2>
-        <p>上映时间：1994-09-10</p>
-    </li>
-    <li>
-        <h2>阿甘正传</h2>
-        <p>上映时间：1994-07-06</p>
-    </li>
-</ul>`
-// const regex = /<li>\s+<h2>(.*?)<\/h2>\s+<p>(.*?)<\/p>/g
-const regex = /<li>.*?<h2>(.*?)<\/h2>.*?<p>(.*?)<\/p>/gs
-const result = str.matchAll(regex)
-const arr = []
+const regexAll = /1/g
+// 匹配所有子串
+const result = str.matchAll(regexAll)
 for (let i of result) {
-  arr.push([i[1], i[2]])
+  // [ '1', index: 1, input: '01a1', groups: undefined ]
+  // [ '1', index: 3, input: '01a1', groups: undefined ]
+  // [ '1', index: 4, input: '01a11', groups: undefined ]
+  console.log(i)
 }
-// { '肖生克的救赎': '上映时间：1994-09-10', '阿甘正传': '上映时间：1994-07-06' }
-console.log(Object.fromEntries(arr))
+// 替换匹配子串
+console.log(str.replace(regex, '')) // 0a11
+// 替换所有匹配子串
+console.log(str.replaceAll(regexAll, '')) // 0a
 ```
+
+|                        常用正则表达式                        |       描述       |
+| :----------------------------------------------------------: | :--------------: |
+|                    `/^1[3456789]\d{9}$/g`                    |     手机号码     |
+|                    `/^[1-9][0-9]{4,9}$/g`                    |     `QQ`号码     |
+|            `/#?([0-9a-fA-F]{6}|[0-9a-fA-F]{3})/g`            | 匹配十六进制颜色 |
+| `/^([A-Za-z0-9_\-\.]+)@([A-Za-z0-9_\-\.]+)\.([A-Za-z]{2,6})$/g` |       邮箱       |
+| `^((https?|ftp|file):\/\/)?([\da-z\.\-]+)\.([a-z\.]{2,6})([\/\w\.\-]*)*\/?$/g` |      `URL`       |
+|       `/^<([a-z]+)([^>]+)*(?:>(.*)<\/\1>|\s+\/>)$/gm`        |    `html`标签    |
+| `^(([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])$/gm` |      `IPv4`      |
+|           `/([0-9a-z]*:{1,4}){1,7}[0-9a-z]{1,4}/g`           |      `IPv6`      |
+| `/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|[3][01])$/gm`  |       日期       |
+| `/^[1-9][0-9]{5}(18|19|([23][0-9]))[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[0-9]{3}[0-9Xx]$/gm` |      身份证      |
 
 ### `String`
 
-|                     方法                     |                        描述                         |
-| :------------------------------------------: | :-------------------------------------------------: |
-|              `字符串.length()`               |                   获取字符串长度                    |
-|         `字符串.concat(拼接字符串)`          |                     拼接字符串                      |
-|            `字符串.indexOf(子串)`            |          获取子串在字符串中首次出现的索引           |
-|          `字符串.lastIndexOf(子串)`          |          获取子串在字符串中最后出现的索引           |
-|           `字符串.includes(子串)`            |               判断字符串是否包含子串                |
-|               `字符串.trim()`                |                删除前后的所有空格符                 |
-|            `字符串.repeat(次数)`             |                     复制字符串                      |
-|      `字符串.slice(开始索引,结束索引)`       | 获取 [开始索引,结束索引) 的子串<br />负数索引为倒数 |
-|        `字符串.substr(开始索引,数量)`        |          获取从索引开始指定数量长度的子串           |
-|            `字符串.split('字符')`            |          获取字符串按字符分隔后形成的数组           |
-|  `字符串.replace(被替换子串,用于替换子串)`   |         将字符串中的首个子串替换成给定子串          |
-| `字符串.replaceAll(被替换子串,用于替换子串)` |         将字符串中的全部子串替换成给定子串          |
-|            `字符串.toUpperCase()`            |                    全部字母大写                     |
-|            `字符串.toLowerCase()`            |                    全部字母小写                     |
-|                `eval(字符串)`                |           将字符串解释为语句插入所在位置            |
+```js
+/* String */
+const str = 'Hello'
+const str1 = ' World '
 
-### `Math`
+// 获取长度
+console.log(str.length) // 5
+// 是否包含子串
+console.log(str.includes('l')) // true
+// 获取子串首次出现的起始索引
+console.log(str.indexOf('l')) // 2
+// 获取子串最后出现的起始索引
+console.log(str.lastIndexOf('l')) // 3
 
-|         方法         |        描述         |
-| :------------------: | :-----------------: |
-| `Math.max(...数组)`  |     查找最大值      |
-| `Math.min(...数组)`  |     查找最小值      |
-| `Math.ceil(浮点数)`  |      向上取整       |
-| `Math.floor(浮点数)` |      向下取整       |
-| `Math.round(浮点数)` |    四舍五入取整     |
-|   `Math.random()`    | 生成`[0,1)`的随机数 |
+// 删除前后的所有空格符
+const str2 = str1.trim()
+console.log(str2) // World
+// 所有字母转为大写
+console.log(str2.toUpperCase()) // WORLD
+// 所有字母转为小写
+console.log(str2.toLowerCase()) // world
+// 拼接字符串
+console.log(str.concat(' ', str2)) // Hello World
+
+const str3 = '123'
+// 获取 [开始索引,结束索引) 的子串
+console.log(str3.slice()) // 123
+console.log(str3.slice(0)) // 123
+console.log(str3.slice(0, 2)) // 12
+console.log(str3.slice(0, -1)) // 12
+// 按字符分隔成数组
+console.log(str3.split('2')) // [ '1', '3' ]
+// 重复字符串
+const str4 = str3.repeat(2)
+console.log(str4) // 123123
+// 替换首个子串
+console.log(str4.replace('1', '')) // 23123
+// 替换所有子串
+console.log(str4.replaceAll('1', '')) // 2323
+// 比较两个字符串是否相同
+console.log('123'.localeCompare(str3)) // 0
+// 将字符串解释为语句插入所在位置
+eval('console.log(1)') // 1
+```
 
 ## 集合引用类型
 
-### `Array`
-
-|                         方法                          |                             描述                             | 是否改变数组 |
-| :---------------------------------------------------: | :----------------------------------------------------------: | :----------: |
-|                   `数组.push(元素)`                   |                      在数组末尾添加元素                      |      1       |
-|                 `数组.unshift(元素)`                  |                      在数组开头添加元素                      |      1       |
-|                     `数组.pop()`                      |                移除数组末尾的元素，并将其返回                |      1       |
-|                    `数组.shift()`                     |                移除数组开头的元素，并将其返回                |      1       |
-|                   `数组.reverse()`                    |                       反转数组元素次序                       |      1       |
-|       `数组.splice(开始索引,个数,...插入元素)`        | 从索引位置移除指定个数的元素和插入元素，<br />并返回移除的子数组 |      1       |
-|                 `数组.sort(回调函数)`                 |             按回调函数的返回值将数组元素进行排序             |      1       |
-|                    `数组.length()`                    |                         获取元素个数                         |      0       |
-|                 `数组.indexOf(元素)`                  |                获取元素在数组中首次出现的索引                |      0       |
-|                 `数组.includes(元素)`                 |                     判断数组是否包含元素                     |      0       |
-|            `数组.slice(开始索引,结束索引)`            |               获取 [开始索引,结束索引)的子数组               |      0       |
-|              `数组.concat(...元素/数组)`              |            将元素或数组拼接到数组后边，并将其返回            |      0       |
-|                  `数组.join(字符串)`                  |         用字符串将数组的元素拼接成字符串，并将其返回         |      0       |
-|       `数组.forEach(回调函数(元素,索引,数组))`        |                   遍历数组元素执行回调函数                   |      0       |
-|        `数组.every(回调函数(元素,索引,数组))`         |                判断所有元素是否使回调函数为真                |      0       |
-|         `数组.some(回调函数(元素,索引,数组))`         |                判断是否存在元素使回调函数为真                |      0       |
-|        `数组.map(回调函数(元素, 索引, 数组))`         |           遍历数组元素执行回调函数，并返回结果数组           |      0       |
-|        `数组.filter(回调函数(元素,索引,数组))`        |                       过滤数组中的元素                       |      0       |
-| `数组.reduce(回调函数(累计器,元素,索引,数组),初始值)` |                      返回最终迭代的结果                      |      0       |
-|                 `数组.flat(展平深度)`                 |                   将多维数组展平成一维数组                   |      0       |
-|                   `数组.flatMap()`                    |                     `flat`与`map`的结合                      |      0       |
-
 ### 迭代器
 
-- 具有迭代器接口的数据类型
-  - `Array`
-  - `Arguments`
-  - `Set`
-  - `Map`
-  - `String`
-  - `TypedArray`
-  - `NodeList`
-
 ```js
+/* 自定义迭代器 */
 const obj = {
-  n  : 0,
+  a  : 1,
   arr: [1, 2, 3],
+  // 迭代器工厂函数
   [Symbol.iterator] () {
     let index = 0
     const length = this.arr.length
@@ -496,24 +584,17 @@ const obj = {
   },
 }
 for (let i of obj) {
-  console.log(i)
+  console.log(i) // 1 2 3
 }
 ```
 
-#### 生成器
-
-- 处理异步函数回调嵌套
+### 生成器
 
 ```js
-// function * f () {
-//   yield setTimeout(() => {console.log(1)}, 1000)
-//   yield setTimeout(() => {console.log(2)}, 2000)
-//   yield setTimeout(() => {console.log(3)}, 3000)
-// }
-//
-// for (let i of f()) {
-//   i
-// }
+/* 生成器
+ * yield 停止执行
+ * next() 恢复执行
+ * 处理异步函数回调嵌套 */
 function * f () {
   yield setTimeout(() => {
     console.log(1)
@@ -533,43 +614,182 @@ const iter = f()
 iter.next()
 ```
 
-#### `Set`
-
-|        方法         |         描述         |
-| :-----------------: | :------------------: |
-|    `集合.size()`    |     获取元素个数     |
-|  `集合.add(元素)`   |       添加元素       |
-| `集合.delete(元素)` |       删除元素       |
-|  `集合.has(元素)`   | 判断集合是否包含元素 |
-|   `集合.clear()`    |       清空元素       |
-
 ```js
-const arr1 = [1, 2, 2, 3]
-const arr2 = [4, 3, 4, 5]
+/* yield * 递归 */
+function * nTimes (n) {
+  if (n > 0) {
+    yield * nTimes(n - 1)
+    yield n - 1
+  }
+}
 
-// 并集
-const collection = [...new Set([...arr1, ...arr2])]
-// 交集
-const intersection = [...new Set(arr1)].filter(item => new Set(arr2).has(item))
-// 差集
-const difference = [...new Set(arr1)].filter(item => !new Set(arr2).has(item))
-
-console.log(collection) // [ 1, 2, 3, 4, 5 ]
-console.log(intersection) // [ 3 ]
-console.log(difference) // [ 1, 2 ]
+for (let i of nTimes(3)) {
+  console.log(i) // 0 1 2
+}
 ```
 
-#### `Map`
-
-|            方法             |        描述        |
-| :-------------------------: | :----------------: |
-| `键值对集合.set(键名,键值)` |     添加键值对     |
-|     `键值对集合.size()`     |   获取键值对个数   |
-|   `键值对集合.get(键名)`    | 获取键名对应的键值 |
-|  `键值对集合.delete(键名)`  |     删除键值对     |
-|    `键值对集合.clear()`     |     清空键值对     |
+### `Array`
 
 ```js
+/* Array.from */
+// 将迭代数组结构转化为数组
+const str = '123'
+console.log(Array.from(str, i => parseInt(i) ** 2)) // [ 1, 4, 9 ]
+
+const m = new Map().set(1, 2).set(3, 4) // { 1 => 2, 3 => 4 }
+console.log(m)
+console.log(Array.from(m)) // [ [ 1, 2 ], [ 3, 4 ] ]
+
+function * f () {
+  yield 1
+  yield 2
+}
+
+const iter = f()
+console.log(Array.from(iter)) // [ 1, 2]
+```
+
+```js
+/* Array
+ * 改变原数组的7个方法 */
+const arr = [1]
+// 在末尾添加元素
+arr.push(2)
+// 在开头添加元素
+arr.unshift(0)
+console.log(arr) // [ 0, 1, 2 ]
+
+// 反转数组
+arr.reverse()
+console.log(arr) // [ 2, 1, 0 ]
+// 从索引位置移除指定个数的元素和插入元素，并返回移除的子数组
+console.log(arr.splice(1, 2, 3, 4)) // [ 1, 0 ]
+console.log(arr) // [ 2, 3, 4 ]
+// 对数组元素进行排序
+// 回调函数返回值小于0，为升序
+arr.sort((a, b) => b - a)
+console.log(arr) // [ 4, 3, 2 ]
+
+// 移除末尾的元素，并返回
+console.log(arr.pop()) // 2
+// 移除开头的元素，并返回
+console.log(arr.shift()) // 4
+console.log(arr) // [ 3 ]
+```
+
+```js
+/* Array
+ * 基本使用方法 */
+const arr = [1, 2, 3]
+// 获取元素个数
+console.log(arr.length) // 3
+// 判断数组是否存在元素
+console.log(arr.includes(2)) // true
+// 获取元素在数组中首次出现的索引
+console.log(arr.indexOf(2)) // 1
+// 获取[开始索引,结束索引)的子数组
+console.log(arr.slice(0, -1)) // [ 1, 2 ]
+// 拼接元素或数组到数组末尾
+console.log(arr.concat(4, [5])) // [ 1, 2, 3, 4, 5 ]
+// 用字符串连接数组元素成字符串
+console.log(arr.join('-')) // 1-2-3
+// 用数值填充[开始索引,结束索引)的元素
+// [ <1 empty item>, 0, 0, <1 empty item> ]
+console.log(new Array(4).fill(0, 1, -1))
+// 向 索引 复制[开始索引,结束索引)
+console.log(arr.copyWithin(1, 0, -1)) // [ 1, 1, 2 ]
+```
+
+```js
+/* Array
+ * 迭代器 */
+const arr = [1, 2, 3]
+// 数组索引迭代器
+// { value: 0, done: false }
+console.log(arr.keys().next())
+// 数组元素迭代器
+// { value: 1, done: false }
+console.log(arr.values().next())
+// 数组[索引,元素]迭代器
+// { value: [ 0, 1 ], done: false }
+console.log(arr.entries().next())
+
+// 遍历数组元素执行回调函数
+arr.forEach((item, index, array) => {
+  console.log(item + index) // 1 3 5
+})
+// 遍历数组元素执行回调函数,并返回每个元素结果形成的数组
+// [ 1, 3, 5 ]
+console.log(arr.map((item, index) => item + index))
+// 判断所有元素是否使回调函数为 true
+console.log(arr.every(item => item % 2)) // false
+// 判断是否存在元素使回调函数为 true
+console.log(arr.some(item => item % 2)) // true
+// 过滤数组，保留使回调函数为 true 的元素
+console.log(arr.filter(item => item % 2)) // [ 1, 3 ]
+// 初始化结果，然后遍历数组元素执行回调函数,返回最终的迭代结果
+console.log(arr.reduce((result, item, index, array) => result += item, 0)) // 6
+
+const arr1 = [1, [2], [[3]]]
+// 将高维数组按深度转为低维数组
+console.log(arr1.flat()) // [ 1, 2, [ 3 ] ]
+console.log(arr1.flat(Infinity)) // [ 1, 2, 3 ]
+// map 和 flat(1) 的结合
+// [ 0, 1, 1, [ 2 ], 2, [ [ 3 ] ] ]
+console.log(arr1.flatMap((item, index, array) => [index, item]))
+```
+
+### `Set`
+
+```js
+/* Set */
+const set = new Set([1, 2, 1])
+// 添加元素
+set.add(3)
+console.log(set) // { 1, 2 ,3 }
+// 获取元素个数
+console.log(set.size) // 3
+// 判断是否存在元素
+console.log(set.has(3)) // true
+// 删除元素，成功返回 true
+console.log(set.delete(3)) // true
+// 清空元素
+set.clear()
+```
+
+### `Map`
+
+```js
+/* Map */
+// 二维数组初始化
+const map = new Map([['a', 1], ['b', 2]])
+// 添加键值对
+map.set('c', 3)
+console.log(map) // { 'a' => 1, 'b' => 2, 'c' => 3 }
+// 判断是否存在键
+console.log(map.has('a')) // true
+// 获取值
+console.log(map.get('a')) // 1
+// 删除键值对，成功返回 true
+console.log(map.delete('c')) // true
+// 获取键值对个数
+console.log(map.size) // 2
+// 键迭代器
+// { value: 'a', done: false }
+console.log(map.keys().next())
+// 值迭代器
+// { value: 1, done: false }
+console.log(map.values().next())
+// 键值对迭代器
+// { value: [ 'a', 1 ], done: false }
+console.log(map.entries().next())
+// 清空键值对
+map.clear()
+```
+
+```js
+/* ?.
+ * 对象是否存在，存在访问属性 */
 function f (config) {
   // const host = config && config.db && config.db.username
   const host = config?.db?.username
@@ -617,12 +837,13 @@ let f = function () {
     - 函数声明前加上运算符成为表达式，最后通过 `()`调用
     - 其内部形成封闭的作用域，内部变量不会对外部造成命名污染
 
-|                       |             `function(){}`             |         `()=>{}`         |
-| :-------------------: | :------------------------------------: | :----------------------: |
-|    是否有原型对象     |                   1                    |            0             |
-|   能否作为构造函数    |                   1                    |            0             |
-| 是否有`arguments`对象 |                   1                    |            0             |
-|        `this`         | 动态绑定，支持 `call`、`apply`、`bind` | 指向函数声明时所在作用域 |
+|                                  |     `function(){}`     |       `()=>{}`       |
+| :------------------------------: | :--------------------: | :------------------: |
+|          是否有原型对象          |           1            |          0           |
+|         能否作为构造函数         |           1            |          0           |
+|      是否有`arguments`对象       |           1            |          0           |
+| 是否支持 `call`、`apply`、`bind` |           1            |          0           |
+|              `this`              | 函数调用时的上下文对象 | 定义箭头函数的上下文 |
 
 ---
 
@@ -1108,88 +1329,6 @@ class Promise {
 }
 ```
 
----
-
-### 构造函数
-
-- 普通函数
-
-```js
-function F (a) {
-  let obj = {}
-  obj.a = a
-  obj.f = function () {
-    console.log(this.a)
-  }
-  return obj
-}
-
-let a = F(1)
-console.log(a instanceof F) // false
-console.log(Object.getPrototypeOf(a) === Object.prototype) // true
-```
-
-- 构造函数
-
-```js
-function F (a) {
-  this.a = a
-  this.f = function () {
-    console.log(this.a)
-  }
-  return this
-}
-
-let a = new F(1)
-console.log(a instanceof F) // true
-console.log(Object.getPrototypeOf(a) === F.prototype) // true
-```
-
-- 面向对象
-
-```js
-class F {
-  constructor (a) {
-    this.a = a
-  }
-
-  f () {
-    console.log(this.a)
-  }
-}
-
-let a = new F(1)
-console.log(a instanceof F) // true
-console.log(Object.getPrototypeOf(a) === F.prototype) // true
-```
-
-- 手写 `new`
-
-```js
-function myNew (constructor, ...args) {
-  // 创建实例对象，并指向构造函数的原型对象
-  const obj = Object.create(constructor.prototype)
-  // 执行构造函数，this指向实例对象
-  const result = constructor.apply(obj, args)
-  // 如果构造函数没有显式返回一个对象，则返回新创建的对象
-  return result instanceof Object
-         ? result
-         : obj
-}
-
-// 构造函数
-function f (a, b) {
-  this.a = a
-  this.b = b
-  // 返回对象
-  return this
-}
-
-const obj = myNew(f, 1, 2)
-console.log(obj) // f { a: 1, b: 2 }
-```
-
----
 
 ### 闭包函数
 
@@ -1302,204 +1441,551 @@ console.log(Number(result())) // 15.1
 
 ## 面向对象
 
-- `对象[]`访问对象属性的情形
+### 对象方法
+
+#### 数据属性
 
 ```js
-const obj = {}
-obj['a b'] = 1 // 属性名有特殊字符
-let propName = 'x' // 属性名为字符串
-obj[propName] = 2
-```
+/* 对象数据属性 */
+const obj = {num: 1}
 
-|                      方法                       |                    作用                    |
-| :---------------------------------------------: | :----------------------------------------: |
-|          `对象.hasOwnProperty(属性名)`          |          判断实例对象是否存在属性          |
-|                `对象.toString()`                |            返回对象的字符串表示            |
-|                `对象.valueOf()`                 |     返回对象的字符串、数值、布尔值表示     |
-|       `对象.propertyIsEnumerable(属性名)`       |            判断属性是否可以使用            |
-|               `delete 对象.键名`                |               删除对象键值对               |
-|              `Object.freeze(对象)`              |               不允许修改对象               |
-|               `Object.keys(对象)`               |              获取所有对象键名              |
-|              `Object.values(对象)`              |              获取所有对象键值              |
-|          `Object.getPrototypeOf(对象)`          |             获取对象的原型对象             |
-|          `Object.setPrototypeOf(对象)`          |             设置对象的原型对象             |
-|              `构造函数.prototype`               |           获取构造函数的原型对象           |
-|         `原型对象.isPrototypeof(对象)`          |      判断原型对象是否为实例对象的原型      |
-| `Object.defineProperty(对象,键名,{value:键值})` | 为对象添加不可枚举、不可修改、不可删除属性 |
-|    `Object.create(对象,{键名:{value:键值}})`    |    创建以对象为原型对象并添加属性的对象    |
-|        `Object.assign(目标对象,源对象)`         |     浅拷贝源对象的可枚举属性到目标对象     |
-|         `Object.fromEntries(二维数组)`          |            将二维数组转换为对象            |
-|             `Object.entries(对象)`              |            将对象转换为二维数组            |
-|    `Object.getOwnPropertyDescriptors(对象)`     |             获取对象的描述属性             |
-
-```js
-let obj = {
-  a: 1,
-  b: 2
-}
-console.log(Object.keys(obj)) // [ 'a', 'b' ]
-console.log(Object.values(obj)) // [ 1, 2 ]
-
-let arr = [1, 2]
-console.log(Object.keys(arr)) // [ '0', '1' ]
-console.log(Object.values(arr)) // [ 1, 2 ]
-
-let str = 'ab'
-console.log(Object.keys(str)) // [ '0', '1' ]
-console.log(Object.values(str)) // [ 'a', 'b' ]
-```
-
-```js
-let number = 0
-let obj = {}
+// 设置单个数据的属性
 Object.defineProperty(obj, 'a', {
-  // value       : number,
-  enumerable: true,
-  // writable    : true,
-  // configurable: true,
+  // value       : 1, // 值
+  // writable    : false, // 不可修改
+  configurable: true, // 可删除
+  enumerable  : true, // 可枚举
   get () {
-    return number
+    return this.num
   },
   set (value) {
-    number = value
-  }
+    this.num = value
+  },
 })
-number++
+// 设置多个数据的属性
+Object.defineProperties(obj, {
+  b: {value: 2, enumerable: true},
+  c: {value: 3, enumerable: true},
+})
+console.log(obj) // { a: 1, b: 2, c: 3 }
+// 实例对象上是否存在属性
+console.log(obj.hasOwnProperty('a')) // true
+// 属性是否可枚举
+console.log(obj.propertyIsEnumerable('a')) // true
 
-console.log(Object.values(obj)) // [ 1 ]
-
-obj.a = 2
-console.log(number) // 2
+// 读取单个数据属性描述
+// { value: 2, writable: false, enumerable: true, configurable: false }
+console.log(Object.getOwnPropertyDescriptor(obj, 'b'))
+// 读取多个数据属性描述
+// { a: { value: 1, writable: false, enumerable: true, configurable: true },
+//   b: { value: 2, writable: false, enumerable: true, configurable: false },
+//   c: { value: 3, writable: false, enumerable: true, configurable: false }}
+console.log(Object.getOwnPropertyDescriptors(obj))
 ```
 
----
-
-### 原型对象
-
-- 对象具有属性
-    - `__proto__`
-        - 原型链
-        - 沿着该属性向上查找
-    - `constructor`
-        - 指向对象的构造函数
-        - `Funtion` 是所有构造函数的构造函数
-- 函数是一种对象，且具有属性
-    - `prototype`
-        - 指向构造函数所创建实例的原型对象
-        - 用于由构造函数所创建实例添加公共的属性和方法
-
-![未命名绘图.drawio](assets/未命名绘图.drawio.png)
+#### 对象操作
 
 ```js
-function F () {}
-
-const f = new F()
-const o = new Object()
-
-console.log(f.constructor === F)
-console.log(F.prototype.constructor === F)
-console.log(Object.prototype.constructor === Object)
-console.log(Function.prototype.constructor === Function)
-console.log('=======')
-console.log(f.__proto__ === F.prototype)
-console.log(o.__proto__ === Object.prototype)
-console.log(F.prototype.__proto__ === Object.prototype)
-console.log(Function.prototype.__proto__ === Object.prototype)
-console.log(F.__proto__ === Function.prototype)
-console.log(Object.__proto__ === Function.prototype)
-console.log(Object.prototype.__proto__ === null)
-console.log(Function.__proto__ === Function.prototype)
+/* 对象操作 */
+const obj = {
+  a: 1,
+  b: 2,
+}
+// 获取键
+console.log(Object.keys(obj)) // [ 'a', 'b' ]
+// 获取
+console.log(Object.values(obj)) // [ 1, 2 ]
+// 设置原型对象
+console.log(Object.setPrototypeOf(obj, Object.prototype))
+// 获取原型对象
+console.log(Object.getPrototypeOf(obj)) // Object.prototype
+// 判断原型对象是否为实例的原型
+console.log(Object.prototype.isPrototypeOf(obj)) // true
+// 冻结对象，不让修改
+Object.freeze(obj)
+// 删除属性
+delete obj.a
+console.log(obj) // { a: 1, b: 2 }
 ```
+
+#### 对象交互
 
 ```js
-function F () {
-  let a = 0
-  // 添加到实例对象的属性
-  this.b = a
+/* 对象交互 */
+const dest = {}
+const src = {
+  a: 1,
 }
+// 浅拷贝对象可枚举属性
+Object.assign(dest, src, {b: 2})
+console.log(dest) // { a: 1, b: 2 }
+// 将对象转换为二维数组
+const objToArr = Object.entries(dest)
+// [ [ 'a', 1 ], [ 'b', 2 ] ]
+console.log(objToArr)
+// 将二维数组转换为对象
+// { a: 1, b: 2 }
+const arrToObj = Object.fromEntries(objToArr)
+console.log(arrToObj)
 
-let f = new F()
-// F 是 f 的构造函数
-console.log(f.constructor === F) // true
-// Function 是所有构造函数的构造函数
-console.log(F.constructor === Function) // true
-
-// 判断原型
-console.log(Object.getPrototypeOf(f) === F.prototype) // true
-console.log(f.__proto__ === F.prototype) // true
-console.log(F.prototype.isPrototypeOf(f)) // true
-
-f.__proto__.x = function () {
-  console.log('x')
-}
-f.y = function () {
-  console.log('y')
-}
-// 在原型对象中添加公共的属性和方法，提高代码复用
-new F().x() // x
-f.y() // y
-// y 是 f 实例自有的
-// new F().y()
-
-function G () {}
-
-// 将 F 的实例作为 G 的原型对象
-// 由  g 沿着原型链能够访问 F 原型对象中的方法
-G.prototype = new F()
-let g = new G()
-console.log(g.__proto__.__proto__ === F.prototype) // true
-console.log(g.constructor === F) // true
-
-g.x() //x
+// 创建以对象为原型对象并添加属性的实例
+const obj = Object.create(dest, {
+  'c': {
+    value: 3,
+  },
+})
+console.log(obj.c) // 3
+console.log(Object.getPrototypeOf(obj)) // { a: 1, b: 2 }
 ```
 
----
+### 创建对象
 
-- `assign()`
+#### 工厂模式
 
 ```js
-let a = {
-  x: [1]
+/* 工厂模式
+ * 无法标识对象类型 */
+function F (a) {
+  const obj = new Object()
+  obj.a = a
+  obj.f = function () {
+    console.log(obj.a)
+  }
+  return obj
 }
 
-const a1 = Object.assign({y: 2}, a)
-console.log(a1) // { y: 2, x: [ 1 ] }
-
-console.log(a1.__proto__ === a.__proto__) // true
-console.log(a1.__proto__ === Object.prototype) // true
-
-a1.x[0] = 0
-console.log(a1) // { y: 2, x: [ 0 ] }
-console.log(a) // { x: [ 0 ] }
+const obj = F(1)
+console.log(Object.getPrototypeOf(obj) === F.prototype) // false
+console.log(Object.getPrototypeOf(obj) === Object.prototype) // true
 ```
 
----
+#### 构造函数
+
+```js
+/* 构造函数
+ * 通过 new 调用的函数为构造函数
+ * 每个实例都定义了相同的属性和方法 */
+function F (a) {
+  this.a = a
+  this.f = function () {
+    console.log(this.a)
+  }
+}
+
+const obj = new F(1)
+console.log(Object.getPrototypeOf(obj) === F.prototype) // true
+```
+
+#### 原型对象
+
+```js
+/* 原型对象
+ * 原型对象包含特定引用类型实例共享的属性和方法
+ * 函数自动添加 prototype 属性指向原型对象
+ * 原型对象自动添加 constructor 属性指向构造函数
+ * 每个实例内部有 __proto__ 属性指向构造函数的原型对象 */
+function F (a) {
+  F.prototype.a = a
+  F.prototype.f = function () {
+    console.log(this.f)
+  }
+}
+
+const obj = new F(0)
+const obj1 = new F(1)
+console.log(obj.a) // 1
+console.log(obj.f === obj1.f) // true
+console.log(F.prototype.constructor === F) // true
+```
+
+#### 手写 `new`
+
+```js
+/* 手写 new */
+function myNew (constructor, ...args) {
+  // 创建实例，以构造函数的原型对象为原型
+  const obj = Object.create(constructor.prototype)
+  // 构造函数this绑定实例并执行，为实例添加属性
+  const result = constructor.apply(obj, args)
+  // 如果构造函数没有返回对象，则返回新创建的实例
+  return result instanceof Object
+         ? result
+         : obj
+}
+
+// 构造函数
+function f (a, b) {
+  this.a = a
+  this.b = b
+  // 返回对象
+  return this
+}
+
+const obj = myNew(f, 1, 2)
+console.log(obj) // f { a: 1, b: 2 }
+```
 
 #### 原型链
 
-- `myDate` -> `Date.prototype` -> `Object.prototype` -> null
+![原型链](assets/原型链.png)
 
 ```js
-const myDate = new Date()
-let obj = myDate
+/* 原型链
+ * 实例对象沿着原型链向上查找或添加属性和方法
+ * Object 的原型对象的 __proto__ 指向 null
+ * 所有原型对象的 __proto__ 指向 Object 的原型对象
+ * 所有构造函数的 __proto__ 指向 Function 的原型对象
+ * 构造函数的 prototype 属性与 原型对象的 constructor 属性互指
+ * 实例对象 instanceof 构造函数
+ * 构造函数的原型对象是否在实例对象的原型链上 */
+function F () {}
 
-do {
-  obj = Object.getPrototypeOf(obj)
-  console.log(obj)
-} while (obj)
+console.log(Object.__proto__.__proto__ === Object.prototype) // true
+console.log(Object instanceof Object) // true
+console.log(Function.__proto__ === Function.prototype) // true
+console.log(Function instanceof Function) // true
+```
+
+```js
+/* 将 F 的实例作为 G 的原型对象
+ * G 的实例 g 沿着原型链访问 F 原型对象的属性和方法
+ * g 的构造函数指向 F */
+function F () {
+  F.prototype.f = function () {
+    console.log(1)
+  }
+}
+
+function G () {}
+
+G.prototype = new F()
+const g = new G()
+console.log(g.constructor === F) // true
+// 手动修改
+g.constructor = G
+console.log(g.__proto__.__proto__ === F.prototype) // true
+g.f() // 1
+```
+
+```js
+/* 判断属性是否为原型属性
+ * 实例能访问到属性并且属性不属于实例 */
+function F () {}
+
+F.prototype.a = 1
+
+function f (obj, a) {
+  return a in obj && !obj.hasOwnProperty(a)
+}
+
+const obj = new F()
+// 属性只存在于原型对象上
+console.log(f(obj, 'a')) // true
+// 对象可访问的可被枚举属性都会被返回
+for (let i in obj) {
+  console.log(obj[i]) // 1
+}
+// 访问自有实例上的属性
+for (let i of Object.values(obj)) {
+  console.log(i) // 没有输出
+}
+// 实例自有属性
+obj.a = 0
+for (let i of Object.values(obj)) {
+  console.log(i) // 0
+}
+console.log(f(obj, 'a')) // false
+console.log(F.prototype.a) // 1
+// 原型的同名属性被屏蔽
+for (let i in obj) {
+  console.log(obj[i]) // 0
+}
+```
+
+```js
+/* 修改构造函数的所指的原型对象，已创建的实例不会修改 */
+function F () {}
+
+const obj = new F()
+// 构造函数指向新的原型对象
+F.prototype = {
+  a: 1,
+}
+// 区别于 给原型添加属性
+// F.prototype.a = 1
+console.log(obj.a) // undefined
 ```
 
 ---
 
 ### 继承
 
-|   方法    |           描述           |
-| :-------: | :----------------------: |
-| `extends` |        类继承声明        |
-| `super()` |    调用父类的构造函数    |
-|    `#`    | 声明私有，只能在类内使用 |
+```js
+/* 原型链带来的问题
+ * 原型对象的所有属性共享 */
+function F () {}
+
+F.prototype = {
+  constructor: F,
+  a          : 1,
+  b          : [2],
+}
+const obj = new F()
+const obj1 = new F()
+// 基本数据类型同名属性
+obj.a = 0
+console.log(obj1.a) // 1
+
+// 引用数据类型
+obj.b.push(3)
+console.log(obj1.b) // [ 2, 3 ]
+obj.b = [...obj.b]
+obj.b.push(4)
+console.log(obj1.b) // [ 2, 3 ]
+```
+
+![原型链继承](assets/原型链继承.png)
+
+#### 基于原型链的继承
+
+```js
+/* 基于原型链的继承
+ * 属性定义在构造函数上
+ * 方法定义在原型对象上
+ * 原型链继承会导致原先实例的属性成为原型上的属性被共享
+ * 子类在实例化时无法给父类构造函数传参 */
+function F (a) {
+  this.a = a
+}
+
+F.prototype.getA = function () {
+  return this.a
+}
+
+function G (b) {
+  this.b = b
+}
+
+G.prototype = new F(1)
+G.prototype.getB = function () {
+  return this.b
+}
+// 无法给 F 的 a 赋值
+const g = new G(2)
+console.log(g.getA()) // 1
+console.log(g.constructor === F) // true
+// 同名属性，在实例内部生成新的属性
+g.constructor = G
+const f = new F(1)
+console.log(f.constructor) // F
+// 同名方法，在实例内部生成新的方法
+G.prototype.getA = function () {return 0}
+console.log(g.getA()) // 0
+console.log(f.getA()) // 1
+```
+
+#### 盗用构造函数
+
+```js
+/* 盗用构造函数
+ * 在子类构造函数调用父类构造函数
+ * 通过 apply() 或 call() 以创建新对象为上下文执行父类构造函数
+ * 须在构造函数定义方法而不是原型对象，方法不能共享  */
+
+function F (a) {
+  this.a = a
+  this.f = function () {
+    console.log(this.a)
+  }.bind(this)
+}
+
+function G (a, b) {
+  F.call(this, a)
+  this.b = b
+}
+
+// 可向父类传递参数
+const g = new G(1, 2)
+console.log(g.a)
+```
+
+#### 组合继承
+
+```js
+/* 组合继承
+ * 使用原型链继承原型上的属性和方法
+ * 使用构造函数继承实例属性
+ * 方法定义在原型上实现复用，每个实例拥有自己的属性 */
+function F (a) {
+  this.a = a
+}
+
+F.prototype.getA = function () {
+  return this.a
+}
+
+function G (a, b) {
+  F.call(this, a)
+  this.b = b
+}
+
+G.prototype = new F()
+G.prototype.getB = function () {
+  return this.b
+}
+
+const g = new G(1, 2)
+const g1 = new G(3, 4)
+
+console.log(g) // F { a: 1, b: 2 }
+console.log(g1) // F { a: 3, b: 4 }
+
+console.log(g.getA()) // 1
+console.log(g.getB()) // 2
+console.log(g1.getA()) // 3
+console.log(g1.getB()) // 4
+```
+
+#### 原型式继承
+
+```js
+/* 原型式继承
+ * 适合不创建构造函数，在原型上共享属性*/
+function F (a) {
+  this.a = a
+}
+
+const f = new F(1)
+const g = Object.create(f, {
+  'b': {
+    value     : 2,
+    enumerable: true,
+  },
+})
+Object.defineProperties(g, {
+  'c'   : {
+    value     : 3,
+    enumerable: true,
+  }, 'd': {
+    value     : 4,
+    enumerable: true,
+  },
+})
+console.log(g) // F { b: 2, c: 3, d: 4 }
+// 在原型对象 f 上
+console.log(g.a) // F { a: 1 }
+```
+
+#### 寄生式继承
+
+```js
+/* 寄生式继承 */
+function F (a) {
+  this.a = a
+}
+
+const f = new F(1)
+
+function G (f, b) {
+  const g = Object(f)
+  // 增强对象
+  g.b = b
+  return g
+}
+
+const g = G(f, 2)
+console.log(g)
+```
+
+#### 寄生式组合继承
+
+```js
+/* 寄生式组合继承
+ * 使用寄生式继承来继承父类原型
+ * 将返回的新对象赋值给子类原型 */
+function F (a) {
+  this.a = a
+}
+
+function G (b) {
+  this.b = b
+}
+
+// 父类原型副本
+const proto = Object(F.prototype)
+// 重写原型导致的构造函数丢失
+proto.constructor = G
+// 新对象作为子类原型
+G.prototype = proto
+const g = new G(2)
+F.prototype.a = 1
+console.log(g) // G { b: 2 }
+console.log(g.a) // 1
+```
+
+### 类
+
+#### 类的成员
+
+```js
+/* 类 */
+class A {
+  // 类构造函数
+  // new 调用其创建实例
+  // 构造函数中的属性为实例自有，不在原型共享
+  constructor (a) {
+    this.a = a
+  }
+
+  // 类中定义的方法在原型上共享
+  f () {
+    console.log(this.a)
+  }
+
+  // 静态成员 this 指向类自身
+  static creat () {
+    return new A(Math.floor(Math.random() * 10))
+  }
+}
+
+const obj = A.creat()
+obj.f() 
+```
+
+#### 类的继承
+
+```js
+/* 类的继承
+ * super 为类构造函数和静态方法的原型 */
+class F {
+  constructor (a) {
+    this.a = b
+  }
+
+  static random () {
+    return Math.floor(Math.random() * 10)
+  }
+}
+
+// 声明继承
+class G extends F {
+  constructor (a, b) {
+    // 调用父类构造函数
+    super(a)
+    this.b = b
+  }
+
+  static random () {
+    super.random()
+  }
+}
+```
 
 ---
+
+
+
+
 
 ## API
 
