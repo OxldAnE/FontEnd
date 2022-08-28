@@ -510,7 +510,8 @@ console.log(str.replaceAll(regexAll, '')) // 0a
 |            `/#?([0-9a-fA-F]{6}|[0-9a-fA-F]{3})/g`            | 匹配十六进制颜色 |
 | `/^([A-Za-z0-9_\-\.]+)@([A-Za-z0-9_\-\.]+)\.([A-Za-z]{2,6})$/g` |       邮箱       |
 | `^((https?|ftp|file):\/\/)?([\da-z\.\-]+)\.([a-z\.]{2,6})([\/\w\.\-]*)*\/?$/g` |      `URL`       |
-|       `/^<([a-z]+)([^>]+)*(?:>(.*)<\/\1>|\s+\/>)$/gm`        |    `html`标签    |
+|       `/^<([a-z]+)([^>]+)*(?:>(
+.*)<\/\1>|\s+\/>)$/gm`        |    `html`标签    |
 | `^(([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])$/gm` |      `IPv4`      |
 |           `/([0-9a-z]*:{1,4}){1,7}[0-9a-z]{1,4}/g`           |      `IPv6`      |
 | `/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|[3][01])$/gm`  |       日期       |
@@ -1329,7 +1330,6 @@ class Promise {
 }
 ```
 
-
 ### 闭包函数
 
 - 在内部函数引用外部函数变量的条件下，发生外部函数被调用，内部函数定义被执行，在生成函数对象时，会在其内部生成存储引用变量的闭包对象
@@ -1389,7 +1389,6 @@ const obj = {
 console.log(obj.f()() === window) // true
 ```
 
-
 ### 函数柯里化
 
 - 传入的参数在闭包中保存
@@ -1406,11 +1405,11 @@ function url (protocol) {
 const web = url('https://')('www.a.com')
 const html = web('/index.html')
 const css = web('/styles/style.css')
-const js = web('/scripts/main.js')
+const js = web('/scripts/1.js')
 
 console.log(html) // https://www.a.com/index.html
 console.log(css) // https://www.a.com/styles/style.css
-console.log(js) // https://www.a.com/scripts/main.js
+console.log(js) // https://www.a.com/scripts/1.js
 ```
 
 - 手写`add()`
@@ -1435,7 +1434,6 @@ function add () {
 const result = add(1, 2, 3)(4, 5.1)
 console.log(Number(result())) // 15.1
 ```
-
 
 ---
 
@@ -1983,10 +1981,6 @@ class G extends F {
 
 ---
 
-
-
-
-
 ## API
 
 ### 模块化
@@ -2021,8 +2015,6 @@ class G extends F {
 ![image-20220804130002804](assets/image-20220804130002804.png)
 
 ---
-
- 
 
 |                  方法                   |                  作用                  |
 | :-------------------------------------: | :------------------------------------: |
@@ -2138,8 +2130,6 @@ fetch('/service', {method: 'GET'})
 |   `getItem(键名)`    |  获取键值  |
 |  `removeItem(键名)`  |    删除    |
 |      `clear()`       |    清空    |
-
-
 
 - `cookie`
 

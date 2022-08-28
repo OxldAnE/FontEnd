@@ -11,6 +11,22 @@
     <title>index</title>
 </head>
 <body>
+<!-- 引入 Vue2 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+
+<!-- 根容器 -->
+<div id="root">
+    <!-- 插值表达式 -->
+    <h1>{{a}}</h1>
+
+    <!-- 绑定属性 -->
+    <!-- <img v-bind:src="url"> 简写 -->
+    <img :src="url">
+
+    <!-- 绑定方法 -->
+    <!-- <button v-on:click="hi">hi</button> 简写 -->
+    <button @click="hi">hi</button>
+</div>
 
 </body>
 </html>

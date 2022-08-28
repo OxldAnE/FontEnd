@@ -2,22 +2,75 @@
 
 ## 选择器
 
-|     类别     |                 描述                 |
-| :----------: | :----------------------------------: |
-|  基本选择器  |      通用、类型、类、属性、`id`      |
-|  复合选择器  | 并集、后代、子代、相邻兄弟、随后兄弟 |
-| 伪元素选择器 |         `before`/`after`/...         |
-|  伪类选择器  |   结构性伪类、`UI` 伪类、动态伪类    |
+|     分类     |                           描述                           |
+| :----------: | :------------------------------------------------------: |
+|  基本选择器  |          通配符 `*`  / 类型 / 类 / 属性 / `id`           |
+|  组合选择器  | 分组`,`/ 后代 ` ` / 子代 `>`/ 相邻兄弟 `+` / 随后兄弟`~` |
+| 伪元素选择器 |                   `::before`/`::after`                   |
+|  伪类选择器  |             结构性伪类 / `UI`伪类 / 动态伪类             |
 
-|  特性  |                        描述                        |
-| :----: | :------------------------------------------------: |
-|  层叠  |    属性、权重、被应用的元素都相同，后面样式生效    |
-|  继承  |      继承与外观（字体、文字、颜色）相关的样式      |
-| 优先级 | 内嵌>`id`>类、伪类、属性>元素、伪元素>通用、组合符 |
+```scss
+/* 伪类选择器 */
+/* 结构性伪类 */
+ul > li:first-child {}
+
+ul > li:last-child {}
+
+/* ul 的偶数子节点中的 li  */
+ul > li:nth-child(2n) {}
+
+ul > li:nth-child(2n+1) {}
+
+/* ul 的 li 中的偶数子节点 */
+ul > li:nth-of-type(2n) {}
+
+ul > li:nth-of-type(2n+1) {}
+
+/* UI 伪类 */
+/* 禁用 */
+input:disabled {}
+
+/* 可用 */
+input:enabled {}
+
+/* 选中 */
+input:checked {}
+
+/* 必选 */
+input:required {}
+
+/* 可选 */
+input:optional {}
+
+/* 默认 */
+input:default {}
+
+/* 动态伪类 */
+/* 未访问链接 */
+a:link {}
+
+/* 鼠标悬停 */
+a:hover {}
+
+/* 鼠标点击未松开 */
+a:active {}
+
+/* 已访问链接 */
+a:visited {}
+
+/* 聚焦 */
+input:focus {}
+```
+
+|  特性  |                             描述                             |
+| :----: | :----------------------------------------------------------: |
+|  层叠  |     属性、权重都相同样式被应用到同个元素，后面的样式生效     |
+|  继承  |           继承与外观（字体、文字、颜色）相关的样式           |
+| 优先级 | 内嵌 > `id` > 类 / 伪类 / 属性 > 元素 / 伪元素 > 通用 / 组合符 |
 
 ---
 
-## 盒模型
+## 盒子模型
 
 ### 外边距
 
@@ -45,7 +98,7 @@ p {
 
 ![image-20220811171613905](assets/image-20220811171613905.png)![image-20220811171815870](assets/image-20220811171815870.png)![image-20220811172519810](assets/image-20220811172519810.png)
 
-- `p`添加如下代码，引起`div`一起塌陷(图2)，图3才是想实现的效果
+- `p`添加如下代码，引起`div`一起塌陷(图2)，图3是想实现的效果
 
 ```scss
 p {
@@ -91,11 +144,9 @@ div {
 }
 ```
 
----
-
 ### 边框
 
-- 绘制三角形
+#### 绘制三角形
 
 ![image-20220802203504092](assets/image-20220802203504092.png)
 
@@ -107,7 +158,7 @@ div {
 }
 ```
 
-- 绘制圆形
+#### 绘制圆形
 
 ![image-20220802203717528](assets/image-20220802203717528.png)
 
@@ -120,16 +171,19 @@ div {
 }
 ```
 
-- 绘制照片图框
+#### 绘制照片图框
 
-![image-20220802205250416](assets/image-20220802205250416.png)
+![image-20220826232143320](assets/image-20220826232143320.png)
 
 ```scss
 img {
-  box-shadow: 0 0 0 4px #000,
+  // x偏移 y 偏移 模糊半径 颜色
+  box-shadow : 0 0 0 4px #000,
   0 0 0 6px #fff,
   -10px -10px $border-color,
   10px 10px $border-color;
+  // 旋转
+  transform  : rotate(-5deg);
 }
 ```
 
@@ -414,3 +468,184 @@ div {
   }
 }
 ```
+
+### 动画
+
+#### 下拉菜单
+
+```html
+<ul class="menu clearfix">
+    <li>JS
+        <ul>
+            <li>上</li>
+            <li>下</li>
+        </ul>
+    </li>
+    <li>Vue
+        <ul>
+            <li>上</li>
+            <li>下</li>
+        </ul>
+    </li>
+
+</ul>
+```
+
+```scss
+.menu > li {
+  float : left;
+
+  li {
+    height     : 0;
+    overflow   : hidden;
+    transition : height 0.5s;
+  }
+
+  &:hover li {
+    height : 1.5em;
+  }
+}
+```
+
+#### 滚动菜单
+
+```html
+<ul class="clearfix">
+    <li>
+        <div>JS</div>
+        <div>JS</div>
+    </li>
+    <li>
+        <div>Vue</div>
+        <div>Vue</div>
+    </li>
+</ul>
+```
+
+```scss
+ul {
+  li {
+    float    : left;
+    overflow : hidden;
+    height   : 1.5em;
+
+    div {
+      height : 1.5em;
+
+      &:first-child {
+        background-color : red;
+        transition       : margin-top 0.5s;
+
+        &:hover {
+          margin-top : -1.5em;
+        }
+      }
+    }
+  }
+}
+```
+
+#### 唱片旋转
+
+```html
+<div><img src="1.png"></div>
+```
+
+```scss
+div {
+  border-radius : 50%;
+  overflow      : hidden;
+  // 动画名称 完成时间 速度曲线 延迟 次数
+  animation     : demo 5s linear 1s infinite;
+  // 悬浮暂停
+  &:hover {
+    animation-play-state : paused;
+  }
+}
+
+img {
+  width : 100%;
+}
+
+@keyframes demo {
+  0% {
+    transform : rotate(0deg);
+  }
+  100% {
+    transform : rotate(360deg);
+  }
+}
+```
+
+#### 媒体查询
+
+```html
+<div class="container">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+</div>
+```
+
+```scss
+.container {
+  display         : flex;
+  width           : 30em;
+  justify-content : center;
+  margin          : 0 auto;
+
+  div {
+    flex       : 1;
+    border     : 1px solid blue;
+    text-align : center;
+  }
+}
+
+@media screen and (max-width : 600px) {
+  .container {
+    flex-direction : column;
+    width          : 100%;
+
+    div { width : 100%; }
+  }
+}
+```
+
+## `SCSS`
+
+```scss
+/* 嵌套 / 父选择器占位 */
+
+// p {font-size : 1em;font-weight : bold}
+p {
+  font     : {
+    size   : 1em;
+    weight : bold;
+  };
+
+  // p:hover {color : blue}
+  &:hover {
+    color : blue;
+  }
+}
+```
+
+```scss
+/* 变量 / 插值语句 / 导入 / 继承 / 混合 */
+@import 'style';
+
+// div, p {width : 1em;height : 1em}
+@mixin length($width,$height) {
+  width  : $width;
+  height : #{$height};
+}
+
+div {
+  @include length(1em, 1em)
+}
+
+p {@extend div}
+```
+
+
+
