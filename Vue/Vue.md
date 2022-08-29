@@ -623,6 +623,151 @@ export default {
 </style>
 ```
 
+## 路由
+
+```vue
+<template>
+  <div id="app">
+    <!-- 导航栏 -->
+    <nav>
+      <router-link to="/">首页</router-link>
+      |
+      <router-link to="/login">登录</router-link>
+      <span v-if="username">
+        <span> || 欢迎：{{ username }} </span>
+        <button @click="logout">注销</button>
+      </span>
+    </nav>
+    <!-- 展示页面内容 -->
+    <router-view />
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      username: '',
+    }
+  },
+  watch  : {
+    // 监听路由切换
+    '$route.path' () {
+      this.username = localStorage.getItem('username')
+    },
+  },
+  methods: {
+    logout () {
+      localStorage.clear()
+      this.$router.push('/login')
+    },
+  },
+}
+</script>
+
+<style>
+
+</style>
+```
+
+```js
+/* index.js */
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '@/views/Home.vue'
+import Login from '@/views/Login.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path     : '/',
+    name     : 'Home',
+    component: Home,
+  },
+  {
+    path     : '/login',
+    name     : 'Login',
+    component: Login,
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
+})
+// 导航守卫
+// 不登录不显示页面内容
+router.beforeEach((to, from, next) => {
+  if (to.path !== '/login') {
+    if (localStorage.getItem('username')) {
+      next()
+    }
+    else {
+      next('/login')
+    }
+  }
+  else {
+    next()
+  }
+})
+export default router
+```
+
+```vue
+<template>
+  <div>你好啊</div>
+</template>
+
+<script>
+export default {
+  name: 'Home',
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+```vue
+<template>
+  <div>
+    <form @submit.prevent="myLogin">
+      <input type="text" placeholder="用户名" v-model="username">
+      <input type="password" placeholder="密码" v-model="password">
+      <button>提交</button>
+    </form>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name   : 'Login',
+  methods: {
+    myLogin () {
+      localStorage.setItem('username', this.username)
+      localStorage.setItem('password', this.password)
+      // 跳转页面
+      this.$router.push('/')
+    },
+  },
+  data () {
+    return {
+      username: '',
+      password: '',
+    }
+  },
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
 ## 数据代理
 
 - `Object.definedProperty(对象,属性名,配置项)`
