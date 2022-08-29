@@ -100,7 +100,7 @@ new Vue({
 | `@click` | 点击事件 |
 | `@keyup` | 按键抬起 |
 | `@keydown` | 按键按下 |
-| `ref` | 为元素或子组件注册引用信息 |
+| `ref` | 为元素节点或子组件注册引用信息 |
 
 ## 方法
 
@@ -476,7 +476,154 @@ export default {
 
 
 
-#### 数据代理
+#### 插槽
+
+```vue
+<template>
+  <div>
+    <Child>
+      <template v-slot:footer>
+        <button>footer</button>
+      </template>
+      <template v-slot:header>
+        <button>header</button>
+      </template>
+    </Child>
+  </div>
+</template>
+
+<script>
+
+import Child from '@/components/Child.vue'
+
+export default {
+  name      : 'App',
+  components: {Child},
+
+}
+</script>
+
+<style>
+
+</style>
+```
+
+```vue
+<template>
+  <div>
+    <!-- 按照插槽的位置渲染 -->
+    <slot name="header" />
+    <slot name="footer" />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Child',
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+## 提交表单
+
+```js
+// 后台服务器
+const koa = require('koa')
+const app = new koa()
+const router = require('koa-router')()
+const cors = require('koa2-cors')
+const parser = require('koa-parser')
+
+app.use(cors())
+app.use(parser())
+app.use(router.routes())
+
+// 模拟数据库
+const arr = [1, 2, 3]
+
+router.get('/arr', async ctx => {
+  ctx.body = arr
+})
+router.post('/arr', async ctx => {
+  let num = ctx.request.body.num
+  arr.push(num)
+  ctx.body = true
+})
+
+router.delete('/arr/:id', async ctx => {
+  let id = ctx.params.id
+  arr.splice(id, 1)
+  ctx.body = true
+})
+
+app.listen(3000, () => {
+  console.log('http://127.0.0.1:3000')
+})
+```
+
+```vue
+<!-- 前端服务器 -->
+<template>
+  <div>
+    <form @submit.prevent="postItem">
+      <input type="text" v-model="item" placeholder="请输入数字">
+      <button @click="postItem">添加</button>
+    </form>
+    <ul>
+      <li v-for="(item,index) of arr">{{ item }}
+        <button @click="deleteItem">删除</button>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'App',
+  data () {
+    return {
+      item: '',
+      arr : [],
+    }
+  },
+  methods: {
+    // 从后端获取数据
+    getArr () {
+      axios.get('http://127.0.0.1:3000/arr').then(result => {
+        this.arr = result.data
+      })
+    },
+    // 添加元素，并刷新
+    postItem () {
+      axios.post('http://127.0.0.1:3000/arr', {num: this.item}).then(result => {
+        this.getArr()
+      })
+    },
+    // 删除元素，并刷新
+    deleteItem (index) {
+      axios.delete(`http://127.0.0.1:3000/arr/${index}`).then(result => {
+        this.getArr()
+      })
+    },
+  },
+  created () {
+    this.getArr()
+  },
+}
+</script>
+
+<style>
+
+</style>
+```
+
+## 数据代理
 
 - `Object.definedProperty(对象,属性名,配置项)`
 
