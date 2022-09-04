@@ -16,7 +16,7 @@
 |     获取元素的内容     |           `li.innerHTML`           |
 |     获取元素的类名     |           `li.className`           |
 |      设置内联样式      |          `li.style.color`          |
-|        设置样式        | `li.setAttribute('color', '#fff')` |
+|        设置属性        | `li.setAttribute('color', '#fff')` |
 
 ### 事件
 
