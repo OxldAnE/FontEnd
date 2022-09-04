@@ -1,48 +1,68 @@
 # `DOM`
 
-![image-20220804125143877](assets/image-20220804125143877.png)
+## 方法
 
-![image-20220804125800880](assets/image-20220804125800880-16622505543428.png)
+### 元素
 
-![image-20220804130002804](assets/image-20220804130002804.png)
+|          描述          |                示例                |
+| :--------------------: | :--------------------------------: |
+|      获取单个元素      |   `document.querySelector('ul')`   |
+|      获取全部元素      | ` document.querySelectorAll('li')` |
+|      获取 `html`       |     `document.documentElement`     |
+|      获取 `body`       |          `document.body`           |
+|        创建元素        |  ` document.createElement('li')`   |
+| 添加子元素到父元素末尾 |        `ul.appendChild(li)`        |
+|        删除元素        |           `li.remove()`            |
+|     获取元素的内容     |           `li.innerHTML`           |
+|     获取元素的类名     |           `li.className`           |
+|      设置内联样式      |          `li.style.color`          |
+|        设置样式        | `li.setAttribute('color', '#fff')` |
 
-## 
+### 事件
 
-### `DOM`
+|   描述   |               示例                |
+| :------: | :-------------------------------: |
+| 添加事件 | `li.addEventListener('click', f)` |
+|          |                                   |
+|          |                                   |
 
-- 事件流
-    - 捕获
-        - 进去时触发
-    - 目标
-    - 冒泡
-        - 出来时触发
-        - `stopPropagation()`
-            - 多个触发事件时，可阻止冒泡
-        - 事件委托
-            - 把原本需要绑定在每个子元素的事件，绑定在共同的父元素上，利用冒泡机制触发监听器
+### [排他](排他.html)
 
-- 网页渲染
+```js
+/* 设置当前项前，清空所有 */
+const bs = document.querySelectorAll('button')
+bs.forEach(b => {
+  b.addEventListener('click', function () {
+    bs.forEach(b => b.className = '')
+    this.className = 'now'
+  })
+})
+```
 
+### [全选](全选.html)
 
-
-![image-20220804125800880](assets/image-20220804125800880.png)
-
-![image-20220804130002804](assets/image-20220804130002804.png)
-
----
-
-|                  方法                   |                  作用                  |
-| :-------------------------------------: | :------------------------------------: |
-|    `document.querySelector(选择器)`     | 获取文档中选择器选中的第一个元素的引用 |
-|   `document.querySelectorAll(选择器)`   |  获取文档中选择器选中的所有元素的引用  |
-|          `creatElement(元素)`           |                创建元素                |
-|          `creatTextNode(文本)`          |              创建文本节点              |
-|      `父元素.appendChild(子元素)`       |         添加子元素到父元素末尾         |
-|             `元素.remove()`             |              删除当前元素              |
-| `元素.parentNode.removeChild(当前元素)` |              删除当前元素              |
-|            `元素.style.属性`            |              设置内联样式              |
-|      `元素.setAttribute(属性，值)`      |                设置样式                |
-|           `document.write()`            |               在脚本写入               |
-|            `元素.innerHTML`             |             重写元素的内容             |
-
----
+```js
+const h  = document.querySelector('.h'),
+      ds = document.querySelectorAll('.d')
+h.addEventListener('click', function () {
+  ds.forEach(d => {
+    d.checked = this.checked
+  })
+})
+/* 先将结果置为 true
+ * 如果有子项没被选中，将结果置为 false，退出遍历
+ * 将结果赋给全选框 */
+ds.forEach(d => {
+  d.addEventListener('click', function () {
+    let res = true
+    let l = ds.length
+    for (let i = 0; i < l; i++) {
+      if (!ds[i].checked) {
+        res = false
+        break
+      }
+    }
+    h.checked = res
+  })
+})
+```

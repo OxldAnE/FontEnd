@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <script defer src='main.js'></script>
+    <title>index</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th><input type='checkbox' class='h'></th>
+        <th>0</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><input type='checkbox' class='d'></td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td><input type='checkbox' class='d'></td>
+        <td>2</td>
+    </tr>
+    </tbody>
+</table>
+<script>
+  const h  = document.querySelector('.h'),
+        ds = document.querySelectorAll('.d')
+  h.addEventListener('click', function () {
+    ds.forEach(d => {
+      d.checked = this.checked
+    })
+  })
+  /* 先将结果置为 true
+   * 如果有子项没被选中，将结果置为 false，退出遍历
+   * 将结果赋给全选框 */
+  ds.forEach(d => {
+    d.addEventListener('click', function () {
+      let res = true
+      let l = ds.length
+      for (let i = 0; i < l; i++) {
+        if (!ds[i].checked) {
+          res = false
+          break
+        }
+      }
+      h.checked = res
+    })
+  })
+</script>
+</body>
+</html>
