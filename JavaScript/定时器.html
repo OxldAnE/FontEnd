@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+</head>
+<body>
+<button class='T'>T</button>
+<button class='I'>I</button>
+<ul></ul>
+
+<script>
+  const T  = document.querySelector('.T'),
+        I  = document.querySelector('.I'),
+        ul = document.querySelector('ul')
+
+  /* 延迟时间将任务加入任务队列 */
+  T.addEventListener('click', function () {
+    setTimeout(() => {
+      ul.innerHTML += `<li>${ new Date().toLocaleTimeString() }</li>`
+    }, 1000)
+  })
+
+  /* 每间隔时间将任务加入任务队列 */
+  I.addEventListener('click', function () {
+    let n = 3
+    const timer = setInterval(() => {
+      // 3次后取消定时器
+      if (!--n) {
+        clearInterval(timer)
+      }
+      ul.innerHTML += `<li>${ new Date().toLocaleTimeString() }</li>`
+    }, 1000)
+  })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+
+    <style>
+        @import 'basic.css';
+
+        /* 初始 */
+        div {
+            border : 5px dotted #880088;
+        }
+
+        p {
+            border : 5px solid #00664d;
+        }
+
+        /* 内部盒子添加浮动属性 */
+        p {
+            float : left;
+        }
+
+        /* 外部盒子设置溢出隐藏 */
+        /* div {
+            overflow : hidden;
+        } */
+
+        /* 在外部盒子末尾添加内容为空的块级伪元素，用于清除浮动 */
+        /* div::after {
+            content : '';
+            display : block;
+            clear   : both;
+        } */
+
+        /* 外部盒子设置能够脱离标准流的定位 */
+        /* div {
+            position : absolute;
+        } */
+
+        /* 外部盒子设置显示类型 */
+        /* div {
+            display : flow-root;
+        } */
+    </style>
+</head>
+<body>
+<div>
+    <p>清除浮动</p>
+</div>
+
+</body>
+</html>

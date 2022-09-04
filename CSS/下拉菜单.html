@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+    <style>
+        @import 'basic.css';
+
+        body {
+            font-size : 2em;
+        }
+
+        .menu {
+            display : flow-root
+        }
+
+        .menu > li {
+            float            : left;
+            text-align       : center;
+            box-shadow       : 2px 2px #888;
+            background-color : coral;
+            width            : 3em
+        }
+
+        .menu > li:hover li {
+            height : 1.5em
+        }
+
+        .item li {
+            height           : 0;
+            overflow         : hidden;
+            transition       : height 0.5s;
+            background-color : #000000;
+            color            : #fff;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<ul class='menu'>
+    <li>JS
+        <ul class='item'>
+            <li>上</li>
+            <li>中</li>
+            <li>下</li>
+        </ul>
+    </li>
+    <li>Vue
+        <ul class='item'>
+            <li>上</li>
+            <li>下</li>
+        </ul>
+    </li>
+</ul>
+</body>
+</html>

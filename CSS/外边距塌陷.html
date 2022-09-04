@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+    <style>
+        @import 'basic.css';
+
+        section {
+            border  : 5px solid #880088;
+            display : inline-block;
+        }
+
+        div {
+            background-color : #000;
+            width            : 8em;
+            height           : 8em;
+        }
+
+        p {
+            background-color : #fff;
+            width            : 4em;
+            height           : 4em;
+        }
+
+        /* 给内部盒子添加上外边距，导致外部盒子一起塌陷 */
+        /* p {
+            margin-top : 2em;
+        } */
+
+        /* 内部盒子添加绝对定位脱离标准流，不再引起塌陷 */
+        /*         p {
+                    position   : absolute;
+                    margin-top : 2em;
+                } */
+
+        /* 内部盒子添加相对定位偏移 */
+        /* p {
+            position : relative;
+            top      : 2em;
+        } */
+
+        /* 外部盒子添加相对定位，内部盒子添加绝对定位
+         内部盒子相对外部盒子偏移 */
+        /* div {
+            position : relative;
+        }
+
+        p {
+            position : absolute;
+            top      : 2em;
+        } */
+
+        /* 外部盒子添加上内边距 */
+        /* div {
+            padding-top : 2em;
+        } */
+    </style>
+</head>
+<body>
+<section>
+    <div>
+        <p></p>
+    </div>
+</section>
+
+</body>
+</html>
