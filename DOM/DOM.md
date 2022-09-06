@@ -1,8 +1,6 @@
 # `DOM`
 
-## 方法
-
-### 元素
+## 元素
 
 |          描述          |                示例                |
 | :--------------------: | :--------------------------------: |
@@ -28,7 +26,7 @@
 |       设置属性值       |    `li.setAttribute('id', 'l')`    |
 |        移除属性        |     `li.removeAttribute('id')`     |
 
-### 事件
+## 事件
 
 ![image-20220904223927048](assets/image-20220904223927048.png)
 
@@ -37,12 +35,12 @@
 | 添加事件 |  `li.addEventListener('click', f)`   |
 | 删除事件 | `li.removeEventListener('click', f)` |
 
-#### 事件类型
+### 事件类型
 
 |          描述          |     示例     |
 | :--------------------: | :----------: |
-|        加载完成        |    `load`    |
-|        写在完成        |   `unload`   |
+|      全部加载完成      |    `load`    |
+|        卸载完成        |   `unload`   |
 |      窗口改变大小      |   `resize`   |
 |       滚动条滚动       |   `scroll`   |
 |        获得焦点        |   `focus`    |
@@ -60,7 +58,7 @@
 |    按下键盘产生字符    |  `keypress`  |
 |        弹起键盘        |   `keyup`    |
 
-#### 事件对象
+### 事件对象
 
 |      描述      |         示例          |
 | :------------: | :-------------------: |
@@ -69,7 +67,9 @@
 |  阻止默认行为  | `e.preventDefault()`  |
 |    阻止冒泡    | `e.stopPropagation()` |
 
-### [鼠标跟随](鼠标跟随.html)
+### 示例
+
+#### [鼠标跟随](鼠标跟随.html)
 
 ```js
 let img = document.querySelector('img')
@@ -80,7 +80,7 @@ document.addEventListener('mousemove', function (e) {
 })
 ```
 
-### [放大输入框](放大输入框.html)
+#### [放大输入框](放大输入框.html)
 
 ```js
 const span = document.querySelector('span')
@@ -95,9 +95,16 @@ input.addEventListener('keyup', function () {
     span.innerText = this.value
   }
 })
+// 添加获取焦点和失去焦点事件
+input.addEventListener('blur', function () {
+  span.style.display = 'none'
+})
+input.addEventListener('focus', function () {
+  span.style.display = 'inline-block'
+})
 ```
 
-### [排他](排他.html)
+#### [排他](排他.html)
 
 ```js
 /* 设置当前项前，清空所有 */
@@ -110,7 +117,7 @@ bs.forEach(b => {
 })
 ```
 
-### [全选](全选.html)
+#### [全选](全选.html)
 
 ```js
 const h  = document.querySelector('.h'),
@@ -138,7 +145,7 @@ ds.forEach(d => {
 })
 ```
 
-### [动态生成表格](动态生成表格/index.html)
+#### [动态生成表格](动态生成表格.html)
 
 ```js
 const table = document.querySelector('table')
@@ -166,3 +173,189 @@ as.forEach(a => {
   })
 })
 ```
+#### [鼠标拖拽](鼠标拖拽.html)
+
+```js
+const section = document.querySelector('section')
+const div = section.querySelector('div')
+div.addEventListener('mousedown', function (e) {
+  // 鼠标在盒子里的坐标
+  let x = e.pageX - section.offsetLeft
+  let y = e.pageY - section.offsetTop
+
+  // 设置盒子的坐标,转化成样式要加 px
+  function f (e) {
+    section.style.left = e.pageX - x + 'px'
+    section.style.top = e.pageY - y + 'px'
+  }
+
+  // 鼠标按下后的移动事件
+  document.addEventListener('mousemove', f)
+  // 鼠标弹起，解绑移动事件
+  document.addEventListener('mouseup', function (e) {
+    document.removeEventListener('mousemove', f)
+  })
+})
+```
+
+#### [局部放大](局部放大/index.html)
+
+```js
+const small  = document.querySelector('.small'),
+      big    = document.querySelector('.big'),
+      bigImg = big.querySelector('img'),
+      mask   = small.querySelector('.mask')
+/* 鼠标进入
+ * 显示大图和放大镜
+ * 鼠标移动
+ * 放大镜左上角的移动距离
+ * 会将放大镜移除边界，则不移动
+ * 大图按照比例反向移动 */
+small.addEventListener('mouseenter', function () {
+  mask.style.display = 'block'
+  big.style.display = 'block'
+  small.addEventListener('mousemove', function (e) {
+    let x = e.pageX - small.offsetLeft - mask.offsetWidth / 2
+    let y = e.pageY - small.offsetTop - mask.offsetHeight / 2
+    if (x < 0) {
+      x = 0
+    }
+    else if (x > small.offsetWidth - mask.offsetWidth) {
+      x = small.offsetWidth - mask.offsetWidth
+    }
+    if (y < 0) {
+      y = 0
+    }
+    else if (y > small.offsetHeight - mask.offsetHeight) {
+      y = small.offsetHeight - mask.offsetHeight
+    }
+    mask.style.left = x + 'px'
+    mask.style.top = y + 'px'
+    bigImg.style.left = -x * 2 + 'px'
+    bigImg.style.top = -y * 2 + 'px'
+  })
+})
+
+/* 鼠标离开
+ * 隐藏大图和放大镜 */
+small.addEventListener('mouseleave', function () {
+  mask.style.display = 'none'
+  big.style.display = 'none'
+})
+```
+
+## `BOM`
+
+### 定时器
+
+#### [倒计时](倒计时.html)
+
+```js
+const divs = document.querySelectorAll('div')
+const deadTime = new Date('2023-1-1')
+f()
+setInterval(f, 1000)
+
+function f () {
+  let now = new Date()
+  let time = deadTime - now
+  let h = parseInt(time / 1000 / 60 / 60 % 24)
+  let m = parseInt(time / 1000 / 60 % 60)
+  let s = parseInt(time / 1000 % 60)
+  divs[0].innerHTML = g(h)
+  divs[1].innerHTML = g(m)
+  divs[2].innerHTML = g(s)
+}
+
+// 补足十位
+function g (n) {
+  return n = n < 10
+             ? '0' + n
+             : n
+}
+```
+
+#### [冷却发送](冷却发送.html)
+
+```js
+const btn = document.querySelector('button')
+btn.addEventListener('click', function () {
+  this.disabled = true
+  let t = 3
+  let timer = setInterval(() => {
+    if (t) {
+      this.innerHTML = `还剩${ t-- }秒`
+    }
+    else {
+      clearInterval(timer)
+      this.disabled = false
+      this.innerHTML = '重新发送'
+    }
+  }, 1000)
+})
+```
+
+#### [移动盒子](移动盒子.html)
+
+```js
+const div = document.querySelector('div')
+const span = document.querySelector('span')
+const divBtn = div.querySelector('button')
+const spanBtn = span.querySelector('button')
+
+/* 传入对象和结束位置
+ * 将定时器作为对象的属性 */
+function f (o, end) {
+  clearInterval(o.timer);
+  o.timer = setInterval(function () {
+    if (o.offsetLeft > end) {
+      clearInterval(o.timer)
+    }
+    o.style.left = o.offsetLeft + 1 + 'px'
+  }, 10)
+}
+
+divBtn.addEventListener('click', function () {
+  return f(div, 500)
+})
+spanBtn.addEventListener('click', function () {
+  return f(span, 600)
+})
+```
+
+### `location`
+
+#### 属性
+
+|  描述  |    示例    |
+| :----: | :--------: |
+| `URL`  |   `href`   |
+|  域名  |   `host`   |
+| 端口号 |   `port`   |
+|  路径  | `pathname` |
+|  参数  |  `search`  |
+|  片段  |   `hash`   |
+|  协议  | `protocol` |
+
+#### 方法
+
+|         描述         |    示例     |
+| :------------------: | :---------: |
+|  跳转页面，记录历史  | `assign()`  |
+| 跳转页面，不记录历史 | `replace()` |
+|       刷新页面       | `reload()`  |
+
+### `history
+
+|   描述   |    示例     |
+| :------: | :---------: |
+|   后退   |  `back()`   |
+|   前进   | `forward()` |
+| 后退一步 |  `go(-1)`   |
+
+|            描述            |      示例      |   用法   |
+| :------------------------: | :------------: | :------: |
+|       包括边框的高度       | `offsetHeight` | 元素位置 |
+|      不包括边框的高度      | `clientHeight` | 元素大小 |
+| 不包括边框包括滚动条的高度 | `scrollHeight` | 滚动距离 |
+

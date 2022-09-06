@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+    <style>
+        table {
+            border : 3px solid #880088;
+        }
+
+        tr {
+            height : 1em;
+        }
+    </style>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th>成绩</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<script>
+  const data = [
+    {
+      name  : 1,
+      score : 10,
+    },
+    {
+      name  : 2,
+      score : 11,
+    },
+    {
+      name  : 3,
+      score : 13,
+    },
+  ]
+  const table = document.querySelector('table')
+  const tbody = table.querySelector('tbody')
+
+  for (let i of data) {
+    let tr = document.createElement('tr')
+    for (let j in i) {
+      let td = document.createElement('td')
+      td.innerHTML = i[j]
+      tr.appendChild(td)
+    }
+    let del = document.createElement('td')
+    // 点击不跳转
+    del.innerHTML = '<a href="javascript:;">删除</a>'
+    tr.appendChild(del)
+    tbody.appendChild(tr)
+  }
+
+  // 添加删除事件
+  let as = tbody.querySelectorAll('a')
+  as.forEach(a => {
+    a.addEventListener('click', function () {
+      tbody.removeChild(this.parentNode.parentNode)
+    })
+  })
+</script>
+</body>
+</html>

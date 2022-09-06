@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+    <style>
+        div, span {
+            width       : 5em;
+            height      : 5em;
+            position    : absolute;
+            left        : 0;
+            text-align  : center;
+            line-height : 5em;
+        }
+
+        div {
+            background-color : #00664d;
+
+        }
+
+        span {
+            top              : 10em;
+            background-color : #880088;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <button>启动</button>
+</div>
+<span>
+    <button>启动</button>
+</span>
+<script>
+  const div = document.querySelector('div')
+  const span = document.querySelector('span')
+  const divBtn = div.querySelector('button')
+  const spanBtn = span.querySelector('button')
+
+  /* 传入对象和结束位置
+   * 将定时器作为对象的属性 */
+  function f (o, end) {
+    clearInterval(o.timer);
+    o.timer = setInterval(function () {
+      if (o.offsetLeft > end) {
+        clearInterval(o.timer)
+      }
+      o.style.left = o.offsetLeft + 1 + 'px'
+    }, 10)
+  }
+
+  divBtn.addEventListener('click', function () {
+    return f(div, 500)
+  })
+  spanBtn.addEventListener('click', function () {
+    return f(span, 600)
+  })
+</script>
+</body>
+</html>

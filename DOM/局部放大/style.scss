@@ -1,0 +1,45 @@
+@import '../basic.css';
+
+#app {
+  position : relative;
+  width    : 30em;
+
+  .small {
+    width    : 10em;
+    height   : 20em;
+    position : absolute;
+    top      : 0;
+    left     : 0;
+
+    img {
+      width  : 100%;
+      height : 100%;
+    }
+
+    .mask {
+      width            : 5em;
+      height           : 10em;
+      background-color : #ff45;
+      position         : absolute;
+      top              : 0;
+      left             : 0;
+      display          : none;
+    }
+  }
+
+  .big {
+    width    : 10em;
+    height   : 20em;
+    position : absolute;
+    top      : 0;
+    left     : 10em;
+    overflow : hidden;
+    display  : none;
+
+    img {
+      position: absolute;
+      width  : 200%;
+      height : 200%;
+    }
+  }
+}

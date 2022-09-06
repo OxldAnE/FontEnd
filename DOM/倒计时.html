@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+    <style>
+        section {
+            display : flex;
+        }
+
+        div {
+            height           : 2em;
+            text-align       : center;
+            line-height      : 2em;
+            font-size        : 2em;
+            width            : 2em;
+            background-color : #000;
+            color            : #fff;
+        }
+
+
+        span {
+            height      : 2em;
+            text-align  : center;
+            line-height : 2em;
+            font-size   : 2em;
+            display     : inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<section>
+    <div>1</div>
+    <span>:</span>
+    <div>2</div>
+    <span>:</span>
+    <div>3</div>
+</section>
+<script>
+  const divs = document.querySelectorAll('div')
+  const deadTime = new Date('2023-1-1')
+  f()
+  setInterval(f, 1000)
+
+  function f () {
+    let now = new Date()
+    let time = deadTime - now
+    let h = parseInt(time / 1000 / 60 / 60 % 24)
+    let m = parseInt(time / 1000 / 60 % 60)
+    let s = parseInt(time / 1000 % 60)
+    divs[0].innerHTML = g(h)
+    divs[1].innerHTML = g(m)
+    divs[2].innerHTML = g(s)
+  }
+
+  // 补足十位
+  function g (n) {
+    return n = n < 10
+               ? '0' + n
+               : n
+  }
+</script>
+</body>
+</html>
