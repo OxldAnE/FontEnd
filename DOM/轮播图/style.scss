@@ -1,0 +1,78 @@
+@import '../basic.css';
+
+body {
+  font-size : 2em;
+}
+
+/* 溢出隐藏，只显示一张照片 */
+#app {
+  margin   : 0 auto;
+  width    : 20em;
+  position : relative;
+  height   : 13em;
+  overflow : hidden;
+}
+
+div {
+  img {
+    position : absolute;
+    width    : 1em;
+    display  : none;
+    z-index  : 1;
+
+    &:hover {
+      cursor : pointer;
+    }
+
+    &:first-child {
+      left : 0;
+      top  : 5.5em;
+    }
+
+    &:last-child {
+      right : 0;
+      top   : 5.5em;
+    }
+  }
+}
+
+/* 设置 left 的大小实现轮播效果 */
+ul {
+  width    : 400%;
+  position : absolute;
+  left     : 0;
+
+  li {
+    width : 25%;
+    float : left;
+
+    img {
+      width : 100%;
+    }
+  }
+}
+
+ol {
+  position : absolute;
+  top      : 11.5em;
+  left     : 1em;
+  display  : flex;
+  gap      : 0.5em;
+
+  li {
+    width         : 0.5em;
+    height        : 0.5em;
+    border-radius : 50%;
+    border        : 2px solid #fff;
+
+    &:hover {
+      cursor : pointer;
+    }
+  }
+}
+
+.cur {
+  background-color : #fff;
+}
+
+
