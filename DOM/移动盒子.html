@@ -8,58 +8,54 @@
     <link href='#' rel='shortcut icon' />
     <title>index</title>
     <style>
-        div, span {
-            width       : 5em;
-            height      : 5em;
-            position    : absolute;
-            left        : 0;
-            text-align  : center;
-            line-height : 5em;
-        }
-
         div {
+            width            : 5em;
+            height           : 5em;
+            position         : absolute;
+            left             : 0;
+            text-align       : center;
+            line-height      : 5em;
             background-color : #00664d;
-
         }
 
-        span {
-            top              : 10em;
-            background-color : #880088;
-        }
     </style>
 </head>
 <body>
-
+<button class='right'>右</button>
+<button class='left'>左</button>
 <div>
-    <button>启动</button>
 </div>
-<span>
-    <button>启动</button>
-</span>
 <script>
   const div = document.querySelector('div')
-  const span = document.querySelector('span')
-  const divBtn = div.querySelector('button')
-  const spanBtn = span.querySelector('button')
+  const r = document.querySelector('.right')
+  const l = document.querySelector('.left')
 
   /* 传入对象和结束位置
-   * 将定时器作为对象的属性 */
+   * 将定时器作为对象的属性
+   * 步长逐渐缩小，并往大整 */
   function f (o, end) {
     clearInterval(o.timer);
     o.timer = setInterval(function () {
-      if (o.offsetLeft > end) {
+      let step = (end - o.offsetLeft) / 10
+      step = step > 0
+             ? Math.ceil(step)
+             : Math.floor(step)
+      if (o.offsetLeft === end) {
         clearInterval(o.timer)
       }
-      o.style.left = o.offsetLeft + 1 + 'px'
+      else {
+        o.style.left = o.offsetLeft + step + 'px'
+      }
     }, 10)
   }
 
-  divBtn.addEventListener('click', function () {
-    return f(div, 500)
+  r.addEventListener('click', function () {
+    return f(div, 600)
   })
-  spanBtn.addEventListener('click', function () {
-    return f(span, 600)
+  l.addEventListener('click', function () {
+    return f(div, 100)
   })
+
 </script>
 </body>
 </html>

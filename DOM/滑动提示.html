@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+    <style>
+        .slider {
+            position  : fixed;
+            right     : 0;
+            bottom    : 5em;
+            font-size : 2em;
+        }
+
+        .arrow {
+            background-color : #C7EDCC;
+            width            : 1em;
+        }
+
+        .tip {
+            width            : 4em;
+            position         : absolute;
+            top              : 0;
+            left             : 0;
+            color            : #fff;
+            background-color : #00664d;
+            z-index          : -1;
+        }
+
+    </style>
+</head>
+<body>
+<div class='slider'>
+    <div class='arrow'>←</div>
+    <div class='tip'>提示内容</div>
+</div>
+
+<script>
+  const slider = document.querySelector('.slider')
+  const tip = slider.querySelector('.tip')
+  const arrow = slider.querySelector('.arrow')
+
+  // 鼠标进入
+  slider.addEventListener('mouseenter', function () {
+    slide(tip, -128, function () {
+      arrow.innerHTML = '→'
+    })
+  })
+  // 鼠标离开
+  slider.addEventListener('mouseleave', function () {
+    slide(tip, 0, function () {
+      arrow.innerHTML = '←'
+    })
+  })
+
+  // 滑动动画
+  function slide (o, end, callback) {
+    clearInterval(o.timer);
+    o.timer = setInterval(function () {
+      let step = (end - o.offsetLeft) / 10
+      step = step > 0
+             ? Math.ceil(step)
+             : Math.floor(step)
+      if (o.offsetLeft === end) {
+        clearInterval(o.timer)
+        if (callback) {
+          callback()
+        }
+      }
+      else {
+        o.style.left = o.offsetLeft + step + 'px'
+      }
+    }, 10)
+  }
+</script>
+</body>
+</html>

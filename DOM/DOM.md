@@ -299,28 +299,74 @@ btn.addEventListener('click', function () {
 
 ```js
 const div = document.querySelector('div')
-const span = document.querySelector('span')
-const divBtn = div.querySelector('button')
-const spanBtn = span.querySelector('button')
+const r = document.querySelector('.right')
+const l = document.querySelector('.left')
 
 /* 传入对象和结束位置
- * 将定时器作为对象的属性 */
+* 将定时器作为对象的属性
+* 步长逐渐缩小，并往大整 */
 function f (o, end) {
   clearInterval(o.timer);
   o.timer = setInterval(function () {
-    if (o.offsetLeft > end) {
+    let step = (end - o.offsetLeft) / 10
+    step = step > 0
+           ? Math.ceil(step)
+           : Math.floor(step)
+    if (o.offsetLeft === end) {
       clearInterval(o.timer)
     }
-    o.style.left = o.offsetLeft + 1 + 'px'
+    else {
+      o.style.left = o.offsetLeft + step + 'px'
+    }
   }, 10)
 }
+r.addEventListener('click', function () {
+return f(div, 600)
+})
+l.addEventListener('click', function () {
+return f(div, 100)
+})
+```
 
-divBtn.addEventListener('click', function () {
-  return f(div, 500)
+#### [滑动提示](滑动提示.html)
+
+```js
+const slider = document.querySelector('.slider')
+const tip = slider.querySelector('.tip')
+const arrow = slider.querySelector('.arrow')
+
+// 鼠标进入
+slider.addEventListener('mouseenter', function () {
+  slide(tip, -128, function () {
+    arrow.innerHTML = '→'
+  })
 })
-spanBtn.addEventListener('click', function () {
-  return f(span, 600)
+// 鼠标离开
+slider.addEventListener('mouseleave', function () {
+  slide(tip, 0, function () {
+    arrow.innerHTML = '←'
+  })
 })
+
+// 滑动动画
+function slide (o, end, callback) {
+  clearInterval(o.timer);
+  o.timer = setInterval(function () {
+    let step = (end - o.offsetLeft) / 10
+    step = step > 0
+           ? Math.ceil(step)
+           : Math.floor(step)
+    if (o.offsetLeft === end) {
+      clearInterval(o.timer)
+      if (callback) {
+        callback()
+      }
+    }
+    else {
+      o.style.left = o.offsetLeft + step + 'px'
+    }
+  }, 10)
+}
 ```
 
 ### `location`
