@@ -1,41 +1,76 @@
-const small  = document.querySelector('.small'),
-      big    = document.querySelector('.big'),
-      bigImg = big.querySelector('img'),
-      mask   = small.querySelector('.mask')
-/* 鼠标进入
- * 显示大图和放大镜
- * 鼠标移动
- * 放大镜左上角的移动距离
- * 会将放大镜移除边界，则不移动
- * 大图按照比例反向移动 */
-small.addEventListener('mouseenter', function () {
-  mask.style.display = 'block'
-  big.style.display = 'block'
-  small.addEventListener('mousemove', function (e) {
-    let x = e.pageX - small.offsetLeft - mask.offsetWidth / 2
-    let y = e.pageY - small.offsetTop - mask.offsetHeight / 2
-    if (x < 0) {
-      x = 0
+const app = document.querySelector('#app')
+const l = app.querySelector('img')
+const r = l.nextElementSibling
+const ul = app.querySelector('ul')
+const lis = ul.querySelectorAll('li')
+const ol = app.querySelector('ol')
+
+/* 滑动效果 */
+function slide (o, end) {
+  clearInterval(o.timer);
+  o.timer = setInterval(function () {
+    let step = (end - o.offsetLeft) / 10
+    step = step > 0
+           ? Math.ceil(step)
+           : Math.floor(step)
+    if (o.offsetLeft === end) {
+      clearInterval(o.timer)
     }
-    else if (x > small.offsetWidth - mask.offsetWidth) {
-      x = small.offsetWidth - mask.offsetWidth
+    else {
+      o.style.left = o.offsetLeft + step + 'px'
     }
-    if (y < 0) {
-      y = 0
-    }
-    else if (y > small.offsetHeight - mask.offsetHeight) {
-      y = small.offsetHeight - mask.offsetHeight
-    }
-    mask.style.left = x + 'px'
-    mask.style.top = y + 'px'
-    bigImg.style.left = -x * 2 + 'px'
-    bigImg.style.top = -y * 2 + 'px'
+  }, 10)
+}
+
+/* 启动向右轮播的定时器 */
+let timer = setInterval(function () {
+  r.click()
+}, 1000)
+
+/* 鼠标进入，显示左右按钮，停止定时器 */
+app.addEventListener('mouseenter', function () {
+  l.style.display = 'inline'
+  r.style.display = 'inline'
+  clearInterval(timer)
+})
+
+/* 鼠标离开，隐藏左右按钮，重启定时器 */
+app.addEventListener('mouseleave', function () {
+  l.style.display = 'none'
+  r.style.display = 'none'
+  timer = setInterval(function () {
+    r.click()
+  }, 1000)
+})
+
+/* 添加小圆圈，并记录索引 */
+let len = lis.length
+for (let i = 0; i < len; i++) {
+  let li = document.createElement('li')
+  li.index = i
+  ol.appendChild(li)
+}
+const ols = ol.querySelectorAll('li')
+ols[0].className = 'cur'
+
+/* 为每个圆圈添加点击事件
+ * 圆圈样式，滑动图片 */
+ols.forEach(function (li) {
+  li.addEventListener('click', function () {
+    ols.forEach(function (li) {
+      li.className = ''
+    })
+    this.className = 'cur'
+    slide(ul, -app.offsetWidth * this.index)
   })
 })
 
-/* 鼠标离开
- * 隐藏大图和放大镜 */
-small.addEventListener('mouseleave', function () {
-  mask.style.display = 'none'
-  big.style.display = 'none'
+/* 左右按钮，点击圆圈 */
+let i = 0
+l.addEventListener('click', function () {
+  ols[Math.abs(++i % len)].click()
+})
+
+r.addEventListener('click', function () {
+  ols[Math.abs(--i % len)].click()
 })

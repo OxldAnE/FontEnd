@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <title>index</title>
+    <style>
+        * {
+            padding : 0;
+            margin  : 0;
+        }
+
+        nav {
+            margin   : 0 auto;
+            width    : 30em;
+            position : relative;
+        }
+
+        ul {
+            display : flex;
+        }
+
+        li {
+            list-style-type  : none;
+            flex             : 1;
+            text-align       : center;
+            background-color : #ccc5;
+            border-radius    : 1em;
+        }
+
+        li:hover {
+            cursor : pointer;
+        }
+
+        span {
+            position         : absolute;
+            left             : 0;
+            border-radius    : 1em;
+            background-color : sandybrown;
+            width            : 6em;
+            height           : 100%;
+            z-index          : -1;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <span></span>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+</nav>
+<script>
+  const nav = document.querySelector('nav')
+  const span = nav.querySelector('span')
+  const lis = nav.querySelectorAll('li')
+
+  /* 鼠标进入、离开、点击 */
+  let l = span.offsetLeft
+  lis.forEach(li => {
+    li.addEventListener('mouseenter', function () {
+      slide(span, this.offsetLeft)
+    })
+    li.addEventListener('mouseleave', function () {
+      slide(span, l)
+    })
+    li.addEventListener('click', function () {
+      l = this.offsetLeft
+    })
+  })
+
+  function slide (o, end, callback) {
+    clearInterval(o.timer);
+    o.timer = setInterval(function () {
+      let step = (end - o.offsetLeft) / 10
+      step = step > 0
+             ? Math.ceil(step)
+             : Math.floor(step)
+      if (o.offsetLeft === end) {
+        clearInterval(o.timer)
+        callback && callback()
+      }
+      else {
+        o.style.left = o.offsetLeft + step + 'px'
+      }
+    }, 20)
+  }
+</script>
+</body>
+</html>

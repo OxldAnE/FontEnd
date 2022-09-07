@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <script defer src='main.js'></script>
+    <title>index</title>
+    <style>
+        div {
+            position         : absolute;
+            left             : 0;
+            top              : 0;
+            background-color : #C7EDCC;
+            width            : 5em;
+            height           : 5em;
+        }
+    </style>
+</head>
+<body>
+
+<div></div>
+<script>
+  const div = document.querySelector('div')
+  // 手指坐标
+  let touchX = 0
+  let touchY = 0
+  // 盒子坐标
+  let divX = 0
+  let divY = 0
+
+  div.addEventListener('touchstart', function (e) {
+    touchX = e.targetTouches[0].pageX
+    touchY = e.targetTouches[0].pageY
+    divX = this.offsetLeft
+    divY = this.offsetTop
+  })
+  div.addEventListener('touchmove', function (e) {
+    let moveX = e.targetTouches[0].pageX - touchX
+    let moveY = e.targetTouches[0].pageY - touchY
+    this.style.left = divX + moveX + 'px'
+    this.style.top = divY + moveY + 'px'
+    e.preventDefault()
+  })
+</script>
+</body>
+</html>
