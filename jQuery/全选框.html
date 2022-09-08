@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <script src='https://code.jquery.com/jquery-3.6.1.min.js'></script>
+    <title>index</title>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th><input type='checkbox' class='all'></th>
+        <th>0</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><input type='checkbox' class='item'></td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td><input type='checkbox' class='item'></td>
+        <td>2</td>
+    </tr>
+    </tbody>
+</table>
+<script>
+    /* 全选框改变，将所有子项设置成一样
+     * 子项改变，如果被选中子项个数等于全部子项个数，全选框选中 */
+    $(function () {
+      $('.all').change(function () {
+        $('.item').prop('checked', $(this).prop('checked'))
+      })
+      $('.item').change(function () {
+        $('.all').prop(
+          'checked',
+          $('.item:checked').length === $('.item').length)
+      })
+    })
+</script>
+</body>
+</html>
