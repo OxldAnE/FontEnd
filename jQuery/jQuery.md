@@ -2,14 +2,39 @@
 
 ## 元素
 
-|         描述         |       示例       |
-| :------------------: | :--------------: |
-|      获取父元素      |    `parent()`    |
-|     获取祖先元素     | `parents('div')` |
-|    获取所有子元素    |   `children()`   |
-| 在元素里获取后代元素 |   `find('li')`   |
-|   获取所有兄弟元素   |   `siblings()`   |
-|  获取指定索引的元素  |     `eq(0)`      |
+|         描述         |                        示例                         |
+| :------------------: | :-------------------------------------------------: |
+|      获取父元素      |                     `parent()`                      |
+|     获取祖先元素     |                  `parents('div')`                   |
+|    获取所有子元素    |                    `children()`                     |
+| 在元素里获取后代元素 |                    `find('li')`                     |
+|   获取所有兄弟元素   |                    `siblings()`                     |
+|  获取指定索引的元素  |                       `eq(0)`                       |
+|    遍历 `jq`对象     | `$('li').each(function(index,item){$(item).css()})` |
+|   可遍历数组和对象   |       ``$.each(arr,function(index,item){})``        |
+
+```js
+let arr = ['red', 'blue']
+```
+
+```js
+/* 遍历 `jq`对象得到 DOM 对象 */
+$('li').each(function (index, item) {$(item).css('color', arr[index])})
+```
+
+```js
+/* 两者等价 */
+$.each($('li'), function (index, item) {
+  $(item).css('color', arr[index])
+})
+```
+
+```js
+/* 可遍历数组和对象 */
+$.each(arr, function (index, item) {
+  console.log(item)
+})
+```
 
 ## 属性
 
@@ -23,7 +48,7 @@
 |      获取索引      |   `$(this).index()`   |
 |    设置元素内容    |       `html()`        |
 |    设置元素文本    |       `text()`        |
-|     获取表单值     |        `val()`        |
+| 获取表单值(字符串) |        `val()`        |
 |        动画        |      `animate()`      |
 |      停止动画      |       `stop()`        |
 | 判断元素是否包含类 |   `hasClass('cur')`   |
