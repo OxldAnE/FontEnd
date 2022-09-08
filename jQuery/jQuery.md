@@ -2,13 +2,14 @@
 
 ## 元素
 
-|         描述         |     示例     |
-| :------------------: | :----------: |
-|      获取父元素      |  `parent()`  |
-|    获取所有子元素    | `children()` |
-| 在元素里获取后代元素 | `find('li')` |
-|   获取所有兄弟元素   | `siblings()` |
-|  获取指定索引的元素  |   `eq(0)`    |
+|         描述         |       示例       |
+| :------------------: | :--------------: |
+|      获取父元素      |    `parent()`    |
+|     获取祖先元素     | `parents('div')` |
+|    获取所有子元素    |   `children()`   |
+| 在元素里获取后代元素 |   `find('li')`   |
+|   获取所有兄弟元素   |   `siblings()`   |
+|  获取指定索引的元素  |     `eq(0)`      |
 
 ## 属性
 
@@ -20,6 +21,9 @@
 |      设置属性      |    `attr('index')`    |
 |      设置变量      |    `data('index')`    |
 |      获取索引      |   `$(this).index()`   |
+|    设置元素内容    |       `html()`        |
+|    设置元素文本    |       `text()`        |
+|     获取表单值     |        `val()`        |
 |        动画        |      `animate()`      |
 |      停止动画      |       `stop()`        |
 | 判断元素是否包含类 |   `hasClass('cur')`   |
@@ -48,13 +52,9 @@
 |    鼠标切换    | `hover(enter,leave)` |
 |      改变      |      `change()`      |
 
-
-
-
-
 ## 示例
 
-
+### [全选框](全选框.html)
 
 ```js
 /* 全选框改变，将所有子项设置成一样
@@ -67,6 +67,39 @@ $(function () {
     $('.all').prop(
       'checked',
       $('.item:checked').length === $('.item').length)
+  })
+})
+```
+
+### [购物结算](购物结算.html)
+
+```js
+$(function () {
+  /* 输入框内容改变
+   * 更新总价 */
+  $('input').change(function () {
+    let price = $(this).parent().siblings('.price').html().substring(1)
+    let num = $(this).val()
+    $(this).parent().siblings('.sum').html(`¥${ (price * num).toFixed(2) }`)
+  })
+
+  /* 自减
+   * 触发改变事件 */
+  $('.decrement').click(function () {
+    let val = $(this).siblings('input').val()
+    // val 是字符串
+    if (val == 1) {
+      return false
+    }
+    $(this).siblings('input').val(--val)
+    $(this).siblings('input').change()
+  })
+
+  /* 自增 */
+  $('.increment').click(function () {
+    let val = $(this).siblings('input').val()
+    $(this).siblings('input').val(++val)
+    $(this).siblings('input').change()
   })
 })
 ```
