@@ -1,0 +1,1 @@
+@import url(../basic.css);header,footer{background-color:#00664d;height:20em}main section{height:10em}main section:nth-child(2n){background-color:coral}nav{position:fixed;top:10em;right:0;display:none}nav li{background-color:#cccccc;text-align:center;width:3em;height:3em;line-height:3em}.cur{background-color:black;color:#fff}

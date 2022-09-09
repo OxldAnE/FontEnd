@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <link href='style.css' rel='stylesheet'>
+    <script src='https://code.jquery.com/jquery-3.6.1.min.js'></script>
+    <script defer src='main.js'></script>
+    <title>index</title>
+
+</head>
+<body>
+
+<table>
+    <tr>
+        <th><input type='checkbox' class='all'>全选</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>总价</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td><input type='checkbox' class='item'></td>
+        <td class='price'>¥ 1.20</td>
+        <td>
+            <button class='decrement'>-</button>
+            <input type='text' value='1' class='number'>
+            <button class='increment'>+</button>
+        </td>
+        <td class='sum'></td>
+        <td><span class='del'>删除</span></td>
+    </tr>
+    <tr>
+        <td><input type='checkbox' class='item'></td>
+        <td class='price'>¥ 1.47</td>
+        <td>
+            <button class='decrement'>-</button>
+            <input type='text' value='1' class='number'>
+            <button class='increment'>+</button>
+        </td>
+        <td class='sum'></td>
+        <td><span class='del'>删除</span></td>
+    </tr>
+</table>
+
+<section class='account'>
+    <button class='delChecked'>删除已勾选</button>
+    <div class='final'></div>
+    <div class='finish'>结算</div>
+</section>
+
+</body>
+</html>

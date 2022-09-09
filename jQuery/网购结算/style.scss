@@ -1,0 +1,74 @@
+@import '../basic.css';
+
+table {
+  border          : 3px solid #00664d;
+  border-collapse : collapse;
+  text-align      : center;
+}
+
+button {
+  padding : 1px 5px;
+}
+
+th, td {
+  border : 1px solid #00664d;
+  width  : 8em;
+}
+
+td:nth-last-child(2) {
+  font-weight : bold;
+  color       : #880088;
+}
+
+td:nth-last-child(1) {
+  color : deepskyblue;
+}
+
+input[type='text'] {
+  width      : 3em;
+  text-align : center;
+}
+
+.del, input[type='checkbox'] {
+  cursor : pointer;
+}
+
+.account {
+  position : relative;
+  width    : 40em;
+}
+
+.delChecked {
+  width    : 8em;
+  position : absolute;
+  top      : .5em;
+  left     : 2em;
+}
+
+.final {
+  position         : absolute;
+  right            : 6em;
+  top              : .3em;
+  font-weight      : bold;
+  font-size        : 1.5em;
+  background-color : #00664d;
+  color            : #fff;
+  padding          : 0 .5em;
+}
+
+.finish {
+  width            : 3em;
+  height           : 2em;
+  background-color : red;
+  color            : #fff;
+  position         : absolute;
+  font-weight      : bold;
+  text-align       : center;
+  line-height      : 2em;
+  right            : 2.5em;
+  top              : .5em;
+
+  &:hover {
+    cursor : pointer;
+  }
+}
