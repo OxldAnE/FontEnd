@@ -18,6 +18,7 @@
 |   获取指定索引的元素   |                       `eq(0)`                       |
 |     遍历 `jq`对象      | `$('li').each(function(index,item){$(item).css()})` |
 |    可遍历数组和对象    |       ``$.each(arr,function(index,item){})``        |
+|        对象拷贝        |              `$.extend(true,tgt,src)`               |
 
 ```js
 let arr = ['red', 'blue']
@@ -85,17 +86,49 @@ $.each(arr, function (index, item) {
 
 ## 事件
 
-|      描述      |         示例         |
-| :------------: | :------------------: |
-|      点击      |      `click()`       |
-| 鼠标进入(冒泡) |    `mouseover()`     |
-| 鼠标离开(冒泡) |     `mouseout()`     |
-|    鼠标进入    |    `mouseenter()`    |
-|    鼠标离开    |    `mouseleave()`    |
-|    鼠标切换    | `hover(enter,leave)` |
-|      改变      |      `change()`      |
+|            描述            |         示例         |
+| :------------------------: | :------------------: |
+|        绑定多个事件        |        `on()`        |
+|          解绑事件          |       `off()`        |
+|       只触发一次事件       |       `one()`        |
+|        自动触发事件        |     `trigger()`      |
+| 自动触发事件不触发默认行为 |  `triggerHandler()`  |
+|            点击            |      `click()`       |
+|       鼠标进入(冒泡)       |    `mouseover()`     |
+|       鼠标离开(冒泡)       |     `mouseout()`     |
+|          鼠标进入          |    `mouseenter()`    |
+|          鼠标离开          |    `mouseleave()`    |
+|          鼠标切换          | `hover(enter,leave)` |
+|            改变            |      `change()`      |
+|                            |                      |
 
-## [网购结算](网购结算/index.html)
+```js
+/* 相同的处理函数 */
+$('div').on('mouseenter click', function () {
+  $(this).toggleClass('cur')
+})
+```
+
+```js
+/* 对象写法 */
+$('div').on({
+  mouseenter : function () {
+    $(this).toggleClass('cur')
+  },
+  click      : function () {
+    $(this).toggleClass('cur')
+  },
+})
+```
+
+```js
+/* 事件委托并且动态绑定 */
+$('ul').on('click', 'li', function () {})
+```
+
+## 示例
+
+### [网购结算](网购结算/index.html)
 
 ```js
 $(function () {
@@ -174,7 +207,7 @@ function none () {
 }
 ```
 
-## [网购导航](网购导航/index.html)
+### [网购导航](网购导航/index.html)
 
 ```js
 $(function () {
@@ -222,3 +255,4 @@ $(function () {
   })
 })
 ```
+
