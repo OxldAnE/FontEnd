@@ -605,45 +605,7 @@ div {
 }
 ```
 
-### [滚动菜单](示例/滚动菜单.html)
-
-![image-20220831212600544](assets/image-20220831212600544.png)
-
-```css
-ul {
-    display : flow-root
-}
-
-ul > li {
-    float      : left;
-    width      : 3em;
-    text-align : center;
-    height     : 1.5em;
-    overflow   : hidden
-}
-
-ul > li div {
-    height        : 100%;
-    border-radius : 1em
-}
-
-ul li div:nth-child(1) {
-    background-color : #00664d;
-    color            : #fff;
-    transition       : margin-top 0.5s;
-}
-
-ul li div:nth-child(1):hover {
-    margin-top : -1.5em
-}
-
-ul li div:nth-child(2) {
-    background-color : #000;
-    color            : #fff
-}
-```
-
-### [旋转唱片](旋转唱片.html)
+### [旋转唱片](示例/旋转唱片.html)
 
 ![image-20220831212754022](assets/image-20220831212754022.png)
 
@@ -676,7 +638,7 @@ img {
 
 ## 媒体查询
 
-### [响应式页面](响应式页面.html)
+### [响应式页面](示例/响应式页面.html)
 
 ![image-20220831212935579](assets/image-20220831212935579.png)![image-20220831212945261](assets/image-20220831212945261.png)
 
@@ -703,61 +665,3 @@ section div {
 }
 ```
 
-## `Scss`
-
-```scss
-/* 嵌套 / 父选择器占位 */
-
-//
-p {
-    font-size   : 1em;
-    font-weight : bold
-}
-
-p {
-
-font : {
-    size   : 1em;
-    weight : bold;
-}
-
-;
-
-/
-/
-p:hover {
-    color : blue
-}
-
-&
-:hover {
-    color : blue;
-}
-
-}
-```
-
-```scss
-/* 变量 / 插值语句 / 导入 / 继承 / 混合 */
-@import 'style';
-
-/
-/
-div, p {
-    width  : 1em;
-    height : 1em
-}
-
-@mixin length($width,$height) {
-    width  : $ width;
-    height : #{$height};
-}
-
-div {
-    @include length(1em, 1em)
-}
-
-p {
-    @extend div
-}
-```
