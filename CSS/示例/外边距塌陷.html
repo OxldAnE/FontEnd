@@ -8,11 +8,11 @@
     <link href='#' rel='shortcut icon' />
     <title>index</title>
     <style>
-        @import 'basic.css';
+        @import '../basic.css';
 
         section {
-            border  : 5px solid #880088;
-            display : inline-block;
+            border : 0.5em solid #880088;
+            width  : 9em;
         }
 
         div {
@@ -27,25 +27,31 @@
             height           : 4em;
         }
 
-        /* 给内部盒子添加上外边距，导致外部盒子一起塌陷 */
+        /* 给子元素添加上外边距，导致父元素一起塌陷 */
         /* p {
             margin-top : 2em;
         } */
 
-        /* 内部盒子添加绝对定位脱离标准流，不再引起塌陷 */
-        /*         p {
-                    position   : absolute;
-                    margin-top : 2em;
-                } */
+        /* 父元素触发 BFC */
+        /* div {
+            overflow : hidden;
+        } */
 
-        /* 内部盒子添加相对定位偏移 */
+        /* 子元素脱离标准流 */
+        /* p {
+            !* float : left; *!
+            !* position : absolute; *!
+            position : fixed;
+        } */
+
+
+        /* 子元素添加相对定位偏移 */
         /* p {
             position : relative;
             top      : 2em;
         } */
 
-        /* 外部盒子添加相对定位，内部盒子添加绝对定位
-         内部盒子相对外部盒子偏移 */
+        /* 子绝父相，子元素相对父元素偏移 */
         /* div {
             position : relative;
         }
@@ -55,7 +61,7 @@
             top      : 2em;
         } */
 
-        /* 外部盒子添加上内边距 */
+        /* 父元素添加上内边距 */
         /* div {
             padding-top : 2em;
         } */

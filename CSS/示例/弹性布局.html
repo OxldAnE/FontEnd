@@ -6,20 +6,14 @@
           content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <link href='#' rel='shortcut icon' />
-    <link rel='stylesheet' href='style.css'>
     <title>index</title>
 </head>
 <style>
-    @import 'basic.css ';
+    @import '../basic.css ';
 
-    section {
-        margin : 0 auto;
+    body {
+        font-size : 15px;
     }
-
-    div {
-        font-size : 2em;
-    }
-
 
     section {
         border : 5px dotted #880088;
@@ -29,72 +23,74 @@
         border : 5px solid #00664d;
     }
 
-    /* 默认水平为主轴，垂直为交叉轴
-    每行为独立的弹性容器 */
     section {
         display : flex;
-        width   : 20em;
-        height  : 20em;
-        /* 默认的 align-items : stretch;
-         对容器内的项目进行交叉轴方向拉伸 */
+        width   : 15em;
+        height  : 15em;
     }
+
 
     /* 设置允许换行 */
-    section {
-        /* flex-direction flex-wrap 简写 */
-        flex-flow : row wrap;
-    }
-
-    div {
-        width : 30%;
-    }
-
-    /* 设置高度的项目不会进行延伸 */
-    div:first-child {
-        height : 2em;
-    }
-
-    /* 设置容器内项目在主轴方向的对齐方式，默认向左边线靠拢 */
     /* section {
-        !* 向中线靠拢 *!
+         flex-flow : row wrap;
+     }
+
+     !* 不拉伸设置行内高度的项目 *!
+     div {
+         width : 30%;
+     }
+
+     div:first-child {
+         height : 4em;
+     }
+
+     div:last-child {
+         width : 50%;
+     } */
+
+    /* section {
+        !* 居中 *!
         justify-content : center;
-        !* 两侧贴着边线，项目间等距 *!
+        !* 右对齐 *!
+        justify-content : right;
+        !* 两端对齐，分散等距 *!
         justify-content : space-between;
-        !* 边线与项目间等距 *!
-        justify-content : space-evenly;
     } */
 
-    /* 设置弹性盒子间的对齐方式，默认为延伸 */
+    /* 不拉伸设置对齐方式的行高 */
     /* section {
-        !* 向中线靠拢 *!
+        !* 上对齐 *!
+        align-content : start;
+        !* 居中 *!
         align-content : center;
-        !* 两侧贴着边线，容器间等距 *!
+        !* 下对齐 *!
+        align-content : end;
+        !* 两端对齐，分散等距 *!
         align-content : space-between;
-        !* 边线与容器间等距 *!
-        align-content : space-evenly;
     } */
 
-    /* 设置容器内项目在交叉轴方向的对齐方式，默认向上边线靠拢 */
+    /* 不拉伸设置行内对齐方式的项目高度 */
     /* section {
+        !* 上对齐 *!
         align-items : start;
+        !* 居中 *!
         align-items : center;
+        !* 下对齐 *!
         align-items : end;
     } */
 
-    /* div {
-        !* flow-grow flow-shrink flex-basis 简写
-        放大比例 收缩比例 基本尺寸 *!
+    div {
+        /* flow-grow flow-shrink flex-basis 简写
+        放大比例 收缩比例 基本尺寸 */
         flex : 1 1 2em;
-    } */
+    }
 
-    /* 设置项目自身的对齐方式，默认为继承容器设置
-      优先级高于容器设置 */
-    /* div:last-child {
-        !* 交叉轴方向底部对齐 *!
+    div:last-child {
+        /* 单独项目的行内对齐方式 */
         align-self : end;
-        !* 项目的排列顺序 *!
+        /* 项目的排列顺序 */
         order      : -1;
-    } */
+    }
 </style>
 <body>
 

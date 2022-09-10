@@ -4,11 +4,11 @@
 
 ### 基本选择器
 
-| 描述 |         示例         |
+| 描述 | 示例 |
 | :--: | :------------------: |
 | 通用 |         `*`          |
 | 元素 |         `p`          |
-|  类  |       `.menu`        |
+| 类 |       `.menu`        |
 | 属性 | `input[type='text']` |
 | `id` |        `#app`        |
 
@@ -35,16 +35,16 @@
 
 #### 结构性伪类
 
-|                   描述                   |            示例             |
-| :--------------------------------------: | :-------------------------: |
-|            首个指定类型的元素            |    `ul > li:first-child`    |
-|          最后一个指定类型的元素          |    `ul > li:last-child`     |
-|   列表内偶数子节点，且类型为表项的元素   |   `ul > li:nth-child(2n)`   |
-|   列表内奇数子节点，且类型为表项的元素   |  `ul > li:nth-child(2n+1)`  |
-| 列表内类型为表项的节点中，且为偶数的元素 |  `ul > li:nth-of-type(2n)`  |
-| 列表内类型为表项的节点中，且为奇数的元素 | `ul > li:nth-of-type(2n+1)` |
+|                  描述                  |          示例          |
+| :------------------------------------: | :--------------------: |
+|   位于同级元素的首个，并且为指定类型   |    `li:first-child`    |
+|   位于同级元素的尾个，并且为指定类型   |    `li:last-child`     |
+| 位于同级元素的第偶数个，并且为指定类型 |   `li:nth-child(2n)`   |
+| 位于同级元素的第奇数个，并且为指定类型 |  `li:nth-child(2n+1)`  |
+|     位于同级指定类型元素的第偶数个     |  `li:nth-of-type(2n)`  |
+|     位于同级指定类型元素的第奇数个     | `li:nth-of-type(2n+1)` |
 
-#### 状态伪类 
+#### 状态伪类
 
 |       示例       |        描述        |
 | :--------------: | :----------------: |
@@ -86,13 +86,28 @@
 
 - `p`/ `h1`为块级元素，但不能容纳块级元素
 
+### `BFC`
+
+- 块级元素的布局环境
+    - 独立容器，内部元素不会影响外部元素的布局
+    - 垂直方向从上到下紧挨放置
+        - 外边距重叠
+    - 水平方向从左到右紧挨放置
+
+| 触发`BFC` |        示例         |
+| :-------: | :-----------------: |
+|   浮动    |    `float:left`     |
+|   定位    | `absolute`/`fixed`  |
+| 显示类型  | `display:flow-root` |
+|   溢出    |  `overflow:hidden`  |
+
 ### 外边距
 
-#### [外边距塌陷](外边距塌陷.html)
+#### [外边距塌陷](示例/外边距塌陷.html)
 
 ![image-20220831170847106](assets/image-20220831170847106.png)![image-20220831171019339](assets/image-20220831171019339.png)![image-20220831171038565](assets/image-20220831171038565.png)
 
-- 想让内部盒子垂直居中（图2），添加上外边距，实际效果，为外部盒子一起塌陷(图3)
+- 想让子元素垂直居中（图2）添加上外边距，实际效果，为父元素一起塌陷（图3）
 
 ```css
 p {
@@ -100,27 +115,38 @@ p {
 }
 ```
 
-- 正确的做法如下
+- 补充属性
 
 ```css
-/* 内部盒子添加绝对定位脱离标准流，不再引起塌陷 */
-p {
-    position   : absolute;
-    margin-top : 2em;
+/* 父元素触发 BFC */
+div {
+    overflow : hidden;
 }
 ```
+
+```css
+/* 子元素脱离标准流 */
+p {
+    /* float : left; */
+    /* position : absolute; */
+    position : fixed;
+}
+```
+
+- 替换做法
 
   ```css
-/* 内部盒子添加相对定位偏移 */
+
+/* 子元素添加相对定位偏移 */
 p {
-    position : relative;
-    top      : 2em;
+position : relative;
+top      : 2em;
 }
+
   ```
 
   ```css
-/* 外部盒子添加相对定位，内部盒子添加绝对定位
- 内部盒子相对外部盒子偏移 */
+/* 子绝父相，子元素相对父元素偏移 */
 div {
     position : relative;
 }
@@ -132,17 +158,17 @@ p {
   ```
 
 ```css
-/* 外部盒子添加上内边距 */
+/* 父元素添加上内边距 */
 div {
     padding-top : 2em;
 }
 ```
 
-#### [外边距计算](外边距计算.html)
+#### [外边距计算](示例/外边距计算.html)
 
 ![image-20220831171309225](assets/image-20220831171309225.png)![image-20220831171329235](assets/image-20220831171329235.png)![image-20220831171413212](assets/image-20220831171413212.png)![image-20220831171439197](assets/image-20220831171439197.png)
 
-- 内部第二个盒子的下外边距位置决定外部盒子的下边框
+- 内部第二个盒子的下外边距位置决定父元素的下边框
 
 ```css
 /* 两个正值，取较大者（图2） */
@@ -179,7 +205,7 @@ p {
 
 ### 边框
 
-#### [绘制三角形](绘制三角形.html)
+#### [绘制三角形](示例/绘制三角形.html)
 
 ```css
 div {
@@ -188,7 +214,7 @@ div {
 }
 ```
 
-#### [绘制圆形](绘制圆形.html)
+#### [绘制圆形](示例/绘制圆形.html)
 
 ```css
 /* 边框圆角半径大于 50% 的正方形则为圆形 */
@@ -200,7 +226,7 @@ div {
 }
 ```
 
-#### [绘制照片图框](绘制照片图框.html)
+#### [绘制照片图框](示例/绘制照片图框.html)
 
 ![image-20220831180054976](assets/image-20220831180054976.png)
 
@@ -219,7 +245,7 @@ img {
 
 ### 内容
 
-#### [省略号](省略号.html)
+#### [省略号](示例/省略号.html)
 
 ![image-20220831181230002](assets/image-20220831181230002.png)
 
@@ -255,30 +281,45 @@ p {
     - 浮动元素完全脱离文档流，不再占据文档流中的位置
     - 浮动元素具有行内块特性
 
-#### [清除浮动](清除浮动.html)
+#### [清除浮动](示例/清除浮动.html)
 
 ![image-20220831182403908](assets/image-20220831182403908.png)![image-20220831182436005](assets/image-20220831182436005.png)
 
-- 为内部盒子添加浮动属性，外部盒子不再包裹内部盒子（图2）
-
+- 为子元素添加浮动属性，父元素不再包裹子元素（图2）
 
 ```css
 p {
-  float: left;
+    float : left;
 }
 ```
 
-- 清除浮动影响的做法如下
+- 触发父元素 `BFC`
 
 ```css
-/* 外部盒子设置溢出隐藏 */
+/* 溢出隐藏 */
 div {
     overflow : hidden;
 }
 ```
 
 ```css
-/* 在外部盒子末尾添加内容为空的块级伪元素，用于清除浮动 */
+/* 脱离标准流的定位 */
+div {
+    position : absolute;
+}
+```
+
+```css
+/* 显示类型 */
+div {
+    display : flow-root;
+}
+```
+
+- 清除浮动
+
+```css
+/* 在父元素末尾添加内容为空的块级伪元素，用于清除浮动 */
 div::after {
     content : '';
     display : block;
@@ -286,118 +327,126 @@ div::after {
 }
 ```
 
-```css
-/* 外部盒子设置能够脱离标准流的定位 */
-div {
-    position : absolute;
-}
-```
+### [弹性布局](示例/弹性布局.html)
 
-```css
-/* 外部盒子设置显示类型 */
-div {
-    display : flow-root;
-}
-```
+#### 默认设置
 
-### [弹性布局](弹性布局.html)
+|       描述       |          示例           |
+| :--------------: | :---------------------: |
+|   主轴方向为行   |  `flex-direction:row`   |
+|     只有一行     |   `flex-wrap:nowrap`    |
+|   行内容左对齐   | `justify-content:left`  |
+|     行高拉满     | `align-content:stretch` |
+| 行内项目高度拉满 |  `align-items:stretch`  |
 
-![image-20220831185716155](assets/image-20220831185716155.png)
-
-```css
-/* 默认水平为主轴，垂直为交叉轴
-每行为独立的弹性容器 */
-section {
-    display : flex;
-    width   : 20em;
-    height  : 20em;
-    /* 默认的 align-items : stretch;
-     对容器内的项目进行交叉轴方向拉伸 */
-}
-```
-
-![image-20220831185811634](assets/image-20220831185811634.png)
+![image-20220910225603051](assets/image-20220910225603051.png)![image-20220910225628768](assets/image-20220910225628768.png)
 
 ```css
 /* 设置允许换行 */
 section {
-    /* flex-direction flex-wrap 简写 */
     flex-flow : row wrap;
 }
 
+/* 不拉伸设置行内高度的项目 */
 div {
     width : 30%;
 }
 
-/* 设置高度的项目不会进行延伸 */
 div:first-child {
-    height : 2em;
+    height : 4em;
+}
+
+div:last-child {
+    width : 50%;
 }
 ```
 
-![image-20220831191816515](assets/image-20220831191816515.png)![image-20220831191832036](assets/image-20220831191832036.png)![image-20220831191851035](assets/image-20220831191851035.png)
+![image-20220910225647636](assets/image-20220910225647636.png)![image-20220910225658077](assets/image-20220910225658077.png)![image-20220910225722003](assets/image-20220910225722003.png)
 
 ```css
-/* 设置容器内项目在主轴方向的对齐方式，默认向左边线靠拢 */
 section {
-    /* 向中线靠拢 */
+    /* 居中 */
     justify-content : center;
-    /* 两侧贴着边线，项目间等距 */
+    /* 右对齐 */
+    justify-content : right;
+    /* 两端对齐，分散等距 */
     justify-content : space-between;
-    /* 边线与项目间等距 */
-    justify-content : space-evenly;
 }
 ```
 
-![image-20220831192056804](assets/image-20220831192056804.png)![image-20220831192311910](assets/image-20220831192311910.png)![image-20220831192322677](assets/image-20220831192322677.png)
+![image-20220910230117706](assets/image-20220910230117706.png)![image-20220910230129696](assets/image-20220910230129696.png)![image-20220910230159640](assets/image-20220910230159640.png)
+
+![image-20220910230955598](assets/image-20220910230955598.png)
 
 ```css
-/* 设置弹性盒子间的对齐方式，默认为延伸 */
+/* 不拉伸设置对齐方式的行高 */
 section {
-    /* 向中线靠拢 */
+    /* 上对齐 */
+    align-content : start;
+    /* 居中 */
     align-content : center;
-    /* 两侧贴着边线，容器间等距 */
+    /* 下对齐 */
+    align-content : end;
+    /* 两端对齐，分散等距 */
     align-content : space-between;
-    /* 边线与容器间等距 */
-    align-content : space-evenly;
 }
 ```
 
-![image-20220831192516589](assets/image-20220831192516589.png)![image-20220831192559350](assets/image-20220831192559350.png)![image-20220831192617325](assets/image-20220831192617325.png)
+![image-20220910231530503](assets/image-20220910231530503.png)![image-20220910231543264](assets/image-20220910231543264.png)![image-20220910231606910](assets/image-20220910231606910.png)
 
 ```css
-/* 容器内项目在交叉轴方向的对齐方式，默认向上边线靠拢 */
+/* 不拉伸设置行内对齐方式的项目高度 */
 section {
+    /* 上对齐 */
     align-items : start;
+    /* 居中 */
     align-items : center;
+    /* 下对齐 */
     align-items : end;
 }
 ```
 
-![image-20220831193136228](assets/image-20220831193136228.png)
+#### 其他属性
 
 ```css
-/* 设置项目自身的对齐方式，默认为继承容器设置
-  优先级高于容器设置 */
+div {
+    /* flow-grow flow-shrink flex-basis 简写
+    放大比例 收缩比例 基本尺寸 */
+    flex : 1 1 2em;
+}
+
 div:last-child {
-    /* 交叉轴方向底部对齐 */
+    /* 单独项目的行内对齐方式 */
     align-self : end;
     /* 项目的排列顺序 */
     order      : -1;
 }
 ```
 
-![image-20220831192944764](assets/image-20220831192944764.png)
+#### [圣杯布局](示例/圣杯布局.html)
+
+![image-20220831211243269](assets/image-20220831211243269.png)![image-20220831211256178](assets/image-20220831211256178.png)
 
 ```css
-div {
-  /* flow-grow flow-shrink flex-basis 的简写
-  放大比例 收缩比例 基本尺寸 */
-  flex : 1 1 2em;
+section {
+    display : flex;
+}
+
+div:nth-child(1) {
+    flex : 1;
+}
+
+div:nth-child(2) {
+    flex  : 0 0 3em;
+    order : -1;
+}
+
+div:nth-child(3) {
+    flex : 0 0 3em;
 }
 ```
 
-### [网格布局](网格布局.html)
+### [网格布局](示例/网格布局.html)
 
 ![image-20220831204001657](assets/image-20220831204001657.png)
 
@@ -442,7 +491,7 @@ section {
 ![image-20220831205137124](assets/image-20220831205137124.png)
 
 ```css
-/* 设置容器的对齐方式 */
+/* 设置行列的对齐方式 */
 section {
     justify-content : center;
     align-content   : end;
@@ -452,12 +501,13 @@ section {
 ![image-20220831205606687](assets/image-20220831205606687.png)
 
 ```css
-/* 设置项目在网格内的对齐方式 */
+/* 设置行列内项目的对齐方式 */
 section {
     justify-items : start;
     align-items   : end;
 }
 
+/* 项目行内列内高度拉满 */
 div:nth-child(2) {
     justify-self : stretch;
     align-self   : stretch;
@@ -466,20 +516,16 @@ div:nth-child(2) {
 
 ### 定位
 
-| 定位 |                   描述                   |
+| 定位 | 描述 |
 | :--: | :--------------------------------------: |
-| 相对 |          原来位置占用标准流空间          |
-| 绝对 |        相对于有定位属性的祖先元素        |
-| 固定 |                相对于视口                |
+| 相对 | 原来位置占用标准流空间 |
+| 绝对 | 相对于有定位属性的祖先元素 |
+| 固定 | 相对于视口 |
 | 粘性 | 先随页面滚动而滚动，到指定视口位置后固定 |
-
-- 绝对定位/固定定位
-    - 使得元素脱离标准流
-    - 元素的默认宽度为内容宽度，可设置宽高
 
 #### 居中
 
-- [水平居中](水平居中.html)
+- [水平居中](示例/水平居中.html)
 
 ![image-20220831210320644](assets/image-20220831210320644.png)
 
@@ -502,7 +548,7 @@ div {
 }
 ```
 
-- [垂直居中](垂直居中.html)
+- [垂直居中](示例/垂直居中.html)
 
 ![image-20220831210717548](assets/image-20220831210717548.png)
 
@@ -524,39 +570,16 @@ div {
 }
 ```
 
-#### [圣杯布局](圣杯布局.html)
-
-![image-20220831211243269](assets/image-20220831211243269.png)![image-20220831211256178](assets/image-20220831211256178.png)
-
-```css
-/* 使用弹性盒子 */
-section {
-  display : flex;
-}
-
-div {
-  &:nth-child(1) {
-    flex : 1;
-  }
-
-  &:nth-child(2) {
-    flex  : 0 0 3em;
-    order : -1;
-  }
-
-  &:nth-child(3) {
-    flex : 0 0 3em;
-  }
-}
-```
-
 ## 过渡与动画
 
-### [下拉菜单](下拉菜单.html)
+### [下拉菜单](示例/下拉菜单.html)
 
 ![image-20220831211957209](assets/image-20220831211957209.png)
 
 ```css
+/* 下拉菜单高度设置为 0
+ 文字内容溢出隐藏
+ 鼠标悬浮，恢复高度 */
 .menu {
     display : flow-root
 }
@@ -582,7 +605,7 @@ div {
 }
 ```
 
-### [滚动菜单](滚动菜单.html)
+### [滚动菜单](示例/滚动菜单.html)
 
 ![image-20220831212600544](assets/image-20220831212600544.png)
 
@@ -682,36 +705,59 @@ section div {
 
 ## `Scss`
 
-```css
+```scss
 /* 嵌套 / 父选择器占位 */
 
-// p {font-size : 1em;font-weight : bold}
+//
 p {
-  font     : {
+    font-size   : 1em;
+    font-weight : bold
+}
+
+p {
+
+font : {
     size   : 1em;
     weight : bold;
-  };
+}
 
-  // p:hover {color : blue}
-  &:hover {
+;
+
+/
+/
+p:hover {
+    color : blue
+}
+
+&
+:hover {
     color : blue;
-  }
+}
+
 }
 ```
 
-```css
+```scss
 /* 变量 / 插值语句 / 导入 / 继承 / 混合 */
 @import 'style';
 
-// div, p {width : 1em;height : 1em}
+/
+/
+div, p {
+    width  : 1em;
+    height : 1em
+}
+
 @mixin length($width,$height) {
-  width  : $width;
-  height : #{$height};
+    width  : $ width;
+    height : #{$height};
 }
 
 div {
-  @include length(1em, 1em)
+    @include length(1em, 1em)
 }
 
-p {@extend div}
+p {
+    @extend div
+}
 ```
