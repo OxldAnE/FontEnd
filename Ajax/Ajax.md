@@ -1,10 +1,6 @@
 # `Ajax`
 
-![image-20220804130617487](assets/image-20220804130617487.png)
 
-![image-20220804131011801](assets/image-20220804131011801.png)
-
-![image-20220804231346859](assets/image-20220804231346859.png)
 
 
 ### `Web API`
@@ -42,8 +38,6 @@
 |     2      |   发送请求，未收到响应   |
 |     3      |       收到部分响应       |
 |     4      |       收到全部响应       |
-
----
 
 ```js
 const xhr = new XMLHttpRequest()
@@ -247,7 +241,7 @@ button.addEventListener('click', () => {
     - 最后一个键值不能有 `,`
     - 有 `null`
 
----
+
 
 ### 工作者线程
 
