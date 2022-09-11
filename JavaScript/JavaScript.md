@@ -911,52 +911,39 @@ mySetInterval(f, 1000)
 
 #### [防抖](示例/防抖.html)
 
-```js
-const B = document.querySelector('button')
-let i = 0
-
-function f () {
-  console.log(i++)
-}
-```
-
 - 高频触发事件只执行最后间隔足够长的一次
 
 ```js
 /* 点击事件共享定时器
- * 每次点击先取消定时器，再添加定时器 */
-function g (f, s) {
-  let timer
-  return function () {
-    clearTimeout(timer)
-    timer = setTimeout(() => f(), s)
-  }
-}
-
-B.addEventListener('click', g(f, 500))
+ * 处理函数内部，先清除定时器，再设置 */
+$('button').on({
+  click : function (e) {
+    clearTimeout(e.target.timer)
+    e.target.timer = setTimeout(() => {
+      f()
+    }, 500)
+  },
+})
 ```
 
-#### [节流](节流.html)
+#### [节流](示例/节流.html)
 
 - 高频触发事件，按照时间间隔执行
 
 ```js
 /* 点击事件共享定时器
- * 没有任务时，添加定时器，任务执行完，定时器置空 */
-function g (f, s) {
-  let timer
-  return function () {
-    if (timer) {
+ * 没有任务时，添加定时器；任务执行完，定时器置空 */
+$('button').on({
+  click : function (e) {
+    if (e.target.timer) {
       return
     }
-    timer = setTimeout(() => {
+    e.target.timer = setTimeout(() => {
       f()
-      timer = null
-    }, s)
-  }
-}
-
-B.addEventListener('click', g(f, 500))
+      e.target.timer = null
+    }, 500)
+  },
+})
 ```
 
 #### [图片懒加载](图片懒加载.html)

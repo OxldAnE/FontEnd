@@ -15,7 +15,27 @@
 <button>提交</button>
 
 <script>
+  $(function () {
+    let i = 0
 
+    function f () {
+      console.log(i++)
+    }
+
+      /* 点击事件共享定时器
+       * 没有任务时，添加定时器；任务执行完，定时器置空 */
+    $('button').on({
+      click : function (e) {
+        if (e.target.timer) {
+          return
+        }
+        e.target.timer = setTimeout(() => {
+          f()
+          e.target.timer = null
+        }, 500)
+      },
+    })
+  })
 </script>
 </body>
 </html>
