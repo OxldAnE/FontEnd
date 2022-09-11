@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UtimeoutF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link href='#' rel='shortcut icon' />
+    <script src='../jquery-3.6.1.min.js'></script>
+    <title>index</title>
+</head>
+<body>
+<button class='timeout'>timeout</button>
+<button class='interval'>interval</button>
+<ul></ul>
+
+<script>
+  $(function () {
+    $('.timeout').on({
+      click : function () {
+        setTimeout(() => {
+          $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
+        }, 1000)
+      },
+    })
+
+    $('.interval').on({
+      click : function () {
+        let n = 3
+        const timer = setInterval(() => {
+          if (n--) {
+            $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
+          }
+          else {
+            clearInterval(timer)
+          }
+        }, 1000)
+      },
+    })
+  })
+</script>
+</body>
+</html>

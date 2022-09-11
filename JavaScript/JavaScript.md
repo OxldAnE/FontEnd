@@ -131,8 +131,8 @@ const f = new F()
 ```js
 const s = '插值'
 const ul =
-  `<ul>
-    <li>${s}</li>
+        `<ul>
+    <li>${ s }</li>
 </ul>`
 ```
 
@@ -143,19 +143,19 @@ const ul =
     - 进制可选 2~36
 - `parseInt` /`parseFloat` 会忽略末尾的非法字符
 
-|            示例             | 结果  |
-| :-------------------------: | :---: |
-| `const n = 7;n.toString(2)` | `111` |
-|       `Number('1a')`        | `NaN` |
-|     `parseInt('1a', 2)`     |  `1`  |
-|    `parseFloat('0.1.1')`    | `0.1` |
+|          示例           | 结果  |
+| :---------------------: | :---: |
+| `Number(7).toString(2)` | `111` |
+|     `Number('1a')`      | `NaN` |
+|   `parseInt('1a', 2)`   |  `1`  |
+|  `parseFloat('0.1.1')`  | `0.1` |
 
 ### `Object`
 
 - `Object`的原型携带的属性和方法
 
 ```js
-const o = new Object({a: 1})
+const o = new Object({a : 1})
 ```
 
 |             描述             |                示例                 |       结果        |
@@ -205,10 +205,10 @@ const o = {
   b : 2,
 }
 const {
-        a : x,
-        c : y,
+        a : n,
+        c : m,
       } = o
-console.log(x, y) // 1 undefined
+console.log(n, m) // 1 undefined
 ```
 
 - 函数
@@ -219,7 +219,7 @@ const o = {
   b : 2,
 }
 
-/* 不使用结构赋值 */
+/* 不使用解构赋值 */
 
 /* function f (o) {
  console.log(o.a, o.b)
@@ -235,8 +235,8 @@ f(o)
 #### 交换变量的值
 
 ```js
-let a = 1,
-    b = 2
+let a = 1
+let b = 2
 ```
 
 - 临时变量
@@ -297,14 +297,16 @@ console.log(x) // [ 1, { b: 0 } ]
 
 - `JSON`
     - `JS` 对象的字符串表示
-    - `stringify`
-        - 对象转字符串
-    - `parse`
-        - 字符串转对象
-- 借助 `JSON` 实现深拷贝
+
+|     描述     |        示例         |
+| :----------: | :-----------------: |
+| 对象转字符串 | `Json.stringify(o)` |
+| 字符串转对象 |   `Json.parse(s)`   |
+
+借助 `JSON` 实现深拷贝
 
 ```js
-const y = JSON.(JSON.stringify(x))
+const y = JSON.parse(JSON.stringify(x))
 y[0] = 0
 y[1].b = 0
 console.log(x) // [ 1, { b: 2 } ]
@@ -322,6 +324,13 @@ console.log(x) // [ 1, { b: 2 } ]
 - 手写深拷贝
 
 ```js
+/* 处理函数包含两个参数，接收结果的数据结构和要处理的数据
+ * 遍历本层的属性，依据值的类型执行相应操作
+ * 先判断是否为数组，因为 Object 的原型也是数组的原型
+ * 确定不是数组的情况下，再判断是否为对象
+ * 是对象时，判断其是否为 Object 的实例而非其他构造函数
+ * 既不是数组，也不是 Object 的实例
+ * 只能是基本数据类型或其他构造函数的实例 */
 const o = {
   a : {aa : 11},
   b : [22, {bbb : 222}],
@@ -341,21 +350,16 @@ const res = {}
 function f (res, o) {
   for (let i in o) {
     let v = o[i]
-    // 先判断是否为数组，因为 Object的原型也是数组的原型
     if (v instanceof Array) {
       res[i] = []
       f(res[i], v)
     }
-      // 确定不是数组的情况下，再判断是否为对象
-    // 是对象时，判断其是否为 Object 的实例而非其他构造函数
     else if (v instanceof Object && v.constructor === Object) {
       res[i] = {}
       f(res[i], v)
     }
-      // 既不是数组，也不是 Object 的实例
-    // 只能是基本数据类型或其他构造函数的实例
     else {
-      res[i] = o[i]
+      res[i] = v
     }
   }
 }
@@ -366,22 +370,16 @@ console.log(res)
 
 ### `??`/`?.`
 
-- `??`
-    - 左侧的值为`null`或 `undefined`时，使用右侧的值
-- `?.`
-    - 左侧的值存在，访问右侧的属性
-
 ```js
 const o = {
   a : {b : 2},
-}
+}    
 ```
 
-|     示例      |    结果     |
-| :-----------: | :---------: |
-|   `o.a?.b`    |     `2`     |
-|   `o.a?.c`    | `undefined` |
-| `o.a?.c ?? 3` |     `3`     |
+| 描述 | 示例 | 结果 |
+| :--------------------------------------------: | :-------------: | :--: |
+| 左侧的值为`null`或 `undefined`时，使用右侧的值 |    `o.a?.b`     | `2`  |
+| 左侧的值存在，访问右侧的属性 | ``o.a?.c ?? 3`` | `3`  |
 
 ## 作用域
 
@@ -393,8 +391,8 @@ const o = {
     - 原始值不会被修改，引用值的内部属性会被函数通过局部变量修改
 
 ```js
-let a = 1,
-    x = [1]
+let a = 1
+let x = [1]
 
 function f (a, x) {
   a = 0
@@ -415,24 +413,24 @@ console.log(a, x) // 1 [ 0 ]
 |  标记清理  |                 给当前不使用的值加标记再回收                 |
 
 ```js
-const obj = {
+const o = {
   f () {
     // 函数内部的执行上下文不存在 f
     console.log(f)
   },
 }
 // 全局上下文也不存在 f
-obj.f() // 报错
+o.f() // 报错
 ```
 
 ```js
-const obj = {
+const o = {
   f () {
-    // this 指向调用者 obj 在其上下文找到 f
+    // this 指向调用者 o ，在其上下文找到 f
     console.log(this.f)
   },
 }
-obj.f() // f()
+o.f() // f
 ```
 
 ## 基本引用类型
@@ -463,30 +461,30 @@ const t = new Date()
 
 ```js
 const r = /1/
-const s = '01a11'
+const s = '121'
 ```
 
-|                描述                 |           示例           |                          结果                          |
-| :---------------------------------: | :----------------------: | :----------------------------------------------------: |
-|     判断字符串是否有匹配的子串      |       `r.test(s)`        |                         `true`                         |
-|       返回匹配子串的起始位置        |      `s.search(r)`       |                          `1`                           |
-| 返回[匹配子串,起始位置,字符串,分组] | `r.exec(s)`/`s.match(r)` | `[ '1', index: 1, input: '01a11', groups: undefined ]` |
-|       替换字符串中匹配的子串        |    `s.replace(r, '')`    |                         `0a11`                         |
+|                描述                 |           示例           |                         结果                         |
+| :---------------------------------: | :----------------------: | :--------------------------------------------------: |
+|     判断字符串是否有匹配的子串      |       `r.test(s)`        |                        `true`                        |
+|       返回匹配子串的起始位置        |      `s.search(r)`       |                         `0`                          |
+| 返回[匹配子串,起始位置,字符串,分组] | `r.exec(s)`/`s.match(r)` | `[ '1', index: 0, input: '121', groups: undefined ]` |
+|       替换字符串中匹配的子串        |    `s.replace(r, '')`    |                         `21`                         |
 
 - 匹配所有
 
 ```js
 /* 正则表达式 */
 const r = /1/g
-const s = '01a11'
+const s = '121'
 
 // 所有匹配子串的起始位置
 for (let i of s.matchAll(r)) {
-  console.log(i['index']) // 1 3 4
+  console.log(i['index']) // 0 2
 }
 
 // 替换字符串中所有匹配的子串
-console.log(s.replaceAll(r, '')) // 0a
+console.log(s.replaceAll(r, '')) // 2
 ```
 
 ### `String`
@@ -501,18 +499,18 @@ console.log(s.replaceAll(r, '')) // 0a
 const s = '121'
 ```
 
-|                描述                |               示例               |      结果      |
-| :--------------------------------: | :------------------------------: | :------------: |
-|           获取字符串长度           |            `s.length`            |      `3`       |
-|         字符串是否包含子串         |        `s.includes('1')`         |     `true`     |
-| 获取子串在字符串首次出现的起始位置 |         `s.indexOf('1')`         |      `0`       |
-| 获取子串在字符串最后出现的起始位置 |       `s.lastIndexOf('1')`       |      `2`       |
-|        在字符串后面拼接子串        |         `s.concat(3, 4)`         |    `12134`     |
-|  获取 [开始索引,结束索引) 的子串   | `s.slice(0, 2)`/`s.slice(0, -1)` |      `12`      |
-|          按子串分隔成数组          |          `s.split('2')`          | `[ '1', '3' ]` |
-|             按次数复制             |          `s.repeat(2)`           |    `121121`    |
-|            替换首个子串            |        `s.replace(1, 0)`         |     `021`      |
-|            替换所有子串            |       `s.replaceAll(1, 0)`       |     `020`      |
+|                描述                |         示例          |      结果      |
+| :--------------------------------: | :-------------------: | :------------: |
+|           获取字符串长度           |      `s.length`       |      `3`       |
+|         字符串是否包含子串         |   `s.includes('1')`   |     `true`     |
+| 获取子串在字符串首次出现的起始位置 |   `s.indexOf('1')`    |      `0`       |
+| 获取子串在字符串最后出现的起始位置 | `s.lastIndexOf('1')`  |      `2`       |
+|        在字符串后面拼接子串        |   `s.concat(3, 4)`    |    `12134`     |
+|  获取 [开始索引,结束索引) 的子串   |   `s.slice(0, -1)`    |      `12`      |
+|          按子串分隔成数组          |    `s.split('2')`     | `[ '1', '1' ]` |
+|             按次数复制             |     `s.repeat(2)`     |    `121121`    |
+|            替换首个子串            |  `s.replace(1, '')`   |      `21`      |
+|            替换所有子串            | `s.replaceAll(1, '')` |      `2`       |
 
 ## 集合引用类型
 
@@ -525,8 +523,8 @@ const o = {
   x : [1, 2],
   // 迭代器函数
   [Symbol.iterator] () {
-    let i = 0,
-        l = this.x.length
+    let i = 0
+    let l = this.x.length
     return {
       next : () => i < l
                    ? {value : this.x[i++], done : false}
@@ -581,7 +579,7 @@ const x = [1, 2]
 |                   移除数组开头的元素并返回                   |        `x.shift()`        |    `[ 2 ]`    |
 |                           反转数组                           |       `x.reverse()`       |  `[ 2, 1 ]`   |
 |                        对数组进行排序                        | `x.sort((a, b) => b - a)` |  `[ 2, 1 ]`   |
-| 从索引位置移除指定个数的元素，随后插入元素，并返回移除的子数组 |  `x.splice(0, 2, 3, 4)`   |  `[ 3, 4 ]`   |
+| 在索引位置移除指定个数的元素，随后插入元素，并返回移除的子数组 |  `x.splice(0, 2, 3, 4)`   |  `[ 3, 4 ]`   |
 
 - 基本用法
 
@@ -589,15 +587,15 @@ const x = [1, 2]
 const x = [1, 2]
 ```
 
-|              描述               |         示例          |        结果         |
-| :-----------------------------: | :-------------------: | :-----------------: |
-|          获取元素个数           |      `x.length`       |         `2`         |
-|      判断数组是否存在元素       |    `x.includes(1)`    |       `true`        |
-| 获取元素在数组中首次出现的索引  |    `x.indexOf(1)`     |         `0`         |
-| 获取元素在数组中最后出现的索引  |  `x.lastIndexOf(1)`   |         `0`         |
-|    拼接元素或数组到数组末尾     | `x.concat(3, [4, 5])` | `[ 1, 2, 3, 4, 5 ]` |
-| 获取[开始索引,结束索引)的子数组 |   `x.slice(0, -1)`    |       `[ 1 ]`       |
-|   用字符拼接数组元素成字符串    |     `x.join('-')`     |        `1-2`        |
+|              描述               |        示例        |       结果       |
+| :-----------------------------: | :----------------: | :--------------: |
+|          获取元素个数           |     `x.length`     |       `2`        |
+|      判断数组是否存在元素       |  `x.includes(1)`   |      `true`      |
+| 获取元素在数组中首次出现的索引  |   `x.indexOf(1)`   |       `0`        |
+| 获取元素在数组中最后出现的索引  | `x.lastIndexOf(1)` |       `0`        |
+|    拼接元素或数组到数组末尾     | `x.concat(3, [4])` | `[ 1, 2, 3, 4 ]` |
+| 获取[开始索引,结束索引)的子数组 |  `x.slice(0, -1)`  |     `[ 1 ]`      |
+|   用字符拼接数组元素成字符串    |    `x.join('')`    |       `12`       |
 
 - 迭代器的回调函数通常可接收3个参数(元素，索引，数组)
 
@@ -607,13 +605,13 @@ const x = [1, 2]
 
 |                       描述                        |                 示例                  |    结果    |
 | :-----------------------------------------------: | :-----------------------------------: | :--------: |
-|        用数值填充[开始索引,结束索引)的元素        |        `new Array(2).fill(0)`         | `[ 0, 0 ]` |
+|           填充[开始索引,结束索引)的元素           |        `new Array(2).fill(0)`         | `[ 0, 0 ]` |
 |               数组元素迭代执行函数                |   `x.forEach(v => console.log(v))`    |   `1 2`    |
 | 数组元素迭代执行回调函数,并返回每个结果形成的数组 |       `x.map((v, i) => v + i)`        | `[ 1, 3 ]` |
 |        保留使回调函数结果为 `true` 的元素         |        `x.filter(v => v % 2)`         |  `[ 1 ]`   |
 |        判断所有元素是否使函数结果为 `true`        |         `x.every(v => v % 2)`         |  `false`   |
 |        判断是否存在元素使函数结果为 `true`        |         `x.some(v => v % 2)`          |   `true`   |
-| 初始化结果，然后元素迭代执行函数,返回最终迭代结果 | `x.reduce((r, v, i, x) => r += v, 0)` |    `3`     |
+| 初始化结果，将元素迭代执行函数，返回最终迭代结果  | `x.reduce((r, v, i, x) => r += v, 0)` |    `3`     |
 
 - 数组结构转换
 
@@ -660,7 +658,8 @@ const m = new Map([['a', 1]])
 
 ```js
 // 函数声明会提升，顺利执行
-f() 
+f()
+
 function f () {}
 ```
 
@@ -690,7 +689,7 @@ let f = function () {}
 | 支持 `call`、`apply`、`bind` |         1          |       0        |
 |            `this`            | 调用时的上下文对象 | 定义时的上下文 |
 
-### [递归函数](递归函数.js)
+### [递归函数](示例/递归函数.js)
 
 - 将执行上下文的信息打印
 
@@ -702,7 +701,7 @@ let f = function () {}
         - 由下层结果推出本层结果
         - 返回本层结果
 
-![image-20220902095035429](assets/image-20220902095035429.png)
+![image-20220911091346718](assets/image-20220911091346718.png)
 
 ```js
 function f (n) {
@@ -783,17 +782,17 @@ f(g)
 
 #### `arguments`
 
-- 普通函数被调用时传入的全部参数形成的类数组对象
-
+- 普通函数被调用时，传入的全部参数形成的类数组对象
 - 改变 `this`指向
-    - `call`
-        - 接收多个参数
-    - `apply`
-        - 接收参数数组
-    - `bind`
-        - 不会执行
+
+|  示例   |         描述         |
+| :-----: | :------------------: |
+| `call`  | 接收多个数值作为参数 |
+| `apply` |   接收数组作为参数   |
+| `bind`  |       不会执行       |
 
 ```js
+/* 通过 call apply bind 使用构造函数 f 为 o 添加属性 */
 let o = {
   a : 1,
 }
@@ -807,85 +806,90 @@ function f (b, c) {
 }
 ```
 
-#### [`call`](call.js)
+#### `call`
 
 ```js
-/* 在对象内添加调用函数并执行，再删除 */
+/* 在对象内添加调用函数并执行，再删除
+ * 获取绑定对象，null 时为全局调用
+ * 获取除绑定对象外的所有参数
+ * 添加构造函数，this 指向调用者 f
+ * 执行构造函数为对象添加属性
+ * 删除构造函数，并返回结果 */
 Function.prototype.myCall = function () {
-  // 获取绑定对象，null 时为全局调用
-  let o           = arguments[0] || window,
-      // 获取除绑定对象外的所有参数
-      [, ...args] = arguments
-  // 添加方法，this 指向调用者 f
-  o.g = this
-  // 接收执行结果
-  let res = o.g(...args)
-  // 删除方法
-  delete o.g
+  let o = arguments[0] || window
+  let [, ...args] = arguments
+  o.f = this
+  let res = o.f(...args)
+  delete o.f
   return res
 }
-
-// { a: 1, b: 2, c: 3 }
-console.log(f.call(o, 2, 3))
-// { a: 1, b: 2, c: 3 }
-console.log(f.myCall(o, 2, 3))
 ```
 
-#### [`apply`](app.js)
+#### `apply`
 
 ```js
 // 仅在这里与 call 有所不同
 [, [...args]] = arguments
 ```
 
-#### [`bind`](bind.js)
+#### `bind`
 
 ```js
+/* 将构造函数执行和删除封装成函数返回 */
 Function.prototype.myBind = function () {
-  let o           = arguments[0] || window,
-      [, ...args] = arguments
-  o.g = this
+  let o = arguments[0] || window
+  let [, ...args] = arguments
+  o.f = this
 
-  // 闭包
   return function () {
-    let res = o.g(...args)
-    delete o.g
+    let res = o.f(...args)
+    delete o.f
     return res
   }
 }
+```
 
+```js
 // { a: 1, b: 2, c: 3 }
-console.log(f.bind(o, 2, 3)())
-// { a: 1, b: 2, c: 3 }
+console.log(f.myCall(o, 2, 3))
+console.log(f.myApply(o, [2, 3]))
 console.log(f.myBind(o, 2, 3)())
 ```
 
-#### [定时器](定时器.html)
+#### [定时器](示例/定时器.html)
 
 ```js
-/* 延迟时间将任务加入任务队列 */
-T.addEventListener('click', function () {
-  setTimeout(() => {
-    ul.innerHTML += `<li>${ new Date().toLocaleTimeString() }</li>`
-  }, 1000)
-})
+$(function () {
+  $('.timeout').on({
+    click : function () {
+      setTimeout(() => {
+        $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
+      }, 1000)
+    },
+  })
 
-/* 每间隔时间将任务加入任务队列 */
-I.addEventListener('click', function () {
-  let n = 3
-  const timer = setInterval(() => {
-    // 3次后取消定时器
-    if (!--n) {
-      clearInterval(timer)
-    }
-    ul.innerHTML += `<li>${ new Date().toLocaleTimeString() }</li>`
-  }, 1000)
+  $('.interval').on({
+    click : function () {
+      let n = 3
+      const timer = setInterval(() => {
+        if (n--) {
+          $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
+        }
+        else {
+          clearInterval(timer)
+        }
+      }, 1000)
+    },
+  })
 })
 ```
 
-- `setInterval`
-
 ```js
+/* setTimeout 实现 setInterval
+ * 接收两个参数，同步函数和延时
+ * 内部定时器调用异步函数
+ * 异步函数将同步函数封装，并不断调用自身
+ * 实现同步函数延时调用的效果 */
 function mySetInterval (f, s) {
   setTimeout(g, s)
 
@@ -905,7 +909,7 @@ function f () {
 mySetInterval(f, 1000)
 ```
 
-#### [防抖](防抖.html)
+#### [防抖](示例/防抖.html)
 
 ```js
 const B = document.querySelector('button')
@@ -951,6 +955,7 @@ function g (f, s) {
     }, s)
   }
 }
+
 B.addEventListener('click', g(f, 500))
 ```
 
