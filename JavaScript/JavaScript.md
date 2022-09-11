@@ -979,17 +979,17 @@ imgs.forEach(function (i) {
 ```js
 /* Promise 对象内部为执行器函数
  * 创建 Promise 对象为同步函数，处理函数都为异步函数
- * Promise 对象存在三种状态 pending / resolved / rejected 三种状态
+ * Promise 对象存在三种状态 pending / resolved / rejected
  * 执行器函数接收两个函数，将状态从 pending 单向切换为 resolved / rejected
  * Promise 对象通过链式，避免回调深度嵌套调用
  * then 接收 resolved / rejected 两种状态的函数
  * 非函数参数传入 then 会被忽略
  * resolved 状态时，将 value 传给 onResolved 函数
  * rejected 状态时，将 reason 传给 onRejected 函数
- * catch 接收 rejected 状态的函数
+ * catch 只接收 rejected 状态的函数
  * 为 then 中 resolved 状态的函数为 null 的语法糖
  * finally 接收无论 resolved / rejected 状态都会执行的函数
- * 用于添加两种都会执行的冗余代码  */
+ * 用于添加两种状态都会执行的冗余代码  */
 new Promise((resolve, reject) => {
   if (1) {
     resolve()
@@ -1003,7 +1003,7 @@ new Promise((resolve, reject) => {
 
 - 抛出异常会返回拒绝的期约
 - 返回错误值会将错误对象包装在解决的期约
-    - 返回错误值被视为拒绝处理函数成功捕获错误
+    - 返回错误值，被视为拒绝处理函数成功捕获错误
 
 ```js
 let p = Promise.resolve().then(() => {throw '0'})
@@ -1206,7 +1206,7 @@ function url (protocol) {
 }
 
 const web = url('https://')('www.a.com')
-const html = web('/动态生成表格.html')
+const html = web('/index.html')
 const css = web('/style.css')
 const js = web('/main.js')
 
@@ -1218,16 +1218,20 @@ console.log(js) // https://www.a.com/main.js
 #### `add`
 
 ```js
-/* 返回函数时，会调用 toString，对其进行重写 */
+/* 在函数内部创建接收首层参数的数组
+ * 通过返回自身的函数将余下层参数加入数组
+ * 在最终返回函数时，重写返回函数会调用的 toString
+ * 对数组所有元素进行相加 */
 function add () {
   let args = [...arguments]
-  let f = function () {
+
+  function f () {
     args.push(...arguments)
     return f
   }
 
   f.toString = function () {
-    return args.reduce((s, v) => s + v)
+    return args.reduce((s, v) => s + v, 0)
   }
 
   return f
@@ -1374,7 +1378,7 @@ console.log(o.A === p.A) // true
     - `in`
         - 实例能访问到属性
     - `hasOwnProperty`
-        - 属性不属于实例
+        - 实例的自有属性
 
 ```js
 // 原型上的属性
