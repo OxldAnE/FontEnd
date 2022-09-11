@@ -49,7 +49,7 @@ $.each(arr, function (index, item) {
 | :-------------------------: | :--------------------------: |
 |        设置单个样式         |    `css('width','10em')`     |
 |        设置多个样式         |     `css({width:10em})`      |
-|     设置内置属性(对象)      |       `prop('value')`        |
+|     设置固有属性(对象)      |       `prop('value')`        |
 |    设置自定义属性(页面)     |       `attr('index')`        |
 |          设置变量           |       `data('index')`        |
 |          获取索引           |      `$(this).index()`       |
