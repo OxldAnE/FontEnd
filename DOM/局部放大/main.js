@@ -1,76 +1,60 @@
-const app = document.querySelector('#app')
-const l = app.querySelector('img')
-const r = l.nextElementSibling
-const ul = app.querySelector('ul')
-const lis = ul.querySelectorAll('li')
-const ol = app.querySelector('ol')
+$(function () {
+  let big = $('.big')
+  let mask = $('.mask')
+  $('div:first-child').on({
+    /* 鼠标进入
+     * 显示大图和放大镜 */
+    mouseenter : function () {
+      big.css({display : 'block'})
+      mask.css({display : 'block'})
 
-/* 滑动效果 */
-function slide (o, end) {
-  clearInterval(o.timer);
-  o.timer = setInterval(function () {
-    let step = (end - o.offsetLeft) / 10
-    step = step > 0
-           ? Math.ceil(step)
-           : Math.floor(step)
-    if (o.offsetLeft === end) {
-      clearInterval(o.timer)
-    }
-    else {
-      o.style.left = o.offsetLeft + step + 'px'
-    }
-  }, 10)
-}
+      /* 鼠标移动
+       * 放大镜随鼠标移动，但不出界
+       * 大图按照比例反向移动 */
+      $(this).mousemove(function (e) {
+        let mouseX = e.pageX
+        let mouseY = e.pageY
+        let smallX = $(this).offset().left
+        let smallY = $(this).offset().top
+        let smallWidth = $(this).width()
+        let smallHeight = $(this).height()
+        let bigWidth = big.width()
+        let bigHeight = big.height()
+        let maskWidth = mask.width()
+        let maskHeight = mask.height()
 
-/* 启动向右轮播的定时器 */
-let timer = setInterval(function () {
-  r.click()
-}, 1000)
+        // (0,0) 放大镜正好在小图左上角
+        let x = mouseX - smallX - maskWidth / 2
+        let y = mouseY - smallY - maskHeight / 2
 
-/* 鼠标进入，显示左右按钮，停止定时器 */
-app.addEventListener('mouseenter', function () {
-  l.style.display = 'inline'
-  r.style.display = 'inline'
-  clearInterval(timer)
-})
+        // 不出界
+        if (x < 0) {
+          x = 0
+        }
+        else if (x > smallWidth - maskWidth) {
+          x = smallWidth - maskWidth
+        }
 
-/* 鼠标离开，隐藏左右按钮，重启定时器 */
-app.addEventListener('mouseleave', function () {
-  l.style.display = 'none'
-  r.style.display = 'none'
-  timer = setInterval(function () {
-    r.click()
-  }, 1000)
-})
+        if (y < 0) {
+          y = 0
+        }
+        else if (y > smallHeight - maskHeight) {
+          y = smallHeight - maskHeight
+        }
+        mask.css({left : `${ x }px`, top : `${ y }px`})
+        big.css(
+          {
+            left : `${ -x * bigWidth / smallWidth }px`,
+            top  : `${ -y * bigHeight / smallHeight }px`,
+          })
+      })
+    },
 
-/* 添加小圆圈，并记录索引 */
-let len = lis.length
-for (let i = 0; i < len; i++) {
-  let li = document.createElement('li')
-  li.index = i
-  ol.appendChild(li)
-}
-const ols = ol.querySelectorAll('li')
-ols[0].className = 'cur'
-
-/* 为每个圆圈添加点击事件
- * 圆圈样式，滑动图片 */
-ols.forEach(function (li) {
-  li.addEventListener('click', function () {
-    ols.forEach(function (li) {
-      li.className = ''
-    })
-    this.className = 'cur'
-    slide(ul, -app.offsetWidth * this.index)
+    /* 鼠标离开
+     隐藏大图和放大镜 */
+    mouseleave : function () {
+      big.css({display : 'none'})
+      mask.css({display : 'none'})
+    },
   })
-})
-
-/* 左右按钮，点击圆圈 */
-let i = 0
-l.addEventListener('click', function () {
-  ols[Math.abs(++i % len)].click()
-})
-
-r.addEventListener('click', function () {
-  ols[Math.abs(--i % len)].click()
 })

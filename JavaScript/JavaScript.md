@@ -1,5 +1,16 @@
 # `JavaScript`
 
+## 输出
+
+|   描述   |                  示例                  |
+| :------: | :------------------------------------: |
+| 输出变量 |            `console.log()`             |
+| 表格显示 |           `console.table()`            |
+| 执行时间 |  `console.time()`/`console.timeEnd()`  |
+| 执行次数 |           `console.count()`            |
+|   分组   | `console.group()`/`console.groupEnd()` |
+| 调用过程 |           `console.trace()`            |
+
 ## 关键字
 
 ### `var`/`let`/`const`
@@ -464,12 +475,12 @@ const r = /1/
 const s = '121'
 ```
 
-|                描述                 |           示例           |                         结果                         |
-| :---------------------------------: | :----------------------: | :--------------------------------------------------: |
-|     判断字符串是否有匹配的子串      |       `r.test(s)`        |                        `true`                        |
-|       返回匹配子串的起始位置        |      `s.search(r)`       |                         `0`                          |
-| 返回[匹配子串,起始位置,字符串,分组] | `r.exec(s)`/`s.match(r)` | `[ '1', index: 0, input: '121', groups: undefined ]` |
-|       替换字符串中匹配的子串        |    `s.replace(r, '')`    |                         `21`                         |
+|                描述                 |           示例           |                             结果                             |
+| :---------------------------------: | :----------------------: | :----------------------------------------------------------: |
+|     判断字符串是否有匹配的子串      |       `r.test(s)`        |                            `true`                            |
+|       返回匹配子串的起始位置        |      `s.search(r)`       |                             `0`                              |
+| 返回[匹配子串,起始位置,字符串,分组] | `r.exec(s)`/`s.match(r)` | ![image-20220911234423810](assets/image-20220911234423810.png) |
+|       替换字符串中匹配的子串        |    `s.replace(r, '')`    |                             `21`                             |
 
 - 匹配所有
 
@@ -641,14 +652,14 @@ const s = new Set([1, 1])
 const m = new Map([['a', 1]])
 ```
 
-|            描述             |      示例       |           结果            |
-| :-------------------------: | :-------------: | :-----------------------: |
-|         添加键值对          | `m.set('b', 2)` | ` { 'a' => 1, 'b' => 2 }` |
-|       获取键值对个数        |    `m.size`     |            `1`            |
-|       判断是否存在键        |  `m.has('a')`   |          `true`           |
-|       获取键对应的值        |  `m.get('a')`   |            `1`            |
-| 删除键值对，成功返回 `true` | `m.delete('a')` |          `true`           |
-|         清空键值对          |   `m.clear()`   |                           |
+|            描述             |      示例       |                             结果                             |
+| :-------------------------: | :-------------: | :----------------------------------------------------------: |
+|         添加键值对          | `m.set('b', 2)` | ![image-20220911235722983](assets/image-20220911235722983.png) |
+|       获取键值对个数        |    `m.size`     |                             `1`                              |
+|       判断是否存在键        |  `m.has('a')`   |                            `true`                            |
+|       获取键对应的值        |  `m.get('a')`   |                             `1`                              |
+| 删除键值对，成功返回 `true` | `m.delete('a')` |                            `true`                            |
+|         清空键值对          |   `m.clear()`   |                                                              |
 
 ## 函数
 
@@ -688,31 +699,6 @@ let f = function () {}
 |      有`arguments`对象       |         1          |       0        |
 | 支持 `call`、`apply`、`bind` |         1          |       0        |
 |            `this`            | 调用时的上下文对象 | 定义时的上下文 |
-
-### [递归函数](示例/递归函数.js)
-
-- 将执行上下文的信息打印
-
-- 从函数的回归过程，思考代码的书写
-
-    - 递进终止条件
-
-    - 状态转移
-        - 由下层结果推出本层结果
-        - 返回本层结果
-
-![image-20220911091346718](assets/image-20220911091346718.png)
-
-```js
-function f (n) {
-  if (n === 1) {
-    return 1
-  }
-  return f(n - 1) * n
-}
-
-console.log(f(4)) // 24
-```
 
 ### 回调函数
 
@@ -849,8 +835,9 @@ Function.prototype.myBind = function () {
 }
 ```
 
+![image-20220912001037428](assets/image-20220912001037428.png)
+
 ```js
-// { a: 1, b: 2, c: 3 }
 console.log(f.myCall(o, 2, 3))
 console.log(f.myApply(o, [2, 3]))
 console.log(f.myBind(o, 2, 3)())
@@ -1195,6 +1182,8 @@ console.log(o.f()() === window) // true
 
 ### 函数柯里化
 
+![image-20220912001823272](assets/image-20220912001823272.png)
+
 ```js
 /* 闭包实现函数柯里化 */
 function url (protocol) {
@@ -1206,16 +1195,12 @@ function url (protocol) {
 }
 
 const web = url('https://')('www.a.com')
-const html = web('/index.html')
-const css = web('/style.css')
-const js = web('/main.js')
-
-console.log(html) // https://www.a.com/index.html
-console.log(css) // https://www.a.com/style.css
-console.log(js) // https://www.a.com/main.js
+console.table([web('/index.html'), web('/style.css'), web('/main.js')])
 ```
 
 #### `add`
+
+![image-20220912002637432](assets/image-20220912002637432.png)
 
 ```js
 /* 在函数内部创建接收首层参数的数组
@@ -1224,13 +1209,16 @@ console.log(js) // https://www.a.com/main.js
  * 对数组所有元素进行相加 */
 function add () {
   let args = [...arguments]
+  console.group('add', args)
 
   function f () {
     args.push(...arguments)
+    console.group('f', args)
     return f
   }
 
   f.toString = function () {
+    console.group('ftoString', args)
     return args.reduce((s, v) => s + v, 0)
   }
 
@@ -1245,25 +1233,25 @@ console.log(Number(add(1, 2, 3)(4, 5)(6))) // 21
 ### 对象方法
 
 ```js
-const o = {a : 1}
+const o = {a : 1, b : 2}
 ```
 
 |                     描述                      |                             示例                             |                             结果                             |
 | :-------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|              读取单个属性的描述               |          `Object.getOwnPropertyDescriptor(o, 'a')`           | `{ value: 1, writable: true, enumerable: true, configurable: true }` |
-|              读取多个属性的描述               |            `Object.getOwnPropertyDescriptors(o)`             | `{a: { value: 1, writable: true, enumerable: true, configurable: true }}` |
+|              读取单个属性的描述               |          `Object.getOwnPropertyDescriptor(o, 'a')`           | ![image-20220912002739565](assets/image-20220912002739565.png) |
+|              读取多个属性的描述               |            `Object.getOwnPropertyDescriptors(o)`             | ![image-20220912002910213](assets/image-20220912002910213.png) |
 |            实例对象上是否存在属性             |                   `o.hasOwnProperty('a')`                    |                            `true`                            |
 |                属性是否可枚举                 |                `o.propertyIsEnumerable('a')`                 |                            `true`                            |
-| 添加单个属性及其描述(值/可修改/可删除/可枚举) | `Object.defineProperty(o, 'b', {value : 2, enumerable : true})` |                       `{ a: 1, b: 2 }`                       |
-| 添加多个属性及其描述(值/可修改/可删除/可枚举) | `Object.defineProperties(o, {b : {value : 2, enumerable : true}, c : {value : 3, enumerable : true}})` |                    `{ a: 1, b: 2, c: 3 }`                    |
+| 添加单个属性及其描述(值/可修改/可删除/可枚举) | `Object.defineProperty(o, 'c', {value : 3, enumerable : true})` | ![image-20220912003042481](assets/image-20220912003042481.png) |
+| 添加多个属性及其描述(值/可修改/可删除/可枚举) | `Object.defineProperties(o, {c : {value : 3, enumerable : true}, d : {value : 4, enumerable : true}})` | ![image-20220912003212528](assets/image-20220912003212528.png) |
 |              获取实例的原型对象               |                  `Object.getPrototypeOf(o)`                  |                      `Object.prototype`                      |
-|              设置实例的原型对象               |        `Object.setPrototypeOf(o, Function.prototype)`        |                     `Function { a: 1 }`                      |
+|              设置实例的原型对象               |        `Object.setPrototypeOf(o, Function.prototype)`        |                  `Function { a: 1, b: 2 }`                   |
 |         判断原型对象是否为实例的原型          |             `Object.prototype.isPrototypeOf(o)`              |                            `true`                            |
 |                 删除对象属性                  |                         `delete o.a`                         |                             `{}`                             |
 |              冻结对象，不让修改               |                      `Object.freeze(o)`                      |                                                              |
-|             浅拷贝对象可枚举属性              |               `Object.assign({}, o, {b : 2})`                |                       `{ a: 1, b: 2 }`                       |
-|     创建以对象为原型对象并添加属性的实例      |  `Object.create(o, {'b' : {value : 2, enumerable : true}})`  |                          `{ b: 2 }`                          |
-|             将对象转换为二维数组              |                     `Object.entries(o)`                      |                       `[ [ 'a', 1 ] ]`                       |
+|             浅拷贝对象可枚举属性              |               `Object.assign({}, o, {c : 3})`                | ![image-20220912003418714](assets/image-20220912003418714.png) |
+|     创建以对象为原型对象并添加属性的实例      |  `Object.create(o, {'c' : {value : 3, enumerable : true}})`  | ![image-20220912003551347](assets/image-20220912003551347.png) |
+|             将对象转换为二维数组              |                     `Object.entries(o)`                      | ![image-20220912003655396](assets/image-20220912003655396.png) |
 |             将二维数组转换为对象              |             `Object.fromEntries([ [ 'a', 1 ] ])`             |                          `{ a: 1 }`                          |
 
 ### 创建对象

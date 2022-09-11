@@ -7,6 +7,7 @@
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <link href='#' rel='shortcut icon' />
     <title>index</title>
+    <script src='../jquery-3.6.1.min.js'></script>
     <style>
         section {
             display : flex;
@@ -42,28 +43,28 @@
     <div>3</div>
 </section>
 <script>
-  const divs = document.querySelectorAll('div')
-  const deadTime = new Date('2023-1-1')
-  f()
-  setInterval(f, 1000)
+  $(function () {
+    f()
+    setInterval(f, 1000)
 
-  function f () {
-    let now = new Date()
-    let time = deadTime - now
-    let h = parseInt(time / 1000 / 60 / 60 % 24)
-    let m = parseInt(time / 1000 / 60 % 60)
-    let s = parseInt(time / 1000 % 60)
-    divs[0].innerHTML = g(h)
-    divs[1].innerHTML = g(m)
-    divs[2].innerHTML = g(s)
-  }
+    function f () {
+      let time = new Date('2023-1-1') - new Date()
+      const arr = [
+        parseInt(time / 1000 / 60 / 60 % 24),
+        parseInt(time / 1000 / 60 % 60),
+        parseInt(time / 1000 % 60)]
+      $.each($('div'), function (index, item) {
+        $(item).html(g(arr[index]))
+      })
+    }
 
-  // 补足十位
-  function g (n) {
-    return n = n < 10
-               ? '0' + n
-               : n
-  }
+    // 补足十位
+    function g (n) {
+      return n < 10
+             ? '0' + n
+             : n
+    }
+  })
 </script>
 </body>
 </html>
