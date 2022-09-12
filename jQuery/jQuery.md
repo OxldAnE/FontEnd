@@ -60,10 +60,10 @@ $.each(arr, function (index, item) {
 |           添加类            |      `addClass('cur')`       |
 |           移除类            |     `removeClass('cur')`     |
 |           切换类            |     `toggleClass('cur')`     |
-|          内容宽度           |          `wideth()`          |
-|       内容+内边距宽度       |       `innerWideth()`        |
-|    内容+内边距+边框宽度     |       `outerWideth()`        |
-| 内容+内边距+边框+外边距宽度 |     `outerWideth(true)`      |
+|          内容宽度           |          `width()`           |
+|       内容+内边距宽度       |        `innerWidth()`        |
+|    内容+内边距+边框宽度     |        `outerWidth()`        |
+| 内容+内边距+边框+外边距宽度 |      `outerWidth(true)`      |
 |      设置相对文档位置       |          `offset()`          |
 |  获取相对有定位的祖先元素   |         `position()`         |
 |       设置滚动条距离        | `scrollTop()`/`scrollLeft()` |
@@ -131,18 +131,22 @@ $('ul').on('click', 'li', function () {})
 
 ```js
 $(function () {
-  /* 输入框内容改变
-   * 更新总价 */
+  /* 输入框内容改变 */
   $('.number').change(function () {
+    // 更新总价
     let price = $(this).parent().siblings('.price').html().substring(2)
     let num = $(this).val()
-    $(this).parent().siblings('.sum').html(`¥ ${ (price * num).toFixed(2) }`)
+    $(this).parent().siblings('.sum')
+           .html(`¥ ${ (price * num).toFixed(2) }`)
+
+    // 结算价
     let sum = 0
     $.each($('.sum'), function (index, item) {
       sum += parseFloat($(item).html().substring(2))
     })
     $('.final').html(`¥ ${ sum.toFixed(2) }`)
   })
+  // 加载页面
   $('.number').change()
 
   /* 自减
@@ -154,14 +158,14 @@ $(function () {
       return false
     }
     $(this).siblings('.number').val(--val)
-    $(this).siblings('.number').change()
+    $('.number').change()
   })
 
   /* 自增 */
   $('.increment').click(function () {
     let val = $(this).siblings('.number').val()
     $(this).siblings('.number').val(++val)
-    $(this).siblings('.number').change()
+    $('.number').change()
   })
 
   /* 全选勾选 */
@@ -180,6 +184,7 @@ $(function () {
   /* 删除子项 */
   $('.del').click(function () {
     $(this).parents('tr').remove()
+    $('.number').change()
     none()
   })
 
@@ -192,7 +197,6 @@ $(function () {
         $(item).parents('tr').find('.del').click()
       }
     })
-    $('.number').change()
     none()
   })
 })
@@ -263,9 +267,9 @@ $(function () {
    * 返回将字符串转化成的对象或空数组 */
   function getData () {
     let data = localStorage.getItem('todoList')
-    return (data)
-           ? (JSON.parse(data))
-           : ([])
+    return data
+           ? JSON.parse(data)
+           : []
   }
 
   /* 存储本地数据
@@ -298,6 +302,15 @@ $(function () {
     $('#doneCount').text(doneCount)
   }
 
+  /* 处理数据
+   * 读取，处理，存储，渲染 */
+  function dealData (callback) {
+    let data = getData()
+    callback(data)
+    setData(data)
+    loadData()
+  }
+
   /* 添加事项
    * 回车事件，内容非空
    * 读取，添加表项，存储，渲染，清空输入框*/
@@ -308,15 +321,12 @@ $(function () {
           confirm('输入内容不能为空')
         }
         else {
-          let data = getData()
-          let val = $(this).val()
-          let todo = {
-            title : val,
-            done  : false,
-          }
-          data.push(todo)
-          setData(data)
-          loadData()
+          dealData(data => {
+            data.push({
+              title : $(this).val(),
+              done  : false,
+            })
+          })
           $(this).val('')
         }
       }
@@ -327,20 +337,18 @@ $(function () {
   /* 删除待办事项
    * 点击事件，读取，删除表项，存储，渲染 */
   $('ol,ul').on('click', 'a', function () {
-    let data = getData()
-    data.splice($(this).attr('id'), 1)
-    setData(data)
-    loadData()
+    dealData(data => {
+      data.splice($(this).attr('id'), 1)
+    })
   })
 
   /* 勾选完成
    * 读取，存储，渲染 */
   $('ol,ul').on('click', 'input', function () {
-    let data = getData()
-    let id = $(this).siblings('a').attr('id')
-    data[id].done = $(this).prop('checked')
-    setData(data)
-    loadData()
+    dealData(data => {
+      let id = $(this).siblings('a').attr('id')
+      data[id].done = $(this).prop('checked')
+    })
   })
 })
 ```

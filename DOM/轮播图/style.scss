@@ -1,12 +1,7 @@
 @import '../basic.css';
 
-body {
-  font-size : 2em;
-}
-
 /* 溢出隐藏，只显示一张照片 */
 #app {
-  margin   : 0 auto;
   width    : 20em;
   position : relative;
   height   : 13em;
@@ -36,12 +31,12 @@ div img {
 
 /* 设置 left 的大小实现轮播效果 */
 ul {
-  width    : 600%;
+  width    : 500%;
   position : absolute;
-  left     : -100%;
+  left     : 0;
 
   li {
-    width : calc(100% / 6);
+    width : calc(100% / 5);
     float : left;
 
     img {

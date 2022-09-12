@@ -3,9 +3,9 @@ $(function () {
    * 返回将字符串转化成的对象或空数组 */
   function getData () {
     let data = localStorage.getItem('todoList')
-    return (data)
-           ? (JSON.parse(data))
-           : ([])
+    return data
+           ? JSON.parse(data)
+           : []
   }
 
   /* 存储本地数据
@@ -38,6 +38,15 @@ $(function () {
     $('#doneCount').text(doneCount)
   }
 
+  /* 处理数据
+   * 读取，处理，存储，渲染 */
+  function dealData (callback) {
+    let data = getData()
+    callback(data)
+    setData(data)
+    loadData()
+  }
+
   /* 添加事项
    * 回车事件，内容非空
    * 读取，添加表项，存储，渲染，清空输入框*/
@@ -48,15 +57,12 @@ $(function () {
           confirm('输入内容不能为空')
         }
         else {
-          let data = getData()
-          let val = $(this).val()
-          let todo = {
-            title : val,
-            done  : false,
-          }
-          data.push(todo)
-          setData(data)
-          loadData()
+          dealData(data => {
+            data.push({
+              title : $(this).val(),
+              done  : false,
+            })
+          })
           $(this).val('')
         }
       }
@@ -67,19 +73,17 @@ $(function () {
   /* 删除待办事项
    * 点击事件，读取，删除表项，存储，渲染 */
   $('ol,ul').on('click', 'a', function () {
-    let data = getData()
-    data.splice($(this).attr('id'), 1)
-    setData(data)
-    loadData()
+    dealData(data => {
+      data.splice($(this).attr('id'), 1)
+    })
   })
 
   /* 勾选完成
    * 读取，存储，渲染 */
   $('ol,ul').on('click', 'input', function () {
-    let data = getData()
-    let id = $(this).siblings('a').attr('id')
-    data[id].done = $(this).prop('checked')
-    setData(data)
-    loadData()
+    dealData(data => {
+      let id = $(this).siblings('a').attr('id')
+      data[id].done = $(this).prop('checked')
+    })
   })
 })

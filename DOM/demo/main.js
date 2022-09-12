@@ -1,34 +1,80 @@
-/* 以构造函数的原型对象为原型对象创建实例
- * 构造函数 this 绑定到实例并执行，为实例添加属性
- * new 当构造函数返回对象，会返回构造函数返回的对象，而不是新创建的对象 */
-function myNew (constructor, ...args) {
-  const o   = Object.create(constructor.prototype),
-        res = constructor.apply(o, args)
-  return res instanceof Object
-         ? res
-         : o
-}
+import slide from '../slide.js'
 
-function F (a) {
-  this.a = a
-  this.A = function () {
-    return this.a
+$(function () {
+  let app = $('#app')
+  let lr = $('div img')
+  let olLi = $('ol li')
+  let ul = $('ul')
+  let ulImg = $('ul img')
+
+  /* 排他 */
+  function cur (i) {
+    olLi.eq(i).addClass('cur')
+        .siblings().removeClass('cur')
   }
-  // 返回对象
-  return {
-    a : 0,
-    A () {
-      return this.a
-    },
-  }
-}
 
-const o = myNew(F, 1)
-const p = new F(1)
-o.A() // 0
-p.A() // 0
+  /* 点击底部圆圈，切换到指定图片 */
+  // 互斥锁
+  let flag = true
+  let len = olLi.length
+  let width = ulImg.eq(0).width()
+  olLi.click(function () {
+    if (flag) {
+      flag = false
+      cur($(this).index())
+      slide(ul, -width * $(this).index(), function () {
+        flag = true
+      })
+    }
+  })
 
-/* 不是同个实例 */
-o.a = 1
-console.log(p.A()) // 0
-console.log(o.A === p.A) // false
+  /* 点击左右按钮切换上下张图片
+   *  0 1 2 3 4(0)
+   * 4 -> 0 , 0 -> 4 */
+  let i = 0
+  lr.click(function () {
+    if (flag) {
+      flag = false
+      // 右 = 1 , 左 = 0
+      let isR = $(this).index()
+      // 向右拉上一张图片，且已经是第一张，传送到最后一张
+      // 向左拉下一张图片，且已经是最后一张，传送到第一张
+      if (isR && i === 0) {
+        i = len
+      }
+      else if (!isR && i === len) {
+        i = 0
+      }
+      ul.offset({left : -width * i})
+
+      // 向右拉上一张，向左拉下一张
+      if (isR) {
+        --i
+      }
+      else {
+        ++i
+      }
+      cur(i % len)
+      slide(ul, -width * i, function () {
+        flag = true
+      })
+    }
+  })
+
+  /* 自动播放下张图片 */
+  let timer = setInterval(function () {
+    lr.eq(0).click()
+  }, 2000)
+
+  /* 鼠标进入和离开，显示和隐藏上下按钮
+   * 停止自动播放 */
+  app.hover(function () {
+    lr.show()
+    clearInterval(timer)
+  }, function () {
+    lr.hide()
+    timer = setInterval(function () {
+      lr.eq(0).click()
+    }, 2000)
+  })
+})

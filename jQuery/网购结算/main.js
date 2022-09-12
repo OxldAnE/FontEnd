@@ -1,16 +1,20 @@
 $(function () {
-  /* 输入框内容改变
-   * 更新总价 */
+  /* 输入框内容改变 */
   $('.number').change(function () {
+    // 更新总价
     let price = $(this).parent().siblings('.price').html().substring(2)
     let num = $(this).val()
-    $(this).parent().siblings('.sum').html(`¥ ${ (price * num).toFixed(2) }`)
+    $(this).parent().siblings('.sum')
+           .html(`¥ ${ (price * num).toFixed(2) }`)
+
+    // 结算价
     let sum = 0
     $.each($('.sum'), function (index, item) {
       sum += parseFloat($(item).html().substring(2))
     })
     $('.final').html(`¥ ${ sum.toFixed(2) }`)
   })
+  // 加载页面
   $('.number').change()
 
   /* 自减
@@ -22,14 +26,14 @@ $(function () {
       return false
     }
     $(this).siblings('.number').val(--val)
-    $(this).siblings('.number').change()
+    $('.number').change()
   })
 
   /* 自增 */
   $('.increment').click(function () {
     let val = $(this).siblings('.number').val()
     $(this).siblings('.number').val(++val)
-    $(this).siblings('.number').change()
+    $('.number').change()
   })
 
   /* 全选勾选 */
@@ -48,6 +52,7 @@ $(function () {
   /* 删除子项 */
   $('.del').click(function () {
     $(this).parents('tr').remove()
+    $('.number').change()
     none()
   })
 
@@ -60,7 +65,6 @@ $(function () {
         $(item).parents('tr').find('.del').click()
       }
     })
-    $('.number').change()
     none()
   })
 })
