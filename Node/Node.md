@@ -1,84 +1,30 @@
 # `Node.js`
 
-## 
+## 模块
+
+|  描述  |  示例  |
+| :----: | :----: |
+|  文件  |  `fs`  |
+|  路径  | `path` |
+| 服务器 | `http` |
+|        |        |
+|        |        |
+
+## 方法
+
+|          描述          |                         示例                         |
+| :--------------------: | :--------------------------------------------------: |
+| 目录 + 文件名 + 扩展名 |                     `__filename`                     |
+|          目录          |                     `__dirname`                      |
+|    文件名 + 扩展名     |             `path.basename(__filename)`              |
+|         扩展名         |              `path.extname(__filename)`              |
+|         文件名         | `path.basename(__filename,path.extname(__filename))` |
+|        请求地址        |                      `req.url`                       |
+|        请求方式        |                     `req.method`                     |
+|        响应数据        |                   `res.end(data)`                    |
+|        导出对象        |                   `module.exports`                   |
 
 
-
-## 模块化
-
-```js
-module.exports = {
-  a: 1,
-  f () {
-    console.log(this.a)
-  },
-}
-```
-
-```js
-/* 模块化
- * require 加载模块
- * module 对象中的 exports 对象为对外接口
- * 自定义模块 ./ 不可省 */
-const demo = require('./Koa.js')
-demo.f() // 1
-```
-
-## 文件系统
-
-```js
-/* 文件系统
- * fs 文件模块
- * path 路径模块
- * 写入不能创建文件夹，且会覆盖原本内容  */
-const fs = require('fs')
-const path = require('path')
-
-// 读取文件
-fs.readFile('1.txt', 'utf-8', (err, data) => {
-  if (err) {
-    return console.error(err)
-  }
-  let str = data.split('').join('-')
-  // 写入文件
-  fs.writeFile('2.txt', str, (err) => {
-    if (err) {
-      return console.error(err)
-    }
-    console.log('写入成功')
-  })
-})
-
-// 目录 + 文件名 + 扩展名
-console.log(__filename)
-// 目录
-console.log(__dirname)
-// 文件名 + 扩展名
-console.log(path.basename(__filename))
-// 扩展名
-console.log(path.extname(__filename))
-// 文件名
-console.log(path.basename(__filename, path.extname(__filename)))
-```
-
-## 服务器
-
-```js
-/* http web服务器模块 */
-const http = require('http')
-// 创建服务器实例
-const server = http.createServer((req, res) => {
-  // 防止中文乱码
-  res.setHeader('Content-Type', 'text/html;charset=utf-8')
-  // 响应内容
-  res.end(`你请求的 URL = ${req.url}`)
-})
-
-// 启动服务器
-server.listen(8080, () => {
-  console.log('http://127.0.0.1:8080')
-})
-```
 
 ## `Koa`
 
