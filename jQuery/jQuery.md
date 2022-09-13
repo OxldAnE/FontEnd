@@ -5,9 +5,9 @@
 |          描述          |                        示例                         |
 | :--------------------: | :-------------------------------------------------: |
 |       获取父元素       |                     `parent()`                      |
-|      获取祖先元素      |                  `parents('div')`                   |
+|      获取祖先元素      |                     `parents()`                     |
 |     获取所有子元素     |                    `children()`                     |
-|  在元素里获取后代元素  |                    `find('li')`                     |
+|  在元素里获取后代元素  |                      `find()`                       |
 |    获取所有兄弟元素    |                    `siblings()`                     |
 | 添加到元素内部的最后面 |                     `append()`                      |
 | 添加到元素内部的最前面 |                     `prepend()`                     |
@@ -20,46 +20,21 @@
 |    可遍历数组和对象    |       ``$.each(arr,function(index,item){})``        |
 |        对象拷贝        |              `$.extend(true,tgt,src)`               |
 
-```js
-let arr = ['red', 'blue']
-```
-
-```js
-/* 遍历 `jq`对象得到 DOM 对象 */
-$('li').each(function (index, item) {$(item).css('color', arr[index])})
-```
-
-```js
-/* 两者等价 */
-$.each($('li'), function (index, item) {
-  $(item).css('color', arr[index])
-})
-```
-
-```js
-/* 可遍历数组和对象 */
-$.each(arr, function (index, item) {
-  console.log(item)
-})
-```
-
 ## 属性
 
 |            描述             |             示例             |
 | :-------------------------: | :--------------------------: |
-|        设置单个样式         |    `css('width','10em')`     |
-|        设置多个样式         |     `css({width:10em})`      |
+|          设置样式           |     `css({width:10em})`      |
 |     设置固有属性(对象)      |       `prop('value')`        |
 |    设置自定义属性(页面)     |       `attr('index')`        |
-|          设置变量           |       `data('index')`        |
 |          获取索引           |      `$(this).index()`       |
 |        设置元素内容         |           `html()`           |
 |        设置元素文本         |           `text()`           |
 |     获取表单值(字符串)      |           `val()`            |
-|     判断元素是否包含类      |      `hasClass('cur')`       |
-|           添加类            |      `addClass('cur')`       |
-|           移除类            |     `removeClass('cur')`     |
-|           切换类            |     `toggleClass('cur')`     |
+|     判断元素是否包含类      |         `hasClass()`         |
+|           添加类            |         `addClass()`         |
+|           移除类            |       `removeClass()`        |
+|           切换类            |       `toggleClass()`        |
 |          内容宽度           |          `width()`           |
 |       内容+内边距宽度       |        `innerWidth()`        |
 |    内容+内边距+边框宽度     |        `outerWidth()`        |

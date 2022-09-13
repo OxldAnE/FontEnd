@@ -35,7 +35,7 @@
 |  获取请求体  |  `req.body`  |
 |   响应数据   | `res.send()` |
 
-## 中间件
+### 中间件
 
 |          描述          |          示例          |
 | :--------------------: | :--------------------: |
@@ -50,7 +50,7 @@
   - 只发生一次请求
   - `GET`/`POST`/`HEAD`
 
-## `Web` 开发模式
+### `Web` 开发模式
 
 |              |                   服务端渲染                   |                  前后端分离                   |
 | :----------: | :--------------------------------------------: | :-------------------------------------------: |
@@ -64,91 +64,44 @@
 
 ## `Koa`
 
-```js
-/* Koa 创建服务器 */
-const koa = require('koa')
-const app = new koa()
-// 引入并执行路由
-const router = require('koa-router')()
-// 静态
-const static = require('koa-static')
+### 模块
 
-router.get('/', async ctx => {
-  ctx.body = '/'
-})
-
-router.get('/video', async ctx => {
-  ctx.body = '/video'
-})
-
-// 挂载路由
-app.use(router.routes())
-// 静态资源
-app.use(static(__dirname + '/public'))
-
-app.listen(8080, () => {
-  console.log('http://127.0.0.1:8080')
-  console.log('http://127.0.0.1:8080/1.png')
-
-})
-```
+|      描述      |     示例     |
+| :------------: | :----------: |
+|      路由      | `koa-router` |
+|  托管静态资源  | `koa-static` |
+|  配置模板引擎  | `koa-views`  |
+|  下载模板引擎  |  `nunjucks`  |
+| 解析请求体数据 | `koa-parser` |
 
 ### 模板引擎
 
-```html
-<!-- index.html -->
-<!-- 默认 get -->
-<!-- <form action="/login"> -->
-<!--     <input type="text" name="username" placeholder='用户名'> -->
-<!--     <input type="password" name="password" placeholder="密码"> -->
-<!--     <input type="submit" value="登录"> -->
-<!-- </form> -->
-<form action="/login" method="post">
-    <input type="text" name="username" placeholder='用户名'>
-    <input type="password" name="password" placeholder="密码">
-    <input type="submit" value="登录">
-</form>
-```
-
-```html
-<!-- login.html -->
-用户名：{{username}}
-密码：{{password}}
-```
-
 ```js
-/* 模板引擎 后端渲染 */
+/* koa 对象，路由 */
 const koa = require('koa')
 const app = new koa()
+const router = require('koa-router')()
+
+/* 解析请求体数据 */
+const parser = require('koa-parser')
+app.use(parser())
+
+/* 模板引擎，后端渲染 */
 const views = require('koa-views')
 const nunjucks = require('nunjucks')
-const router = require('koa-router')()
-// post 依赖
-const parser = require('koa-parser')
-
-app.use(parser())
-// 设置模板引擎
 app.use(views(__dirname + '/views', {
-  map: {html: 'nunjucks'},
+  map : {html : 'nunjucks'},
 }))
 
-// 主页
+/* 主页渲染 */
 router.get('/', async ctx => {
   await ctx.render('index')
 })
-// get 请求
-router.get('/login', async ctx => {
-  await ctx.render('login', {
-    // 查询参数传参
-    username: ctx.query.username,
-    password: ctx.query.password,
-  })
-})
+
+/* 用主页登录时，提交的数据去渲染登录页面 */
 router.post('/login', async ctx => {
   await ctx.render('login', {
-    // 请求体传参
-    username: ctx.request.body.username,
-    password: ctx.request.body.password,
+    un : ctx.request.body.username,
   })
 })
 
@@ -158,7 +111,7 @@ app.listen(8080, () => {
 })
 ```
 
-### `Cookie`/`Session`
+### `Session`
 
 ```js
 const koa = require('koa')
@@ -166,13 +119,14 @@ const app = new koa()
 const router = require('koa-router')()
 const session = require('koa-session')
 
-// cookie
+/* cookie */
 router.get('/cookie', async ctx => {
   let count = ctx.cookies.get('count')
   if (count) {
     ++count
-    // 设置 cookies 键 值 有效期
-    ctx.cookies.set('count', count, {maxAge: 1000})
+    ctx.cookies.set('count', count, {
+      maxAge : 1000,
+    })
   }
   else {
     ctx.cookies.set('count', 1)
@@ -180,10 +134,10 @@ router.get('/cookie', async ctx => {
   ctx.body = count
 })
 
-// session
+/* session */
 app.keys = ['123456']
 app.use(session({
-  maxAge: 1000,
+  maxAge : 1000,
 }, app))
 
 router.get('/session', async ctx => {
@@ -205,114 +159,58 @@ app.listen(8080, () => {
 
 ### `Ajax`
 
-```html
-<!-- Ajax  -->
-<button>获取数据</button>
-<script>
-  const btn = document.querySelector('button')
-  // 回调函数封装 Ajax
-  // btn.addEventListener('click', function () {
-  //   myAjax('get', '/data', function (result) {
-  //     alert(result)
-  //   })
-  // })
-
-  // function myAjax (method, url, next) {
-  //   const xhr = new XMLHttpRequest()
-  //   // 设置请求类型
-  //   xhr.open(method, url)
-  //   // 发送请求
-  //   xhr.send()
-  //   xhr.onreadystatechange = function () {
-  //     if (xhr.readyState === 4 && xhr.status === 200) {
-  //       // 回调函数返回异步结果
-  //       next(xhr.responseText)
-  //     }
-  //   }
-  // }
-
-  // Promise 封装 Ajax
-  btn.addEventListener('click', function () {
-    myAjax('get', '/data').then(result => {
-      alert(result)
-    })
-  })
-
-  function myAjax (method, url) {
-    return new Promise(function (resolve) {
-      const xhr = new XMLHttpRequest()
-      xhr.open(method, url)
-      xhr.send()
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          resolve(xhr.responseText)
-        }
-      }
-    })
-  }
-</script>
-```
-
-```html
-<!-- 增删改查 -->
-<button class="get">查询</button>
-<button class="post">添加</button>
-<button class="put">修改</button>
-<button class="delete">删除</button>
-
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-<script>
+```js
+$(function () {
   let i = 0
-  document.querySelector('.get').addEventListener('click', function () {
-    axios.get('/arr').then(result => {console.log(result.data)})
+  $('.get').click(function () {
+    axios.get('/arr').then(res => {console.log(res.data)})
   })
-  document.querySelector('.post').addEventListener('click', function () {
-    axios.post('/arr', {item: i++}).then(result => {console.log(result.data)})
+  $('.post').click(function () {
+    axios.post('/arr', {item : i++}).then(res => {console.log(res.data)})
   })
-  document.querySelector('.put').addEventListener('click', function () {
-    axios.put('/arr/0', {item: i++}).then(result => {console.log(result.data)})
+  $('.put').click(function () {
+    axios.put('/arr/0', {item : i++}).then(res => {console.log(res.data)})
   })
-  document.querySelector('.delete').addEventListener('click', function () {
-    axios.delete('/arr/0').then(result => {console.log(result.data)})
+  $('.delete').click(function () {
+    axios.delete('/arr/0').then(res => {console.log(res.data)})
   })
-</script>
+})
 ```
 
 ```js
+/* 后端渲染 */
 const koa = require('koa')
 const app = new koa()
 const router = require('koa-router')()
 
-const views = require('koa-views')
-app.use(views(__dirname + '/views', {map: {html: 'nunjucks'}}))
-const nunjucks = require('nunjucks')
-
 const parser = require('koa-parser')
 app.use(parser())
+const views = require('koa-views')
+const nunjucks = require('nunjucks')
+app.use(views(__dirname + '/views', {map : {html : 'nunjucks'}}))
 
 router.get('/', async ctx => {
   await ctx.render('index')
 })
 
+/* get 查
+ * post 增
+ * put 改
+ * delete 删 */
 const arr = []
 router.get('/arr', ctx => {
   ctx.body = arr
 })
 router.post('/arr', ctx => {
-  let item = ctx.request.body.item
-  arr.push(item)
+  arr.push(ctx.request.body.item)
   ctx.body = arr
 })
 router.put('/arr/:id', ctx => {
-  let id = ctx.params.id
-  let item = ctx.request.body.item
-  arr.splice(id, 1, item)
+  arr.splice(ctx.params.id, 1, ctx.request.body.item)
   ctx.body = arr
 })
 router.delete('/arr/:id', ctx => {
-  let id = ctx.params.id
-  arr.splice(id, 1)
+  arr.splice(ctx.params.id, 1)
   ctx.body = arr
 })
 
@@ -320,3 +218,5 @@ app.use(router.routes())
 
 app.listen(8080, () => {
   console.log('http://127.0.0.1:8080')
+})
+```
