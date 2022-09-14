@@ -1,17 +1,16 @@
 <template>
-  <div id='app'>
-
+  <div>
+    {{ a }}
   </div>
 </template>
 
 <script>
-
 export default {
-  name : 'App',
-
+  name  : "Son",
+  props : ['a'],
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
