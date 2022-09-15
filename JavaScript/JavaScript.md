@@ -1,4 +1,4 @@
-# `JavaScript`
+# JavaScript
 
 ## 输出
 
@@ -22,13 +22,13 @@
     - 可重复声明
 
 ```js
-function f () {
-  console.log(a) // undefined
-  if (1) {
-    var a
-    var a = 1
-  }
-  console.log(a) // 1
+function f() {
+    console.log(a) // undefined
+    if (1) {
+        var a
+        var a = 1
+    }
+    console.log(a) // 1
 }
 
 f()
@@ -43,8 +43,8 @@ console.log(window.b) // 2
 
 ```js
 if (1) {
-  // console.log(a) 报错
-  let a = 1
+    // console.log(a) 报错
+    let a = 1
 }
 // console.log(a) 报错
 ```
@@ -58,7 +58,7 @@ if (1) {
 const a = 1
 // a = 0 报错
 
-const x = [1]
+const x = [ 1 ]
 // x = [0] 报错
 x[0] = 0
 console.log(x) // [ 0 ]
@@ -77,11 +77,12 @@ console.log(x) // [ 0 ]
 |    `Infinity`    |  `number`   |
 |      `NaN`       |  `number`   |
 |      `null`      |  `object`   |
-|      `[1]`       |  `object`   |
-|     `{a: 1}`     |  `object`   |
+|       `[]`       |  `object`   |
+|       `{}`       |  `object`   |
 |   `new Date()`   |  `object`   |
 
 - `instanceof`
+
     - 检测构造函数的原型对象是否在实例对象的原型链上
     - `Object` 的原型对象位于原型链的最顶端
 
@@ -89,7 +90,7 @@ console.log(x) // [ 0 ]
 - 以下结果均为 `true`
 
 ```js
-function F () {}
+function F() {}
 
 const f = new F()
 ```
@@ -142,7 +143,7 @@ const f = new F()
 ```js
 const s = '插值'
 const ul =
-        `<ul>
+          `<ul>
     <li>${ s }</li>
 </ul>`
 ```
@@ -166,7 +167,7 @@ const ul =
 - `Object`的原型携带的属性和方法
 
 ```js
-const o = new Object({a : 1})
+const o = new Object({ a : 1 })
 ```
 
 |             描述             |                示例                 |       结果        |
@@ -203,8 +204,8 @@ const o = new Object({a : 1})
 - 数组
 
 ```js
-const x = [1, 2, 3]
-const [, ...y] = x
+const x = [ 1, 2, 3 ]
+const [ , ...y ] = x
 console.log(y) // [ 2, 3 ]
 ```
 
@@ -212,12 +213,12 @@ console.log(y) // [ 2, 3 ]
 
 ```js
 const o = {
-  a : 1,
-  b : 2,
+    a : 1,
+    b : 2,
 }
 const {
-        a : n,
-        c : m,
+          a : n,
+          c : m,
       } = o
 console.log(n, m) // 1 undefined
 ```
@@ -226,8 +227,8 @@ console.log(n, m) // 1 undefined
 
 ```js
 const o = {
-  a : 1,
-  b : 2,
+    a : 1,
+    b : 2,
 }
 
 /* 不使用解构赋值 */
@@ -236,8 +237,8 @@ const o = {
  console.log(o.a, o.b)
  } */
 
-function f ({b, a}) {
-  console.log(a, b) // 1 2
+function f({ b, a }) {
+    console.log(a, b) // 1 2
 }
 
 f(o)
@@ -261,7 +262,7 @@ b = c
 - 解构赋值
 
 ```js
-;[a, b] = [b, a]
+;[ a, b ] = [ b, a ]
 ```
 
 - 加减法
@@ -292,29 +293,29 @@ console.log(a, b) // 2 1
 
 ```js
 const x = [
-  1,
-  {b : 2},
+    1,
+    { b : 2 },
 ]
 ```
 
 - 扩展运算符 / `assign` 均为浅拷贝
 
 ```js
-const y = [...x]
+const y = [ ...x ]
 y[0] = 0
 y[1].b = 0
 console.log(x) // [ 1, { b: 0 } ]
 ```
 
-- `JSON`
-    - `JS` 对象的字符串表示
+- JSON
+    - js对象的字符串表示
 
 |     描述     |        示例         |
 | :----------: | :-----------------: |
 | 对象转字符串 | `Json.stringify(o)` |
 | 字符串转对象 |   `Json.parse(s)`   |
 
-借助 `JSON` 实现深拷贝
+借助 JSON 实现深拷贝
 
 ```js
 const y = JSON.parse(JSON.stringify(x))
@@ -323,7 +324,7 @@ y[1].b = 0
 console.log(x) // [ 1, { b: 2 } ]
 ```
 
-- `JSON` 实现深拷贝带来的问题
+- JSON 实现深拷贝带来的问题
 
 |                 示例                  |  结果  |
 | :-----------------------------------: | :----: |
@@ -343,36 +344,34 @@ console.log(x) // [ 1, { b: 2 } ]
  * 既不是数组，也不是 Object 的实例
  * 只能是基本数据类型或其他构造函数的实例 */
 const o = {
-  a : {aa : 11},
-  b : [22, {bbb : 222}],
-  c : '3',
-  d : NaN,
-  e : Infinity,
-  f : undefined,
-  g : function () {},
-  h : Symbol(),
-  i : /\d/,
-  j : new Date(),
-  k : null,
+    a : { aa : 11 },
+    b : [ 22, { bbb : 222 } ],
+    c : '3',
+    d : NaN,
+    e : Infinity,
+    f : undefined,
+    g : function () {},
+    h : Symbol(),
+    i : /\d/,
+    j : new Date(),
+    k : null,
 }
 
 const res = {}
 
-function f (res, o) {
-  for (let i in o) {
-    let v = o[i]
-    if (v instanceof Array) {
-      res[i] = []
-      f(res[i], v)
+function f(res, o) {
+    for (let i in o) {
+        let v = o[i]
+        if (v instanceof Array) {
+            res[i] = []
+            f(res[i], v)
+        } else if (v instanceof Object && v.constructor === Object) {
+            res[i] = {}
+            f(res[i], v)
+        } else {
+            res[i] = v
+        }
     }
-    else if (v instanceof Object && v.constructor === Object) {
-      res[i] = {}
-      f(res[i], v)
-    }
-    else {
-      res[i] = v
-    }
-  }
 }
 
 f(res, o)
@@ -383,31 +382,31 @@ console.log(res)
 
 ```js
 const o = {
-  a : {b : 2},
+    a : { b : 2 },
 }    
 ```
 
 | 描述 | 示例 | 结果 |
 | :--------------------------------------------: | :-------------: | :--: |
-| 左侧的值为`null`或 `undefined`时，使用右侧的值 |    `o.a?.b`     | `2`  |
-| 左侧的值存在，访问右侧的属性 | ``o.a?.c ?? 3`` | `3`  |
+| 左侧的值存在，访问右侧的属性 |    `o.a?.b`     | `2`  |
+| 左侧的值为`null`或 `undefined`时，使用右侧的值 | ``o.a?.c ?? 3`` | `3`  |
 
 ## 作用域
 
-- 原始值
-    - 实际值
-- 引用值
-    - 引用对象的地址
+| 原始值 |     引用值     |
+| :----: | :------------: |
+| 实际值 | 引用对象的地址 |
+
 - 函数在传入参数时，会将值复制给局部变量
     - 原始值不会被修改，引用值的内部属性会被函数通过局部变量修改
 
 ```js
 let a = 1
-let x = [1]
+let x = [ 1 ]
 
-function f (a, x) {
-  a = 0
-  x[0] = 0
+function f(a, x) {
+    a = 0
+    x[0] = 0
 }
 
 f(a, x)
@@ -421,14 +420,13 @@ console.log(a, x) // 1 [ 0 ]
 |  活动对象  | 进入到函数的执行上下文后，变量对象被激活为活动对象<br />活动对象可被访问 |
 |  作用域链  |     上下文的代码在访问变量和函数时沿作用域链逐级向上搜索     |
 |  垃圾回收  |                离开作用域的值被自动标记和回收                |
-|  标记清理  |                 给当前不使用的值加标记再回收                 |
 
 ```js
 const o = {
-  f () {
-    // 函数内部的执行上下文不存在 f
-    console.log(f)
-  },
+    f() {
+        // 函数内部的执行上下文不存在 f
+        console.log(f)
+    },
 }
 // 全局上下文也不存在 f
 o.f() // 报错
@@ -436,10 +434,10 @@ o.f() // 报错
 
 ```js
 const o = {
-  f () {
-    // this 指向调用者 o ，在其上下文找到 f
-    console.log(this.f)
-  },
+    f() {
+        // this 指向调用者 o ，在其上下文找到 f
+        console.log(this.f)
+    },
 }
 o.f() // f
 ```
@@ -491,7 +489,7 @@ const s = '121'
 
 // 所有匹配子串的起始位置
 for (let i of s.matchAll(r)) {
-  console.log(i['index']) // 0 2
+    console.log(i['index']) // 0 2
 }
 
 // 替换字符串中所有匹配的子串
@@ -531,20 +529,20 @@ const s = '121'
 
 ```js
 const o = {
-  x : [1, 2],
-  // 迭代器函数
-  [Symbol.iterator] () {
-    let i = 0
-    let l = this.x.length
-    return {
-      next : () => i < l
-                   ? {value : this.x[i++], done : false}
-                   : {value : undefined, done : true},
-    }
-  },
+    x : [ 1, 2 ],
+    // 迭代器函数
+    [Symbol.iterator]() {
+        let i = 0
+        let l = this.x.length
+        return {
+            next : () => i < l
+                         ? { value : this.x[i++], done : false }
+                         : { value : undefined, done : true },
+        }
+    },
 }
 for (let i of o) {
-  console.log(i) // 1 2
+    console.log(i) // 1 2
 }
 ```
 
@@ -559,15 +557,15 @@ for (let i of o) {
     - 恢复执行
 
 ```js
-function * f () {
-  yield setTimeout(() => {
-    console.log(1)
-    iter.next()
-  }, 1000)
-  yield setTimeout(() => {
-    console.log(2)
-    iter.next()
-  }, 1000)
+function* f() {
+    yield setTimeout(() => {
+        console.log(1)
+        iter.next()
+    }, 1000)
+    yield setTimeout(() => {
+        console.log(2)
+        iter.next()
+    }, 1000)
 }
 
 const iter = f()
@@ -579,7 +577,7 @@ iter.next()
 - 改变原数组的7个方法
 
 ```js
-const x = [1, 2]
+const x = [ 1, 2 ]
 ```
 
 |                             描述                             |           示例            |     结果      |
@@ -590,12 +588,12 @@ const x = [1, 2]
 |                   移除数组开头的元素并返回                   |        `x.shift()`        |    `[ 2 ]`    |
 |                           反转数组                           |       `x.reverse()`       |  `[ 2, 1 ]`   |
 |                        对数组进行排序                        | `x.sort((a, b) => b - a)` |  `[ 2, 1 ]`   |
-| 在索引位置移除指定个数的元素，随后插入元素，并返回移除的子数组 |  `x.splice(0, 2, 3, 4)`   |  `[ 3, 4 ]`   |
+| 在索引位置移除指定个数的元素后，<br />插入元素，并返回移除的子数组 |  `x.splice(0, 2, 3, 4)`   |  `[ 3, 4 ]`   |
 
 - 基本用法
 
 ```js
-const x = [1, 2]
+const x = [ 1, 2 ]
 ```
 
 |              描述               |        示例        |       结果       |
@@ -611,30 +609,30 @@ const x = [1, 2]
 - 迭代器的回调函数通常可接收3个参数(元素，索引，数组)
 
 ```js
-const x = [1, 2]
+const x = [ 1, 2 ]
 ```
 
-|                       描述                        |                 示例                  |    结果    |
-| :-----------------------------------------------: | :-----------------------------------: | :--------: |
-|           填充[开始索引,结束索引)的元素           |        `new Array(2).fill(0)`         | `[ 0, 0 ]` |
-|               数组元素迭代执行函数                |   `x.forEach(v => console.log(v))`    |   `1 2`    |
-| 数组元素迭代执行回调函数,并返回每个结果形成的数组 |       `x.map((v, i) => v + i)`        | `[ 1, 3 ]` |
-|        保留使回调函数结果为 `true` 的元素         |        `x.filter(v => v % 2)`         |  `[ 1 ]`   |
-|        判断所有元素是否使函数结果为 `true`        |         `x.every(v => v % 2)`         |  `false`   |
-|        判断是否存在元素使函数结果为 `true`        |         `x.some(v => v % 2)`          |   `true`   |
-| 初始化结果，将元素迭代执行函数，返回最终迭代结果  | `x.reduce((r, v, i, x) => r += v, 0)` |    `3`     |
+|                           描述                           |               示例               |    结果    |
+| :------------------------------------------------------: | :------------------------------: | :--------: |
+|              填充[开始索引,结束索引)的元素               |      `new Array(2).fill(0)`      | `[ 0, 0 ]` |
+|                   数组元素迭代执行函数                   | `x.forEach(v => console.log(v))` |   `1 2`    |
+| 数组元素迭代执行回调函数，<br />并返回每个结果形成的数组 |     `x.map((v, i) => v + i)`     | `[ 1, 3 ]` |
+|            保留使回调函数结果为 `true` 的元素            |      `x.filter(v => v % 2)`      |  `[ 1 ]`   |
+|           判断所有元素是否使函数结果为 `true`            |      `x.every(v => v % 2)`       |  `false`   |
+|           判断是否存在元素使函数结果为 `true`            |       `x.some(v => v % 2)`       |   `true`   |
+|  初始化结果，将元素迭代执行函数，<br />返回最终迭代结果  | `x.reduce((r, v) => r += v, 0)`  |    `3`     |
 
 - 数组结构转换
 
-|             描述             |                   示例                    |     结果      |
-| :--------------------------: | :---------------------------------------: | :-----------: |
-|   将迭代数组结构转化为数组   | `Array.from('12', i => parseInt(i) ** 2)` |  `[ 1, 4 ]`   |
-| 将高维数组按深度转为低维数组 |     `[1, [2], [[3]]].flat(Infinity)`      | `[ 1, 2, 3 ]` |
+|             描述             |                 示例                 |     结果      |
+| :--------------------------: | :----------------------------------: | :-----------: |
+|   将迭代数组结构转化为数组   | `Array.from('12', i => parseInt(i))` |  `[ 1, 2 ]`   |
+| 将高维数组按深度转为低维数组 |   `[1, [2], [[3]]].flat(Infinity)`   | `[ 1, 2, 3 ]` |
 
 ### `Set`
 
 ```js
-const s = new Set([1, 1])
+const s = new Set([ 1, 1 ])
 ```
 
 |           描述            |     示例      |    结果    |
@@ -649,7 +647,7 @@ const s = new Set([1, 1])
 
 ```js
 // 二维数组初始化
-const m = new Map([['a', 1]])
+const m = new Map([ [ 'a', 1 ] ])
 ```
 
 |            描述             |      示例       |                             结果                             |
@@ -671,7 +669,7 @@ const m = new Map([['a', 1]])
 // 函数声明会提升，顺利执行
 f()
 
-function f () {}
+function f() {}
 ```
 
 - 函数表达式赋值给变量
@@ -702,24 +700,23 @@ let f = function () {}
 
 ### 回调函数
 
-- 同步函数
-    - 按照代码编写顺序执行
-- 异步函数
-    - 针对不会马上完成的任务，提供暂停和恢复执行的功能
+|         同步函数         |                     异步函数                     |
+| :----------------------: | :----------------------------------------------: |
+| 按照代码编写顺序执行程序 | 针对不会马上完成的任务，提供暂停和恢复执行的功能 |
 
 - 同步函数先于异步函数执行
 
 ```js
 let a = 1
 
-function f () {
-  setTimeout(function () {
-    a = 0
-  }, 1000)
+function f() {
+    setTimeout(function () {
+        a = 0
+    }, 1000)
 }
 
-function g () {
-  console.log(a) // 1
+function g() {
+    console.log(a) // 1
 }
 
 f()
@@ -731,34 +728,34 @@ g()
 ```js
 let a = 1
 
-function f () {
-  setTimeout(function () {
-    a = 0
-    g()
-  }, 1000)
+function f() {
+    setTimeout(function () {
+        a = 0
+        g()
+    }, 1000)
 }
 
-function g () {
-  console.log(a) // 0
+function g() {
+    console.log(a) // 0
 }
 
 f()
 ```
 
-- 将函数作为参数，即回调函数传入异步函数，可提高代码复用率
+- 将函数作为参数（回调函数）传入异步函数，提高代码复用率
 
 ```js
 let a = 1
 
-function f (g) {
-  setTimeout(function () {
-    a = 0
-    g()
-  }, 1000)
+function f(g) {
+    setTimeout(function () {
+        a = 0
+        g()
+    }, 1000)
 }
 
-function g () {
-  console.log(a) // 0
+function g() {
+    console.log(a) // 0
 }
 
 f(g)
@@ -780,15 +777,15 @@ f(g)
 ```js
 /* 通过 call apply bind 使用构造函数 f 为 o 添加属性 */
 let o = {
-  a : 1,
+    a : 1,
 }
 
-function f (b, c) {
-  return {
-    a : this.a,
-    b,
-    c,
-  }
+function f(b, c) {
+    return {
+        a : this.a,
+        b,
+        c,
+    }
 }
 ```
 
@@ -802,12 +799,12 @@ function f (b, c) {
  * 执行构造函数为对象添加属性
  * 删除构造函数，并返回结果 */
 Function.prototype.myCall = function () {
-  let o = arguments[0] || window
-  let [, ...args] = arguments
-  o.f = this
-  let res = o.f(...args)
-  delete o.f
-  return res
+    let o = arguments[0] || window
+    let [ , ...args ] = arguments
+    o.f = this
+    let res = o.f(...args)
+    delete o.f
+    return res
 }
 ```
 
@@ -815,7 +812,7 @@ Function.prototype.myCall = function () {
 
 ```js
 // 仅在这里与 call 有所不同
-[, [...args]] = arguments
+[ , [ ...args ] ] = arguments
 ```
 
 #### `bind`
@@ -823,15 +820,15 @@ Function.prototype.myCall = function () {
 ```js
 /* 将构造函数执行和删除封装成函数返回 */
 Function.prototype.myBind = function () {
-  let o = arguments[0] || window
-  let [, ...args] = arguments
-  o.f = this
+    let o = arguments[0] || window
+    let [ , ...args ] = arguments
+    o.f = this
 
-  return function () {
-    let res = o.f(...args)
-    delete o.f
-    return res
-  }
+    return function () {
+        let res = o.f(...args)
+        delete o.f
+        return res
+    }
 }
 ```
 
@@ -839,7 +836,7 @@ Function.prototype.myBind = function () {
 
 ```js
 console.log(f.myCall(o, 2, 3))
-console.log(f.myApply(o, [2, 3]))
+console.log(f.myApply(o, [ 2, 3 ]))
 console.log(f.myBind(o, 2, 3)())
 ```
 
@@ -847,27 +844,26 @@ console.log(f.myBind(o, 2, 3)())
 
 ```js
 $(function () {
-  $('.timeout').on({
-    click : function () {
-      setTimeout(() => {
-        $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
-      }, 1000)
-    },
-  })
+    $('.timeout').on({
+        click : function () {
+            setTimeout(() => {
+                $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
+            }, 1000)
+        },
+    })
 
-  $('.interval').on({
-    click : function () {
-      let n = 3
-      const timer = setInterval(() => {
-        if (n--) {
-          $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
-        }
-        else {
-          clearInterval(timer)
-        }
-      }, 1000)
-    },
-  })
+    $('.interval').on({
+        click : function () {
+            let n = 3
+            const timer = setInterval(() => {
+                if (n--) {
+                    $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
+                } else {
+                    clearInterval(timer)
+                }
+            }, 1000)
+        },
+    })
 })
 ```
 
@@ -877,20 +873,20 @@ $(function () {
  * 内部定时器调用异步函数
  * 异步函数将同步函数封装，并不断调用自身
  * 实现同步函数延时调用的效果 */
-function mySetInterval (f, s) {
-  setTimeout(g, s)
-
-  // 同步函数 f 需放入异步函数 g 中
-  function g () {
-    f()
+function mySetInterval(f, s) {
     setTimeout(g, s)
-  }
+
+    // 同步函数 f 需放入异步函数 g 中
+    function g() {
+        f()
+        setTimeout(g, s)
+    }
 }
 
 let i = 0
 
-function f () {
-  console.log(i++)
+function f() {
+    console.log(i++)
 }
 
 mySetInterval(f, 1000)
@@ -904,12 +900,12 @@ mySetInterval(f, 1000)
 /* 点击事件共享定时器
  * 处理函数内部，先清除定时器，再设置 */
 $('button').on({
-  click : function (e) {
-    clearTimeout(e.target.timer)
-    e.target.timer = setTimeout(() => {
-      f()
-    }, 500)
-  },
+    click : function (e) {
+        clearTimeout(e.target.timer)
+        e.target.timer = setTimeout(() => {
+            f()
+        }, 2000)
+    },
 })
 ```
 
@@ -921,43 +917,41 @@ $('button').on({
 /* 点击事件共享定时器
  * 没有任务时，添加定时器；任务执行完，定时器置空 */
 $('button').on({
-  click : function (e) {
-    if (e.target.timer) {
-      return
-    }
-    e.target.timer = setTimeout(() => {
-      f()
-      e.target.timer = null
-    }, 500)
-  },
+    click : function (e) {
+        if (e.target.timer) {
+            return
+        }
+        e.target.timer = setTimeout(() => {
+            f()
+            e.target.timer = null
+        }, 500)
+    },
 })
 ```
 
 #### [图片懒加载](示例/图片懒加载.html)
 
 - 滚动到页面才加载图片
-- `IntersectionObserver(回调函数)`
-    - 目标元素和可视窗口产生交叉区域
 
 ```js
 const imgs = document.querySelectorAll('img')
 /* 每个观察元素设置进入可视区域的回调函数
  * 先获取进入区域的目标，再将寄存的图源赋值激活，随后取消观察 */
 const obs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    // 目标元素和可视窗口产生交叉区域
-    if (entry.isIntersecting) {
-      const tgt = entry.target
-      const mySrc = tgt.getAttribute('mySrc')
-      tgt.setAttribute('src', mySrc)
-      obs.unobserve(tgt)
-    }
-  })
+    entries.forEach(entry => {
+        // 目标元素和可视窗口产生交叉区域
+        if (entry.isIntersecting) {
+            const tgt = entry.target
+            const mySrc = tgt.getAttribute('mySrc')
+            tgt.setAttribute('src', mySrc)
+            obs.unobserve(tgt)
+        }
+    })
 })
 
 /* 为每张图片设置观察 */
 imgs.forEach(function (i) {
-  obs.observe(i)
+    obs.observe(i)
 })
 ```
 
@@ -978,10 +972,10 @@ imgs.forEach(function (i) {
  * finally 接收无论 resolved / rejected 状态都会执行的函数
  * 用于添加两种状态都会执行的冗余代码  */
 new Promise((resolve, reject) => {
-  if (1) {
-    resolve()
-  }
-  reject()
+    if (1) {
+        resolve()
+    }
+    reject()
 }).then(value => {}, reason => {})
   .then(null, reason => {})
   .catch(reason => {})
@@ -1016,11 +1010,11 @@ setTimeout(console.log, 0, p)
  * 退出异步函数，执行同步代码
  * 从消息队列取出任务，恢复执行
  * async await 均会将接收或返回的数值封装成期约对象 */
-async function f () {
-  console.log(1)
-  console.log(await new Promise((resolve, reject) => {
-    setTimeout(resolve, 1000, 3)
-  }))
+async function f() {
+    console.log(1)
+    console.log(await new Promise((resolve, reject) => {
+        setTimeout(resolve, 1000, 3)
+    }))
 }
 
 f()
@@ -1044,73 +1038,72 @@ console.log(2)
  * 在切换状态函数 resolve / reject 中，实现状态切换，结果赋值
  * 并遍历处理函数数组对结果进行处理 */
 class Promise {
-  constructor (executor) {
-    this.status = 'pending'
-    this.result = null
-    this.onResolved = []
-    this.onRejected = []
+    constructor(executor) {
+        this.status = 'pending'
+        this.result = null
+        this.onResolved = []
+        this.onRejected = []
 
-    try {
-      executor(this.resolve.bind(this), this.reject.bind(this))
+        try {
+            executor(this.resolve.bind(this), this.reject.bind(this))
+        } catch (error) {
+            this.reject(error)
+        }
     }
-    catch (error) {
-      this.reject(error)
+
+    then(onResolved, onRejected) {
+        return new Promise((resolve, reject) => {
+            onResolved = typeof onResolved === 'function'
+                         ? onResolved
+                         : () => {}
+            onRejected = typeof onRejected === 'function'
+                         ? onRejected
+                         : () => {}
+
+            if (this.status === 'pending') {
+                this.onResolved.push(onResolved)
+                this.onRejected.push(onRejected)
+            }
+
+            if (this.status === 'resolved') {
+                setTimeout(() => {
+                    onResolved(this.result)
+                })
+            }
+
+            if (this.status === 'rejected') {
+                setTimeout(() => {
+                    onRejected(this.result)
+                })
+            }
+        })
     }
-  }
 
-  then (onResolved, onRejected) {
-    return new Promise((resolve, reject) => {
-      onResolved = typeof onResolved === 'function'
-                   ? onResolved
-                   : () => {}
-      onRejected = typeof onRejected === 'function'
-                   ? onRejected
-                   : () => {}
-
-      if (this.status === 'pending') {
-        this.onResolved.push(onResolved)
-        this.onRejected.push(onRejected)
-      }
-
-      if (this.status === 'resolved') {
+    resolve(value) {
         setTimeout(() => {
-          onResolved(this.result)
-        })
-      }
+            if (this.status === 'pending') {
+                this.status = 'resolved'
+                this.result = value
 
-      if (this.status === 'rejected') {
+                this.onResolved.forEach(f => {
+                    f(value)
+                })
+            }
+        })
+    }
+
+    reject(reason) {
         setTimeout(() => {
-          onRejected(this.result)
+            if (this.status === 'pending') {
+                this.status = 'rejected'
+                this.result = reason
+
+                this.onRejected.forEach(f => {
+                    f(reason)
+                })
+            }
         })
-      }
-    })
-  }
-
-  resolve (value) {
-    setTimeout(() => {
-      if (this.status === 'pending') {
-        this.status = 'resolved'
-        this.result = value
-
-        this.onResolved.forEach(f => {
-          f(value)
-        })
-      }
-    })
-  }
-
-  reject (reason) {
-    setTimeout(() => {
-      if (this.status === 'pending') {
-        this.status = 'rejected'
-        this.result = reason
-
-        this.onRejected.forEach(f => {
-          f(reason)
-        })
-      }
-    })
-  }
+    }
 }
 ```
 
@@ -1128,8 +1121,8 @@ class Promise {
 /* 在全局环境下，实现变量自增 */
 let n = 0
 
-function f () {
-  console.log(n++)
+function f() {
+    console.log(n++)
 }
 
 f() // 0
@@ -1138,11 +1131,11 @@ f() // 1
 
 ```js
 /* 用函数 g 将变量封装 */
-function g () {
-  let n = 0
-  return function f () {
-    console.log(n++)
-  }
+function g() {
+    let n = 0
+    return function f() {
+        console.log(n++)
+    }
 }
 
 // 外部函数被调用两次，生成两个独立的闭包
@@ -1151,11 +1144,11 @@ g()() // 0
 ```
 
 ```js
-function g () {
-  let n = 0
-  return function f () {
-    console.log(n++)
-  }
+function g() {
+    let n = 0
+    return function f() {
+        console.log(n++)
+    }
 }
 
 // 外部函数被调用，内部函数 f 携带的闭包对象保存了 n
@@ -1168,11 +1161,11 @@ f = null // 闭包消失
 ```js
 /* 回调函数 this 的指向 */
 const o = {
-  f () {
-    return function () {
-      return this
-    }
-  },
+    f() {
+        return function () {
+            return this
+        }
+    },
 }
 
 /* o.f()执行完得到 function () {return this}
@@ -1186,16 +1179,16 @@ console.log(o.f()() === window) // true
 
 ```js
 /* 闭包实现函数柯里化 */
-function url (protocol) {
-  return function (hostName) {
-    return function (pathName) {
-      return `${ protocol }${ hostName }${ pathName }`
+function url(protocol) {
+    return function (hostName) {
+        return function (pathName) {
+            return `${ protocol }${ hostName }${ pathName }`
+        }
     }
-  }
 }
 
 const web = url('https://')('www.a.com')
-console.table([web('/index.html'), web('/style.css'), web('/main.js')])
+console.table([ web('/index.html'), web('/style.css'), web('/main.js') ])
 ```
 
 #### `add`
@@ -1207,22 +1200,22 @@ console.table([web('/index.html'), web('/style.css'), web('/main.js')])
  * 通过返回自身的函数将余下层参数加入数组
  * 在最终返回函数时，重写返回函数会调用的 toString
  * 对数组所有元素进行相加 */
-function add () {
-  let args = [...arguments]
-  console.group('add', args)
+function add() {
+    let args = [ ...arguments ]
+    console.group('add', args)
 
-  function f () {
-    args.push(...arguments)
-    console.group('f', args)
+    function f() {
+        args.push(...arguments)
+        console.group('f', args)
+        return f
+    }
+
+    f.toString = function () {
+        console.group('ftoString', args)
+        return args.reduce((s, v) => s + v, 0)
+    }
+
     return f
-  }
-
-  f.toString = function () {
-    console.group('ftoString', args)
-    return args.reduce((s, v) => s + v, 0)
-  }
-
-  return f
 }
 
 console.log(Number(add(1, 2, 3)(4, 5)(6))) // 21
@@ -1233,26 +1226,38 @@ console.log(Number(add(1, 2, 3)(4, 5)(6))) // 21
 ### 对象方法
 
 ```js
-const o = {a : 1, b : 2}
+const o = { a : 1, b : 2 }
 ```
 
-|                     描述                      |                             示例                             |                             结果                             |
-| :-------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|              读取单个属性的描述               |          `Object.getOwnPropertyDescriptor(o, 'a')`           | ![image-20220912002739565](assets/image-20220912002739565.png) |
-|              读取多个属性的描述               |            `Object.getOwnPropertyDescriptors(o)`             | ![image-20220912002910213](assets/image-20220912002910213.png) |
-|            实例对象上是否存在属性             |                   `o.hasOwnProperty('a')`                    |                            `true`                            |
-|                属性是否可枚举                 |                `o.propertyIsEnumerable('a')`                 |                            `true`                            |
-| 添加单个属性及其描述(值/可修改/可删除/可枚举) | `Object.defineProperty(o, 'c', {value : 3, enumerable : true})` | ![image-20220912003042481](assets/image-20220912003042481.png) |
-| 添加多个属性及其描述(值/可修改/可删除/可枚举) | `Object.defineProperties(o, {c : {value : 3, enumerable : true}, d : {value : 4, enumerable : true}})` | ![image-20220912003212528](assets/image-20220912003212528.png) |
-|              获取实例的原型对象               |                  `Object.getPrototypeOf(o)`                  |                      `Object.prototype`                      |
-|              设置实例的原型对象               |        `Object.setPrototypeOf(o, Function.prototype)`        |                  `Function { a: 1, b: 2 }`                   |
-|         判断原型对象是否为实例的原型          |             `Object.prototype.isPrototypeOf(o)`              |                            `true`                            |
-|                 删除对象属性                  |                         `delete o.a`                         |                             `{}`                             |
-|              冻结对象，不让修改               |                      `Object.freeze(o)`                      |                                                              |
-|             浅拷贝对象可枚举属性              |               `Object.assign({}, o, {c : 3})`                | ![image-20220912003418714](assets/image-20220912003418714.png) |
-|     创建以对象为原型对象并添加属性的实例      |  `Object.create(o, {'c' : {value : 3, enumerable : true}})`  | ![image-20220912003551347](assets/image-20220912003551347.png) |
-|             将对象转换为二维数组              |                     `Object.entries(o)`                      | ![image-20220912003655396](assets/image-20220912003655396.png) |
-|             将二维数组转换为对象              |             `Object.fromEntries([ [ 'a', 1 ] ])`             |                          `{ a: 1 }`                          |
+```js
+/* 值 可枚举 可写 可删除 */
+const o = {
+    a : {
+        value        : 1,
+        enumerable   : true,
+        writable     : true,
+        configurable : true,
+    }
+}
+```
+
+|                 描述                 |                             示例                             |                             结果                             |
+| :----------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|          读取单个属性的描述          |          `Object.getOwnPropertyDescriptor(o, 'a')`           | ![image-20220912002739565](assets/image-20220912002739565.png) |
+|          读取多个属性的描述          |            `Object.getOwnPropertyDescriptors(o)`             | ![image-20220912002910213](assets/image-20220912002910213.png) |
+|        实例对象上是否存在属性        |                   `o.hasOwnProperty('a')`                    |                            `true`                            |
+|            属性是否可枚举            |                `o.propertyIsEnumerable('a')`                 |                            `true`                            |
+|         添加单个属性及其描述         | `Object.defineProperty(o, 'c', {value : 3, enumerable : true})` | ![image-20220912003042481](assets/image-20220912003042481.png) |
+|         添加多个属性及其描述         | `Object.defineProperties(o, {c : {value : 3, enumerable : true}, d : {value : 4, enumerable : true}})` | ![image-20220912003212528](assets/image-20220912003212528.png) |
+|          获取实例的原型对象          |                  `Object.getPrototypeOf(o)`                  |                      `Object.prototype`                      |
+|          设置实例的原型对象          |        `Object.setPrototypeOf(o, Function.prototype)`        |                  `Function { a: 1, b: 2 }`                   |
+|     判断原型对象是否为实例的原型     |             `Object.prototype.isPrototypeOf(o)`              |                            `true`                            |
+|             删除对象属性             |                         `delete o.a`                         |                             `{}`                             |
+|          冻结对象，不让修改          |                      `Object.freeze(o)`                      |                                                              |
+|         浅拷贝对象可枚举属性         |               `Object.assign({}, o, {c : 3})`                | ![image-20220912003418714](assets/image-20220912003418714.png) |
+| 创建以对象为原型对象并添加属性的实例 |  `Object.create(o, {'c' : {value : 3, enumerable : true}})`  | ![image-20220912003551347](assets/image-20220912003551347.png) |
+|         将对象转换为二维数组         |                     `Object.entries(o)`                      | ![image-20220912003655396](assets/image-20220912003655396.png) |
+|         将二维数组转换为对象         |             `Object.fromEntries([ [ 'a', 1 ] ])`             |                          `{ a: 1 }`                          |
 
 ### 创建对象
 
@@ -1260,13 +1265,13 @@ const o = {a : 1, b : 2}
 
 ```js
 /* 无法标识对象类型 */
-function F (a) {
-  const o = {}
-  o.a = a
-  o.A = function () {
-    return this.a
-  }
-  return o
+function F(a) {
+    const o = {}
+    o.a = a
+    o.A = function () {
+        return this.a
+    }
+    return o
 }
 
 const o = F(1)
@@ -1278,11 +1283,11 @@ console.log(Object.getPrototypeOf(o) === F.prototype) // false
 
 ```js
 /* new 调用的函数为构造函数 */
-function F (a) {
-  this.a = a
-  this.A = function () {
-    return this.a
-  }
+function F(a) {
+    this.a = a
+    this.A = function () {
+        return this.a
+    }
 }
 
 const o = new F(1)
@@ -1296,26 +1301,26 @@ console.log(Object.getPrototypeOf(o) === F.prototype) // true
 /* 以构造函数的原型对象为原型对象创建实例
  * 构造函数 this 绑定到实例并执行，为实例添加属性
  * new 当构造函数返回对象，会返回构造函数返回的对象，而不是新创建的对象 */
-function myNew (constructor, ...args) {
-  const o   = Object.create(constructor.prototype),
-        res = constructor.apply(o, args)
-  return res instanceof Object
-         ? res
-         : o
+function myNew(constructor, ...args) {
+    const o   = Object.create(constructor.prototype),
+          res = constructor.apply(o, args)
+    return res instanceof Object
+           ? res
+           : o
 }
 
-function F (a) {
-  this.a = a
-  this.A = function () {
-    return this.a
-  }
-  // 返回对象
-  return {
-    a : 0,
-    A () {
-      return this.a
-    },
-  }
+function F(a) {
+    this.a = a
+    this.A = function () {
+        return this.a
+    }
+    // 返回对象
+    return {
+        a : 0,
+        A() {
+            return this.a
+        },
+    }
 }
 
 const o = myNew(F, 1)
@@ -1336,11 +1341,11 @@ console.log(o.A === p.A) // false
  * 函数自动添加 prototype 属性指向原型对象
  * 原型对象自动添加 constructor 属性指向构造函数
  * 每个实例内部有 __proto__ 属性指向构造函数的原型对象 */
-function F (a) {
-  F.prototype.a = a
-  F.prototype.A = function () {
-    return this.a
-  }
+function F(a) {
+    F.prototype.a = a
+    F.prototype.A = function () {
+        return this.a
+    }
 }
 
 const o = new F(1)
@@ -1370,15 +1375,15 @@ console.log(o.A === p.A) // true
 
 ```js
 // 原型上的属性
-function t (o, a) {
-  return a in o && !o.hasOwnProperty(a)
+function t(o, a) {
+    return a in o && !o.hasOwnProperty(a)
 }
 
-function F () {}
+function F() {}
 
 F.prototype.a = 1
 F.prototype.A = function () {
-  return this.a
+    return this.a
 }
 
 // 实例添加与原型的同名属性和方法，会在实例上创建自有属性和方法
@@ -1388,7 +1393,7 @@ console.log(t(o, 'a')) // true
 
 o.a = 0
 o.A = function () {
-  return 0
+    return 0
 }
 console.log(t(o, 'a')) // false
 console.log(p.a) // 1
@@ -1397,12 +1402,12 @@ console.log(p.A()) // 1
 
 ```js
 /* 修改构造函数的原型属性，已创建实例的 __proto__ 不会改变 */
-function F () {}
+function F() {}
 
 const o = new F()
 // 构造函数的原型属性指向新的原型对象
 F.prototype = {
-  a : 1,
+    a : 1,
 }
 console.log(o.a) // undefined
 ```
@@ -1417,20 +1422,20 @@ console.log(o.a) // undefined
 /* 属性定义在构造函数上，每个实例自有
  * 方法定义在原型对象上，被共享
  * 子类实例化时无法给父类构造函数传参 */
-function F (a) {
-  this.a = a
+function F(a) {
+    this.a = a
 }
 
 F.prototype.A = function () {
-  return this.a
+    return this.a
 }
 
-function G (b) {
-  this.b = b
+function G(b) {
+    this.b = b
 }
 
 G.prototype.B = function () {
-  return this.b
+    return this.b
 }
 
 G.prototype = new F(1)
@@ -1455,16 +1460,16 @@ console.log(g.A()) // 0
  * 在子类构造函数调用父类构造函数
  * 通过 call 以子类对象为上下文执行父类构造函数
  * 可向父类传递参数 */
-function F (a) {
-  this.a = a
-  this.A = function () {
-    return this.a
-  }.bind(this)
+function F(a) {
+    this.a = a
+    this.A = function () {
+        return this.a
+    }.bind(this)
 }
 
-function G (a, b) {
-  F.call(this, a)
-  this.b = b
+function G(a, b) {
+    F.call(this, a)
+    this.b = b
 }
 
 // 可向父类传递参数
@@ -1479,23 +1484,23 @@ console.log(g.A === new G().A) // false
 ```js
 /* 基于原型链继承原型上的属性和方法
  * 盗用构造函数实现向父类传参 */
-function F (a) {
-  this.a = a
+function F(a) {
+    this.a = a
 }
 
 F.prototype.A = function () {
-  return this.a
+    return this.a
 }
 
-function G (a, b) {
-  F.call(this, a)
-  this.b = b
+function G(a, b) {
+    F.call(this, a)
+    this.b = b
 }
 
 G.prototype = new F()
 G.prototype.constructor = G
 G.prototype.B = function () {
-  return this.b
+    return this.b
 }
 
 const g = new G(1, 2)
@@ -1505,12 +1510,12 @@ const g = new G(1, 2)
 
 ```js
 /* 将调用父类构造函数给子类原型赋值，改为拷贝父类原型副本 */
-function F (a) {
-  this.a = a
+function F(a) {
+    this.a = a
 }
 
-function G (b) {
-  this.b = b
+function G(b) {
+    this.b = b
 }
 
 const proto = Object(F.prototype)
@@ -1528,17 +1533,17 @@ const g = new G(2)
  * 类中定义的方法在原型上共享
  * 静态成员 this 指向类自身 */
 class F {
-  constructor (a) {
-    this.a = a
-  }
+    constructor(a) {
+        this.a = a
+    }
 
-  A () {
-    return this.a
-  }
+    A() {
+        return this.a
+    }
 
-  static creat () {
-    return new F(1)
-  }
+    static creat() {
+        return new F(1)
+    }
 }
 
 const o = F.creat()
@@ -1549,24 +1554,24 @@ console.log(o.A())
 
 ```js
 class F {
-  constructor (a) {
-    this.a = a
-  }
+    constructor(a) {
+        this.a = a
+    }
 
-  A () {
-    return this.a
-  }
+    A() {
+        return this.a
+    }
 }
 
 class G extends F {
-  constructor (a, b) {
-    super(a)
-    this.b = b
-  }
+    constructor(a, b) {
+        super(a)
+        this.b = b
+    }
 
-  A () {
-    return super.A();
-  }
+    A() {
+        return super.A();
+    }
 }
 
 const g = new G(1, 2)

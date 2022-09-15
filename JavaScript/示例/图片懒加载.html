@@ -2,42 +2,38 @@
 <html lang='en'>
 <head>
     <meta charset='UTF-8'>
-    <meta name='viewport'
-          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
-    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <link href='#' rel='shortcut icon' />
     <title>index</title>
     <style>
         img {
             display    : block;
             margin-top : 50em;
-        }
+            }
     </style>
 </head>
 <body>
 <img mySrc='../1.png'>
 <img mySrc='../1.png'>
 <script>
-  const imgs = document.querySelectorAll('img')
+    const imgs = document.querySelectorAll('img')
 
-  /* 每个观察元素设置进入可视区域的回调函数
-   * 先获取进入区域的目标，再将寄存的图源赋值激活，随后取消观察 */
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      // 目标元素和可视窗口产生交叉区域
-      if (entry.isIntersecting) {
-        const tgt = entry.target
-        const mySrc = tgt.getAttribute('mySrc')
-        tgt.setAttribute('src', mySrc)
-        obs.unobserve(tgt)
-      }
+    /* 每个观察元素设置进入可视区域的回调函数
+     * 先获取进入区域的目标，再将寄存的图源赋值激活，随后取消观察 */
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            // 目标元素和可视窗口产生交叉区域
+            if (entry.isIntersecting) {
+                const tgt = entry.target
+                const mySrc = tgt.getAttribute('mySrc')
+                tgt.setAttribute('src', mySrc)
+                obs.unobserve(tgt)
+            }
+        })
     })
-  })
 
-  /* 为每张图片设置观察 */
-  imgs.forEach(function (i) {
-    obs.observe(i)
-  })
+    /* 为每张图片设置观察 */
+    imgs.forEach(function (i) {
+        obs.observe(i)
+    })
 </script>
 
 </body>
