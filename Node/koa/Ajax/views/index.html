@@ -2,10 +2,6 @@
 <html lang='en'>
 <head>
     <meta charset='UTF-8'>
-    <meta name='viewport'
-          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
-    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <link href='#' rel='shortcut icon' />
     <script src='https://code.jquery.com/jquery-3.6.1.min.js'></script>
     <script src='https://unpkg.com/axios@0.27.2/dist/axios.min.js'
             defer></script>
@@ -20,20 +16,20 @@
 </body>
 
 <script>
-  $(function () {
-    let i = 0
-    $('.get').click(function () {
-      axios.get('/arr').then(res => {console.log(res.data)})
+    $(function () {
+        let i = 0
+        $('.get').click(function () {
+            axios.get('/arr').then(res => {console.log(res.data)})
+        })
+        $('.post').click(function () {
+            axios.post('/arr', { item : i++ }).then(res => {console.log(res.data)})
+        })
+        $('.put').click(function () {
+            axios.put('/arr/0', { item : i++ }).then(res => {console.log(res.data)})
+        })
+        $('.delete').click(function () {
+            axios.delete('/arr/0').then(res => {console.log(res.data)})
+        })
     })
-    $('.post').click(function () {
-      axios.post('/arr', {item : i++}).then(res => {console.log(res.data)})
-    })
-    $('.put').click(function () {
-      axios.put('/arr/0', {item : i++}).then(res => {console.log(res.data)})
-    })
-    $('.delete').click(function () {
-      axios.delete('/arr/0').then(res => {console.log(res.data)})
-    })
-  })
 </script>
 </html>

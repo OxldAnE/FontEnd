@@ -8,30 +8,42 @@
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 
-|            描述            |        示例        |
-| :------------------------: | :----------------: |
-| 监听代码变化，自动重新启动 | `npm i nodemon -g` |
-|                            |                    |
-|                            |                    |
-|                            |                    |
-|                            |                    |
-|                            |                    |
-|                            |                    |
-|                            |                    |
+|          描述          |        示例        |
+| :--------------------: | :----------------: |
+| 代码变化，自动重新启动 | cnpm i nodemon -g  |
+|       项目初始化       |      npm init      |
+|          koa           |     cnpm i koa     |
+|          路由          | cnpm i koa-router  |
+|      托管静态资源      | cnpm i koa-static  |
+|      配置模板引擎      |  cnpm i koa-views  |
+|       解析请求体       | cnpm i koa-parser  |
+|        模板引擎        |  cnpm i nunjucks   |
+|          会话          | cnpm i koa-session |
 
+## 方法 
 
+|   描述   |        示例        |
+| :------: | :----------------: |
+|   导出   |  `module.exports`  |
+|   导入   |    `require()`     |
+| 监听端口 |   `app.listen()`   |
+| 使用插件 |    `app.use()`     |
+| 查询参数 |    `ctx.query`     |
+| 动态参数 |    `ctx.params`    |
+|  请求体  | `ctx.request.body` |
+| 请求地址 |     `ctx.url`      |
+| 请求方式 |    `ctx.method`    |
+| 响应数据 |    `ctx.send()`    |
+|          |                    |
+|          |                    |
+|          |                    |
+|          |                    |
+|          |                    |
+|          |                    |
 
-## 内置
+## 模块
 
-### 模块
-
-|  描述  |  示例  |
-| :----: | :----: |
-|  文件  |  `fs`  |
-|  路径  | `path` |
-| 服务器 | `http` |
-
-### 方法 
+### 路径
 
 |          描述          |                         示例                         |
 | :--------------------: | :--------------------------------------------------: |
@@ -40,36 +52,48 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 |    文件名 + 扩展名     |             `path.basename(__filename)`              |
 |         扩展名         |              `path.extname(__filename)`              |
 |         文件名         | `path.basename(__filename,path.extname(__filename))` |
-|        请求地址        |                      `req.url`                       |
-|        请求方式        |                     `req.method`                     |
-|        响应数据        |                     `res.end()`                      |
-|        导出对象        |                   `module.exports`                   |
 
-## `Express`
+### 文件
 
-### 方法
+|   描述   |    示例     |
+| :------: | :---------: |
+| 读取文件 | `readFile`  |
+| 写入文件 | `writeFile` |
 
-|     描述     |     示例     |
-| :----------: | :----------: |
-| 获取查询参数 | `req.query`  |
-| 获取动态参数 | `req.params` |
-|  获取请求体  |  `req.body`  |
-|   响应数据   | `res.send()` |
+### [模板引擎](koa/模板引擎/app.js)
 
-### 中间件
+```js
+const Koa = require('koa')
+const app = new Koa()
 
-|          描述          |          示例          |
-| :--------------------: | :--------------------: |
-|      托管静态资源      |   `express.static()`   |
-|      创建路由对象      |   `express.Router()`   |
-|  解析`JSON`请求体数据  |    `express.json()`    |
-| 解析表单格式请求体数据 | `express.urlencoded()` |
-|          跨域          |        `cors()`        |
-|     配置数据库对象     |  `mysql.createPool()`  |
+// 路由
+const router = require('koa-router')()
+// 请求体解析
+const parser = require('koa-parser')
+app.use(parser())
 
-- 简单请求方式
-  - 只发生一次请求
-  - `GET`/`POST`/`HEAD`
+// 模板渲染
+const views = require('koa-views')
+const nunjucks = require('nunjucks')
+app.use(views(__dirname + '/views', {
+    map : { html : 'nunjucks' },
+}))
+
+router.get('/', async ctx => {
+    await ctx.render('index')
+})
+router.post('/login', async ctx => {
+    let a = ctx.request.body.a
+    await ctx.render('login', { a })
+})
+
+app.use(router.routes())
+
+// 监听
+app.listen(8080, () => {
+    console.log('http://127.0.0.1:8080')
+})
+```
 
 ### `Web` 开发模式
 
@@ -83,56 +107,7 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 | 用户信息存储 |                     服务器                     |                    客户端                     |
 |     验证     |       客户端每次发起请求，携带 `Cookie`        | 客户端每次发起请求，携带由服务器加密的`Token` |
 
-## `Koa`
-
-### 模块
-
-|      描述      |     示例     |
-| :------------: | :----------: |
-|      路由      | `koa-router` |
-|  托管静态资源  | `koa-static` |
-|  配置模板引擎  | `koa-views`  |
-|  下载模板引擎  |  `nunjucks`  |
-| 解析请求体数据 | `koa-parser` |
-
-### 模板引擎
-
-```js
-/* koa 对象，路由 */
-const koa = require('koa')
-const app = new koa()
-const router = require('koa-router')()
-
-/* 解析请求体数据 */
-const parser = require('koa-parser')
-app.use(parser())
-
-/* 模板引擎，后端渲染 */
-const views = require('koa-views')
-const nunjucks = require('nunjucks')
-app.use(views(__dirname + '/views', {
-  map : {html : 'nunjucks'},
-}))
-
-/* 主页渲染 */
-router.get('/', async ctx => {
-  await ctx.render('index')
-})
-
-/* 用主页登录时，提交的数据去渲染登录页面 */
-router.post('/login', async ctx => {
-  await ctx.render('login', {
-    un : ctx.request.body.username,
-  })
-})
-
-app.use(router.routes())
-app.listen(8080, () => {
-  console.log('http://127.0.0.1:8080')
-})
-```
-
-### `Session`
+#### [Session](koa/Session/app.js)
 
 ```js
 const koa = require('koa')
@@ -178,7 +153,7 @@ app.listen(8080, () => {
 })
 ```
 
-### `Ajax`
+#### [Ajax](koa/Ajax/app.js)
 
 ```js
 $(function () {
@@ -241,3 +216,4 @@ app.listen(8080, () => {
   console.log('http://127.0.0.1:8080')
 })
 ```
+
