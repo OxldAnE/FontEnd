@@ -2,33 +2,28 @@
 <html lang='en'>
 <head>
     <meta charset='UTF-8'>
-    <meta name='viewport'
-          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
-    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <link href='#' rel='shortcut icon' />
     <script src='../jquery-3.6.1.min.js'></script>
     <title>index</title>
 </head>
 <body>
 <button>发送</button>
 <script>
-  $(function () {
-    $('button').on({
-      click : function () {
-        $(this).prop('disabled', true)
-        let t = 3
-        const timer = setInterval(() => {
-          if (t) {
-            $(this).html(`还剩${ t-- }秒`)
-          }
-          else {
-            clearTimeout(timer)
-            $(this).prop('disabled', false).html('重新发送')
-          }
-        }, 1000)
-      },
+    $(function () {
+        $('button').on({
+            click : function () {
+                $(this).prop('disabled', true)
+                let t = 3
+                const timer = setInterval(() => {
+                    if (t) {
+                        $(this).html(`还剩${ t-- }秒`)
+                    } else {
+                        clearTimeout(timer)
+                        $(this).prop('disabled', false).html('重新发送')
+                    }
+                }, 1000)
+            },
+        })
     })
-  })
 </script>
 </body>
 </html>
