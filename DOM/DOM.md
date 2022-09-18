@@ -2,77 +2,77 @@
 
 ## 元素
 
-|          描述          |            示例             |
-| :--------------------: | :-------------------------: |
-|      获取单个元素      |  document.querySelector()   |
-|      获取全部元素      | document.querySelectorAll() |
-|       获取父节点       |         parentNode          |
-|     获取所有子元素     |          children           |
-|        创建元素        |  document.createElement()   |
+|     描述      |             示例              |
+|:-----------:|:---------------------------:|
+|   获取单个元素    |  document.querySelector()   |
+|   获取全部元素    | document.querySelectorAll() |
+|    获取父节点    |         parentNode          |
+|   获取所有子元素   |          children           |
+|    创建元素     |  document.createElement()   |
 | 添加子节点到父节点末尾 |        appendChild()        |
 | 在指定节点前插入子节点 |       insertBefore()        |
-|        删除节点        |          remove()           |
-|       删除子节点       |        removeChild()        |
-|       深拷贝节点       |       cloneNode(true)       |
+|    删除节点     |          remove()           |
+|    删除子节点    |        removeChild()        |
+|    深拷贝节点    |       cloneNode(true)       |
 
 ## 属性
 
-|              描述              |       示例        |
-| :----------------------------: | :---------------: |
-|         获取节点的内容         |     innerHTML     |
-|          设置内联样式          |       style       |
-|           获取属性值           |  getAttribute()   |
-|           设置属性值           |  setAttribute()   |
-|            移除属性            | removeAttribute() |
-|            内容高度            |   style.height    |
-|       内容高度 + 内边距        |   clientHeight    |
-| 内容高度 + 内边距 + 滚动条距离 |    scrollHeigh    |
-|    内容高度 + 内边距 + 边框    |   offsetHeight    |
-|           滚动条距离           |     scrollTop     |
-|          定位的上距离          |     offsetTop     |
+|         描述         |        示例         |
+|:------------------:|:-----------------:|
+|      获取节点的内容       |     innerHTML     |
+|       设置内联样式       |       style       |
+|       获取属性值        |  getAttribute()   |
+|       设置属性值        |  setAttribute()   |
+|        移除属性        | removeAttribute() |
+|        内容高度        |   style.height    |
+|     内容高度 + 内边距     |   clientHeight    |
+| 内容高度 + 内边距 + 滚动条距离 |   scrollHeight    |
+|  内容高度 + 内边距 + 边框   |   offsetHeight    |
+|       滚动条距离        |     scrollTop     |
+|       定位的上距离       |     offsetTop     |
 
 ## 事件
 
 ![image-20220904223927048](assets/image-20220904223927048.png)
 
-|   描述   |         示例          |
-| :------: | :-------------------: |
+|  描述  |          示例           |
+|:----:|:---------------------:|
 | 添加事件 |  addEventListener()   |
 | 删除事件 | removeEventListener() |
 
 ### 事件类型
 
-|          描述          |    示例    |
-| :--------------------: | :--------: |
-|        加载完成        |    load    |
-|      窗口改变大小      |   resize   |
-|       滚动条滚动       |   scroll   |
-|        获得焦点        |   focus    |
-|        失去焦点        |    blur    |
-|          单击          |   click    |
-|          双击          |  dblclick  |
-|        鼠标按下        | mousedown  |
-|        鼠标弹起        |  mouseup   |
+|     描述      |     示例     |
+|:-----------:|:----------:|
+|    加载完成     |    load    |
+|   窗口改变大小    |   resize   |
+|    滚动条滚动    |   scroll   |
+|    获得焦点     |   focus    |
+|    失去焦点     |    blur    |
+|     单击      |   click    |
+|     双击      |  dblclick  |
+|    鼠标按下     | mousedown  |
+|    鼠标弹起     |  mouseup   |
 | 鼠标穿过元素或其子元素 | mouseover  |
 | 鼠标离开元素或其子元素 |  mouseout  |
-|      鼠标穿过元素      | mouseenter |
-|      鼠标离开元素      | mouseleave |
-|        鼠标移动        | mousemove  |
-|        按下键盘        |  keydown   |
-|    按下键盘产生字符    |  keypress  |
-|        弹起键盘        |   keyup    |
-|          触摸          | touchstart |
-|          滑动          | touchmove  |
-|          离开          |  touchend  |
+|   鼠标穿过元素    | mouseenter |
+|   鼠标离开元素    | mouseleave |
+|    鼠标移动     | mousemove  |
+|    按下键盘     |  keydown   |
+|  按下键盘产生字符   |  keypress  |
+|    弹起键盘     |   keyup    |
+|     触摸      | touchstart |
+|     滑动      | touchmove  |
+|     离开      |  touchend  |
 
 ### 事件对象
 
-|      描述      |       示例        |
-| :------------: | :---------------: |
+|   描述    |        示例         |
+|:-------:|:-----------------:|
 | 触发事件的对象 |      target       |
-|    事件类型    |       type        |
-|  阻止默认行为  | preventDefault()  |
-|    阻止冒泡    | stopPropagation() |
+|  事件类型   |       type        |
+| 阻止默认行为  | preventDefault()  |
+|  阻止冒泡   | stopPropagation() |
 
 ### 示例
 

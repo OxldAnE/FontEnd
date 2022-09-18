@@ -112,7 +112,7 @@
 ```css
 p {
     margin-top : 2em;
-    }
+}
 ```
 
 - 补充属性
@@ -121,7 +121,7 @@ p {
 /* 父元素触发 BFC */
 div {
     overflow : hidden;
-    }
+}
 ```
 
 ```css
@@ -130,7 +130,7 @@ p {
     /* float : left; */
     /* position : absolute; */
     position : fixed;
-    }
+}
 ```
 
 - 替换做法
@@ -140,26 +140,26 @@ p {
 p {
     position : relative;
     top      : 2em;
-    }
+}
 ```
 
 ```css
 /* 子绝父相，子元素相对父元素偏移 */
 div {
     position : relative;
-    }
+}
 
 p {
     position : absolute;
     top      : 2em;
-    }
+}
 ```
 
 ```css
 /* 父元素添加上内边距 */
 div {
     padding-top : 2em;
-    }
+}
 ```
 
 #### [外边距计算](示例/外边距计算.html)
@@ -172,33 +172,33 @@ div {
 /* 两个正值，取较大者（图2） */
 div {
     margin-bottom : 2em;
-    }
+}
 
 p {
     margin-top : 4em;
-    }
+}
 ```
 
 ```css
 /* 两个负值，取绝对值较大者（图3） */
 div {
     margin-bottom : -2em;
-    }
+}
 
 p {
     margin-top : -4em;
-    }
+}
 ```
 
 ```css
 /* 一正一负，叠加（图4） */
 div {
     margin-bottom : -8em;
-    }
+}
 
 p {
     margin-top : 2em;
-    }
+}
 ```
 
 ### 边框
@@ -209,7 +209,7 @@ p {
 div {
     border            : 1em solid #fff;
     border-left-color : #000;
-    }
+}
 ```
 
 #### [绘制圆形](示例/绘制圆形.html)
@@ -221,7 +221,7 @@ div {
     height           : 1em;
     background-color : #000;
     border-radius    : 50%;
-    }
+}
 ```
 
 #### [绘制照片图框](示例/绘制照片图框.html)
@@ -238,7 +238,7 @@ img {
     12px 12px skyblue;
     /* 旋转 */
     transform  : rotate(-5deg);
-    }
+}
 ```
 
 ### 内容
@@ -253,7 +253,7 @@ p {
     white-space   : nowrap;
     overflow      : hidden;
     text-overflow : ellipsis;
-    }
+}
 ```
 
 ```css
@@ -265,7 +265,7 @@ p {
     overflow           : hidden;
     -webkit-box-orient : vertical;
     -webkit-line-clamp : 2;
-    }
+}
 ```
 
 ## 布局
@@ -286,7 +286,7 @@ p {
 ```css
 p {
     float : left;
-    }
+}
 ```
 
 - 触发父元素 BFC
@@ -295,21 +295,21 @@ p {
 /* 溢出隐藏 */
 div {
     overflow : hidden;
-    }
+}
 ```
 
 ```css
 /* 脱离标准流的定位 */
 div {
     position : absolute;
-    }
+}
 ```
 
 ```css
 /* 显示类型 */
 div {
     display : flow-root;
-    }
+}
 ```
 
 - 清除浮动
@@ -320,7 +320,7 @@ div::after {
     content : '';
     display : block;
     clear   : both;
-    }
+}
 ```
 
 ### [弹性布局](示例/弹性布局.html)
@@ -341,20 +341,20 @@ div::after {
 /* 设置允许换行 */
 section {
     flex-flow : row wrap;
-    }
+}
 
 /* 不拉伸设置行内高度的项目 */
 div {
     width : 30%;
-    }
+}
 
 div:first-child {
     height : 4em;
-    }
+}
 
 div:last-child {
     width : 50%;
-    }
+}
 ```
 
 ![image-20220910225647636](assets/image-20220910225647636.png)![image-20220910225658077](assets/image-20220910225658077.png)![image-20220910225722003](assets/image-20220910225722003.png)
@@ -367,7 +367,7 @@ section {
     /* justify-content: right; */
     /* 两端对齐，分散等距 */
     justify-content : space-between;
-    }
+}
 ```
 
 ![image-20220910230117706](assets/image-20220910230117706.png)![image-20220910230129696](assets/image-20220910230129696.png)![image-20220910230159640](assets/image-20220910230159640.png)
@@ -385,7 +385,7 @@ section {
     /* align-content : end; */
     /* 两端对齐，分散等距 */
     align-content : space-between;
-    }
+}
 ```
 
 ![image-20220910231530503](assets/image-20220910231530503.png)![image-20220910231543264](assets/image-20220910231543264.png)![image-20220910231606910](assets/image-20220910231606910.png)
@@ -399,7 +399,7 @@ section {
     /* align-items : center; */
     /* 下对齐 */
     align-items : end;
-    }
+}
 ```
 
 #### 其他属性
@@ -409,14 +409,14 @@ div {
     /* flow-grow flow-shrink flex-basis 简写
     放大比例 收缩比例 基本尺寸 */
     flex : 1 1 2em;
-    }
+}
 
 div:last-child {
     /* 单独项目的行内对齐方式 */
     align-self : end;
     /* 项目的排列顺序 */
     order      : -1;
-    }
+}
 ```
 
 #### [圣杯布局](示例/圣杯布局.html)
@@ -426,20 +426,20 @@ div:last-child {
 ```css
 section {
     display : flex;
-    }
+}
 
 div:nth-child(1) {
     flex : 1;
-    }
+}
 
 div:nth-child(2) {
     flex  : 0 0 3em;
     order : -1;
-    }
+}
 
 div:nth-child(3) {
     flex : 0 0 3em;
-    }
+}
 ```
 
 ### [网格布局](示例/网格布局.html)
@@ -454,25 +454,25 @@ section {
     grid-template-columns :repeat(3, 1fr);
     grid-template-rows    : 1fr 2fr 1fr;
     gap                   : 1em;
-    }
+}
 
 div:nth-child(1) {
     grid-column : 1/4;
-    }
+}
 
 div:nth-child(2) {
     grid-column : 1;
     grid-row    : 2/4;
-    }
+}
 
 div:nth-child(3) {
     grid-column : 2/4;
     grid-row    : 2/4;
-    }
+}
 
 div:nth-child(4) {
     grid-column : 1/4;
-    }
+}
 ```
 
 - 对齐方式
@@ -485,7 +485,7 @@ section {
     grid-template-columns : 2em 3em;
     grid-template-rows    : minmax(1em, auto);
     height                : 8em;
-    }
+}
 ```
 
 ![image-20220831205137124](assets/image-20220831205137124.png)
@@ -495,7 +495,7 @@ section {
 section {
     justify-content : center;
     align-content   : end;
-    }
+}
 ```
 
 ![image-20220831205606687](assets/image-20220831205606687.png)
@@ -505,13 +505,13 @@ section {
 section {
     justify-items : start;
     align-items   : end;
-    }
+}
 
 /* 项目行内列内高度拉满 */
 div:nth-child(2) {
     justify-self : stretch;
     align-self   : stretch;
-    }
+}
 ```
 
 ### 定位
@@ -537,7 +537,7 @@ span {
     /* position  : relative;
     left      : 50%; */
     transform   : translateX(-50%);
-    }
+}
 ```
 
 ```css
@@ -545,7 +545,7 @@ span {
 div {
     display         : flex;
     justify-content : center;
-    }
+}
 ```
 
 - [垂直居中](示例/垂直居中.html)
@@ -559,7 +559,7 @@ span {
     position  : relative;
     top       : 50%;
     transform : translateY(-50%);
-    }
+}
 ```
 
 ```css
@@ -567,7 +567,7 @@ span {
 div {
     display     : flex;
     align-items : center;
-    }
+}
 ```
 
 ## 过渡与动画
@@ -582,7 +582,7 @@ div {
  鼠标悬浮，恢复高度 */
 .menu {
     display : flow-root
-    }
+}
 
 .menu > li {
     float            : left;
@@ -590,11 +590,11 @@ div {
     box-shadow       : 2px 2px #888;
     background-color : coral;
     width            : 3em
-    }
+}
 
 .menu > li:hover li {
     height : 1.5em
-    }
+}
 
 .item li {
     height           : 0;
@@ -602,7 +602,7 @@ div {
     transition       : height 0.5s;
     background-color : #000000;
     color            : #fff;
-    }
+}
 ```
 
 ### [旋转唱片](示例/旋转唱片.html)
@@ -615,25 +615,25 @@ div {
     border-radius : 50%;
     overflow      : hidden;
     animation     : demo 5s linear 1s infinite
-    }
+}
 
 /* 鼠标悬浮暂停 */
 div:hover {
     animation-play-state : paused
-    }
+}
 
 img {
     width : 100%
-    }
+}
 
 @keyframes demo {
     0% {
         transform : rotate(0deg)
-        }
+    }
     100% {
         transform : rotate(360deg)
-        }
     }
+}
 ```
 
 ## 媒体查询
@@ -649,19 +649,19 @@ section {
     width   : 100%;
     border  : 5px dotted #880088;
     margin  : 0 auto
-    }
+}
 
 section div {
     flex       : 1;
     border     : 5px solid #00664d;
     text-align : center
-    }
+}
 
 @media screen and (max-width : 300px) {
     section {
         flex-direction : column;
         width          : 100%
-        }
     }
+}
 ```
 
