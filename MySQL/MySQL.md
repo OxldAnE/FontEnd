@@ -38,7 +38,7 @@ drop table t;
 ```
 
 - 执行顺序
-  - `from` -> `where` -> `group by`/`having` -> `select` -> `order by` -> `limit`
+    - from -> where -> group by/having -> select -> order by -> limit
 
 ### 数据处理
 
@@ -93,12 +93,12 @@ from t;
 
 ### 分组
 
-| 描述 |   示例   |
+| 描述 | 示例 |
 | :--: | :------: |
 | 分组 | group by |
-| 过滤 |  having  |
+| 过滤 | having |
 | 排序 | order by |
-| 降序 |   desc   |
+| 降序 | desc |
 
 ## 函数
 
@@ -170,14 +170,14 @@ from t;
 
 ## 约束
 
-| 描述 |    示例     |
+| 描述 | 示例 |
 | :--: | :---------: |
 | 主键 | primary key |
-| 唯一 |   unique    |
-| 非空 |  not null   |
-| 默认 |   default   |
+| 唯一 | unique |
+| 非空 | not null |
+| 默认 | default |
 | 外键 | foreign key |
-| 检查 |    check    |
+| 检查 | check |
 
 |       描述        |   示例    |
 | :---------------: | :-------: |

@@ -1,4 +1,4 @@
-# `Node.js`
+# Node.js
 
 ## 配置
 
@@ -20,20 +20,20 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 |        模板引擎        |  cnpm i nunjucks   |
 |          会话          | cnpm i koa-session |
 
-## 方法 
+## 方法
 
 |   描述   |        示例        |
 | :------: | :----------------: |
-|   导出   |  `module.exports`  |
-|   导入   |    `require()`     |
-| 监听端口 |   `app.listen()`   |
-| 使用插件 |    `app.use()`     |
-| 查询参数 |    `ctx.query`     |
-| 动态参数 |    `ctx.params`    |
-|  请求体  | `ctx.request.body` |
-| 请求地址 |     `ctx.url`      |
-| 请求方式 |    `ctx.method`    |
-| 响应数据 |    `ctx.send()`    |
+|   导出   |  module.exports  |
+|   导入   |    require()     |
+| 监听端口 |   app.listen()   |
+| 使用插件 |    app.use()     |
+| 查询参数 |    ctx.query     |
+| 动态参数 |    ctx.params    |
+|  请求体  | ctx.request.body |
+| 请求地址 |     ctx.url      |
+| 请求方式 |    ctx.method    |
+| 响应数据 |    ctx.send()    |
 |          |                    |
 |          |                    |
 |          |                    |
@@ -47,18 +47,18 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 |          描述          |                         示例                         |
 | :--------------------: | :--------------------------------------------------: |
-| 目录 + 文件名 + 扩展名 |                     `__filename`                     |
-|          目录          |                     `__dirname`                      |
-|    文件名 + 扩展名     |             `path.basename(__filename)`              |
-|         扩展名         |              `path.extname(__filename)`              |
-|         文件名         | `path.basename(__filename,path.extname(__filename))` |
+| 目录 + 文件名 + 扩展名 |                     __filename                     |
+|          目录          |                     __dirname                      |
+|    文件名 + 扩展名     |             path.basename(__filename)              |
+|         扩展名         |              path.extname(__filename)              |
+|         文件名         | path.basename(__filename,path.extname(__filename)) |
 
 ### 文件
 
 |   描述   |    示例     |
 | :------: | :---------: |
-| 读取文件 | `readFile`  |
-| 写入文件 | `writeFile` |
+| 读取文件 | readFile  |
+| 写入文件 | writeFile |
 
 ### [模板引擎](koa/模板引擎/app.js)
 
@@ -95,17 +95,17 @@ app.listen(8080, () => {
 })
 ```
 
-### `Web` 开发模式
+### Web 开发模式
 
 |              |                   服务端渲染                   |                  前后端分离                   |
 | :----------: | :--------------------------------------------: | :-------------------------------------------: |
-|     描述     | 服务器通过字符串拼接生成 `HTML` 页面发给客户端 | 后端负责 `API` 接口，前端通过 `Ajax` 调用接口 |
+|     描述     | 服务器通过字符串拼接生成 HTML 页面发给客户端 | 后端负责 API 接口，前端通过 Ajax 调用接口 |
 | 服务器压力大 |                       1                        |                       0                       |
-|    `SEO`     |                       1                        |                       0                       |
+|    SEO     |                       1                        |                       0                       |
 |     开发     |                       0                        |                       1                       |
-|   身份认证   |                   `Session`                    |                     `JWT`                     |
+|   身份认证   |                   Session                    |                     JWT                     |
 | 用户信息存储 |                     服务器                     |                    客户端                     |
-|     验证     |       客户端每次发起请求，携带 `Cookie`        | 客户端每次发起请求，携带由服务器加密的`Token` |
+|     验证     |       客户端每次发起请求，携带 Cookie        | 客户端每次发起请求，携带由服务器加密的Token |
 
 #### [Session](koa/Session/app.js)
 

@@ -1,91 +1,91 @@
-# `jQuery`
+# jQuery
 
 ## 元素
 
 |          描述          |       示例       |
 | :--------------------: | :--------------: |
-|       获取父元素       |    `parent()`    |
-|      获取祖先元素      |   `parents()`    |
-|     获取所有子元素     |   `children()`   |
-|  在元素里获取后代元素  |     `find()`     |
-|    获取所有兄弟元素    |   `siblings()`   |
-| 添加到元素内部的最后面 |    `append()`    |
-| 添加到元素内部的最前面 |   `prepend()`    |
-|    添加到元素的后面    |    `after()`     |
-|    添加到元素的前面    |    `before()`    |
-|        删除元素        |    `remove()`    |
-|       清空子元素       |    `empty()`     |
-|   获取指定索引的元素   |     `eq(0)`      |
-|       可遍历对象       |    `$.each()`    |
-|         深拷贝         | `$.extend(true)` |
+|       获取父元素       |    parent()    |
+|      获取祖先元素      |   parents()    |
+|     获取所有子元素     |   children()   |
+|  在元素里获取后代元素  |     find()     |
+|    获取所有兄弟元素    |   siblings()   |
+| 添加到元素内部的最后面 |    append()    |
+| 添加到元素内部的最前面 |   prepend()    |
+|    添加到元素的后面    |    after()     |
+|    添加到元素的前面    |    before()    |
+|        删除元素        |    remove()    |
+|       清空子元素       |    empty()     |
+|   获取指定索引的元素   |     eq(0)      |
+|       可遍历对象       |    $.each()    |
+|         深拷贝         | $.extend(true) |
 
 ## 属性
 
 |            描述             |        示例        |
 | :-------------------------: | :----------------: |
-|          设置样式           |      `css()`       |
-|        设置固有属性         |      `prop()`      |
-|       设置自定义属性        |      `attr()`      |
-|          获取索引           |     `index()`      |
-|        设置元素内容         |      `html()`      |
-|        设置元素文本         |      `text()`      |
-|         获取表单值          |      `val()`       |
-|     判断元素是否包含类      |    `hasClass()`    |
-|           添加类            |    `addClass()`    |
-|           移除类            |  `removeClass()`   |
-|           切换类            |  `toggleClass()`   |
-|          内容宽度           |     `width()`      |
-|       内容+内边距宽度       |   `innerWidth()`   |
-|    内容+内边距+边框宽度     |   `outerWidth()`   |
-| 内容+内边距+边框+外边距宽度 | `outerWidth(true)` |
-|      设置相对文档坐标       |     `offset()`     |
-| 获相对有定位祖先元素的坐标  |    `position()`    |
-|       设置滚动条距离        |   `scrollTop()`    |
+|          设置样式           |      css()       |
+|        设置固有属性         |      prop()      |
+|       设置自定义属性        |      attr()      |
+|          获取索引           |     index()      |
+|        设置元素内容         |      html()      |
+|        设置元素文本         |      text()      |
+|         获取表单值          |      val()       |
+|     判断元素是否包含类      |    hasClass()    |
+|           添加类            |    addClass()    |
+|           移除类            |  removeClass()   |
+|           切换类            |  toggleClass()   |
+|          内容宽度           |     width()      |
+|       内容+内边距宽度       |   innerWidth()   |
+|    内容+内边距+边框宽度     |   outerWidth()   |
+| 内容+内边距+边框+外边距宽度 | outerWidth(true) |
+|      设置相对文档坐标       |     offset()     |
+| 获相对有定位祖先元素的坐标  |    position()    |
+|       设置滚动条距离        |   scrollTop()    |
 
 ## 动画
 
 |     描述     |      示例       |
 | :----------: | :-------------: |
-|     动画     |   `animate()`   |
-|   停止动画   |    `stop()`     |
-|     显示     |    `show()`     |
-|     隐藏     |    `hide()`     |
-|     切换     |   `toggle()`    |
-|     上拉     |   `slideUp()`   |
-|     下拉     |  `slideDown()`  |
-|   切换滑动   | `slideToggle()` |
-|     淡入     |   `fadeIn()`    |
-|     淡出     |   `fadeOut()`   |
-| 淡入淡出切换 | `fadeToggle()`  |
+|     动画     |   animate()   |
+|   停止动画   |    stop()     |
+|     显示     |    show()     |
+|     隐藏     |    hide()     |
+|     切换     |   toggle()    |
+|     上拉     |   slideUp()   |
+|     下拉     |  slideDown()  |
+|   切换滑动   | slideToggle() |
+|     淡入     |   fadeIn()    |
+|     淡出     |   fadeOut()   |
+| 淡入淡出切换 | fadeToggle()  |
 
 ## 事件
 
 |            描述            |         示例         |
 | :------------------------: | :------------------: |
-|        绑定多个事件        |         `on`         |
-|          解绑事件          |        `off`         |
-|       只触发一次事件       |        `one`         |
-|        自动触发事件        |      `trigger`       |
-| 自动触发事件不触发默认行为 |   `triggerHandler`   |
-|            点击            |       `click`        |
-|            双击            |      `dblclick`      |
-|       鼠标进入(冒泡)       |     `mouseover`      |
-|       鼠标离开(冒泡)       |      `mouseout`      |
-|          鼠标进入          |     `mouseenter`     |
-|          鼠标离开          |     `mouseleave`     |
-|          鼠标切换          | `hover(enter,leave)` |
-|          按下键盘          |      `keydown`       |
-|      按下键盘产生字符      |      `keypress`      |
-|          弹起键盘          |       `keyup`        |
-|            触摸            |     `touchstart`     |
-|            滑动            |     `touchmove`      |
-|            离开            |      `touchend`      |
-|            聚焦            |       `focus`        |
-|            失焦            |        `blur`        |
-|            改变            |       `change`       |
-|          加载完成          |        `load`        |
-|        窗口改变大小        |       `resize`       |
-|         滚动条滚动         |       `scroll`       |
+|        绑定多个事件        |         on         |
+|          解绑事件          |        off         |
+|       只触发一次事件       |        one         |
+|        自动触发事件        |      trigger       |
+| 自动触发事件不触发默认行为 |   triggerHandler   |
+|            点击            |       click        |
+|            双击            |      dblclick      |
+|       鼠标进入(冒泡)       |     mouseover      |
+|       鼠标离开(冒泡)       |      mouseout      |
+|          鼠标进入          |     mouseenter     |
+|          鼠标离开          |     mouseleave     |
+|          鼠标切换          | hover(enter,leave) |
+|          按下键盘          |      keydown       |
+|      按下键盘产生字符      |      keypress      |
+|          弹起键盘          |       keyup        |
+|            触摸            |     touchstart     |
+|            滑动            |     touchmove      |
+|            离开            |      touchend      |
+|            聚焦            |       focus        |
+|            失焦            |        blur        |
+|            改变            |       change       |
+|          加载完成          |        load        |
+|        窗口改变大小        |       resize       |
+|         滚动条滚动         |       scroll       |
 
 ```js
 /* 相同的处理函数 */
@@ -122,14 +122,14 @@ $('.number').change(function () {
   let price = $(this).parent().siblings('.price').html().substring(2)
   let num = $(this).val()
   $(this).parent().siblings('.sum')
-         .html(`¥ ${ (price * num).toFixed(2) }`)
+         .html(¥ ${ (price * num).toFixed(2) })
 
   // 结算价
   let sum = 0
   $.each($('.sum'), function (index, item) {
     sum += parseFloat($(item).html().substring(2))
   })
-  $('.final').html(`¥ ${ sum.toFixed(2) }`)
+  $('.final').html(¥ ${ sum.toFixed(2) })
 })
 // 加载页面
 $('.number').change()
@@ -271,12 +271,12 @@ function loadData () {
     if (item.done) {
       doneCount++
       $('ul').prepend(
-        `<li><input type='checkbox' checked='checked'><p>${ item.title }</p><a href='javascript:' id='${ index }'></a></li>`)
+        <li><input type='checkbox' checked='checked'><p>${ item.title }</p><a href='javascript:' id='${ index }'></a></li>)
     }
     else {
       todoCount++
       $('ol').prepend(
-        `<li><input type='checkbox'><p>${ item.title }</p><a href='javascript:' id='${ index }'></a></li>`)
+        <li><input type='checkbox'><p>${ item.title }</p><a href='javascript:' id='${ index }'></a></li>)
     }
   })
   $('#todoCount').text(todoCount)

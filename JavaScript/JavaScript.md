@@ -2,23 +2,23 @@
 
 ## 输出
 
-|   描述   |                  示例                  |
-| :------: | :------------------------------------: |
-| 输出变量 |            `console.log()`             |
-| 表格显示 |           `console.table()`            |
-| 执行时间 |  `console.time()`/`console.timeEnd()`  |
-| 执行次数 |           `console.count()`            |
-|   分组   | `console.group()`/`console.groupEnd()` |
-| 调用过程 |           `console.trace()`            |
+|   描述   |                 示例                 |
+| :------: | :----------------------------------: |
+| 输出变量 |            console.log()             |
+| 表格显示 |           console.table()            |
+| 执行时间 |  console.time() / console.timeEnd()  |
+| 执行次数 |           console.count()            |
+|   分组   | console.group() / console.groupEnd() |
+| 调用过程 |           console.trace()            |
 
 ## 关键字
 
-### `var`/`let`/`const`
+### var / let / const
 
-- `var`
+- var
     - 声明的变量会添加到最近的上下文
         - 在函数内部时，提升到函数作用域的顶部
-        - 在全局作用域时，会成为 `window` 的属性
+        - 在全局作用域时，会成为 window 的属性
     - 可重复声明
 
 ```js
@@ -37,7 +37,7 @@ var b = 2
 console.log(window.b) // 2
 ```
 
-- `let`
+- let
     - 先声明再使用
     - 受块级作用域限制
 
@@ -49,7 +49,7 @@ if (1) {
 // console.log(a) 报错
 ```
 
-- `const`
+- const
     - 声明的变量无法修改栈内存的值
         - 基本数据类型无法修改字面量
         - 引用数据类型无法修改所引用对象，但可以修改引用对象的内部属性
@@ -64,30 +64,30 @@ x[0] = 0
 console.log(x) // [ 0 ]
 ```
 
-### `typeof`/`instanceof`
+### typeof / instanceof
 
-- `typeof`
+- typeof
     - 检测数据类型
 
-|       示例       |    结果     |
-| :--------------: | :---------: |
-|   `undefined`    | `undefined` |
-|      `true`      |  `boolean`  |
-| `function () {}` | `function`  |
-|    `Infinity`    |  `number`   |
-|      `NaN`       |  `number`   |
-|      `null`      |  `object`   |
-|       `[]`       |  `object`   |
-|       `{}`       |  `object`   |
-|   `new Date()`   |  `object`   |
+|      示例      |   结果    |
+| :------------: | :-------: |
+|   undefined    | undefined |
+|      true      |  boolean  |
+| function () {} | function  |
+|    Infinity    |  number   |
+|      NaN       |  number   |
+|      null      |  object   |
+|       []       |  object   |
+|       {}       |  object   |
+|   new Date()   |  object   |
 
-- `instanceof`
+- instanceof
 
     - 检测构造函数的原型对象是否在实例对象的原型链上
-    - `Object` 的原型对象位于原型链的最顶端
+    - Object 的原型对象位于原型链的最顶端
 
-    * `Function` 的原型对象为所有构造函数的原型对象
-- 以下结果均为 `true`
+    * Function 的原型对象为所有构造函数的原型对象
+- 以下结果均为 true
 
 ```js
 function F() {}
@@ -95,47 +95,47 @@ function F() {}
 const f = new F()
 ```
 
-|   实例对象    |  构造函数  |
-| :-----------: | :--------: |
-|      `f`      |    `F`     |
-| `F.prototype` |  `Object`  |
-|   `Object`    |  `Object`  |
-|  `Function`   | `Function` |
+|  实例对象   | 构造函数 |
+| :---------: | :------: |
+|      f      |    F     |
+| F.prototype |  Object  |
+|   Object    |  Object  |
+|  Function   | Function |
 
 ## 数据类型
 
-|    分类     |           描述            |
-| :---------: | :-----------------------: |
-|   `Null`    |  `null`<br />空对象指针   |
-| `Undefined` | `undefined`<br />未初始化 |
-|  `Boolean`  |      `true`/`false`       |
-|  `Number`   |   数值/`NaN`/`Infinity`   |
-|  `String`   |          字符串           |
-|  `Object`   |     属性和方法的集合      |
-|  `Symbol`   |      对象的唯一标识       |
+|   分类    |          描述           |
+| :-------: | :---------------------: |
+|   Null    |  null<br />空对象指针   |
+| Undefined | undefined<br />未初始化 |
+|  Boolean  |      true / false       |
+|  Number   |  数值 / NaN / Infinity  |
+|  String   |         字符串          |
+|  Object   |    属性和方法的集合     |
+|  Symbol   |     对象的唯一标识      |
 
 ### 转型函数
 
-#### `Boolean()`
+#### Boolean()
 
-- 以下结果均为 `false`
+- 以下结果均为 false
 
-| `0`  | `NaN` | `''` | `null` | `undefined` |
-| :--: | :---: | :--: | :----: | :---------: |
+| 0 | NaN |  ''  | null | undefined |
+| :--: | :--: | :--: | :--: | :-------: |
 
-#### `Number()`
+#### Number()
 
 |    示例     | 结果  |
 | :---------: | :---: |
-|   `true`    |  `1`  |
-|    `''`     |  `0`  |
-|   `null`    |  `0`  |
-| `undefined` | `NaN` |
-|   `'1a'`    | `NaN` |
+|    true     |  1  |
+|     ''      |  0  |
+|   null    |  0  |
+| undefined | NaN |
+|   '1a'    | NaN |
 
-#### `String()`
+#### String()
 
-- `null` / `undefined` 没有 `toString()`方法
+- null / undefined 没有 toString()方法
 - 模板字面量
     - 用于创建复杂字符串
     - 支持多行字符串
@@ -143,28 +143,28 @@ const f = new F()
 ```js
 const s = '插值'
 const ul =
-          `<ul>
+          <ul>
     <li>${ s }</li>
-</ul>`
+</ul>
 ```
 
-### `Number`/`String`
+### Number/String
 
 - 进制
     - 默认十进制
     - 进制可选 2~36
-- `parseInt` /`parseFloat` 会忽略末尾的非法字符
+- parseInt /parseFloat 会忽略末尾的非法字符
 
 |          示例           | 结果  |
 | :---------------------: | :---: |
-| `Number(7).toString(2)` | `111` |
-|     `Number('1a')`      | `NaN` |
-|   `parseInt('1a', 2)`   |  `1`  |
-|  `parseFloat('0.1.1')`  | `0.1` |
+| Number(7).toString(2) | 111 |
+|     Number('1a')      | NaN |
+|   parseInt('1a', 2)   |  1  |
+|  parseFloat('0.1.1')  | 0.1 |
 
-### `Object`
+### Object
 
-- `Object`的原型携带的属性和方法
+- Object的原型携带的属性和方法
 
 ```js
 const o = new Object({ a : 1 })
@@ -172,31 +172,31 @@ const o = new Object({ a : 1 })
 
 |             描述             |                示例                 |       结果        |
 | :--------------------------: | :---------------------------------: | :---------------: |
-|           构造函数           |           `o.constructor`           |    `Object()`     |
-|     判断实例是否存在属性     |       `o.hasOwnProperty('a')`       |      `true`       |
-|   判断是否为实例的原型对象   | `Object.prototype.isPrototypeOf(o)` |      `true`       |
-| 判断实例的某个属性是否可枚举 |    `o.propertyIsEnumerable('a')`    |      `true`       |
-|     返回对象的字符串表示     |           `o.toString()`            | `[object Object]` |
-|     返回对象的原始值表示     |            `o.valueOf()`            |    `{ a: 1 }`     |
+|           构造函数           |           o.constructor           |    Object()     |
+|     判断实例是否存在属性     |       o.hasOwnProperty('a')       |      true       |
+|   判断是否为实例的原型对象   | Object.prototype.isPrototypeOf(o) |      true       |
+| 判断实例的某个属性是否可枚举 |    o.propertyIsEnumerable('a')    |      true       |
+|     返回对象的字符串表示     |           o.toString()            | [object Object] |
+|     返回对象的原始值表示     |            o.valueOf()            |    { a: 1 }     |
 
 ## 操作符
 
-### `+`
+### +
 
 |          示例          |    结果    |
 | :--------------------: | :--------: |
-| `Infinity + Infinity`  | `Infinity` |
-| `Infinity + -Infinity` |   `NaN`    |
-|       `true + 0`       |    `1`     |
-|  `1 + 2 + '3' + 4.0`   |   `334`    |
+| Infinity + Infinity  | Infinity |
+| Infinity + -Infinity |   NaN    |
+|       true + 0       |    1     |
+|  1 + 2 + '3' + 4.0   |   334    |
 
-### `==`
+### ==
 
 - 会自动进行数据类型转换
 
-- 以下组内成员用 `==`判断，结果均为 `true`
+- 以下组内成员用 ==判断，结果均为 true
 
-| `Infinity`/`null`/`undefined` | `0`/ `false`/ `''`/ `[]` |
+| Infinity/null/undefined | 0/ false/ ''/ [] |
 | :---------------------------: | :----------------------: |
 
 ### 解构赋值
@@ -298,7 +298,7 @@ const x = [
 ]
 ```
 
-- 扩展运算符 / `assign` 均为浅拷贝
+- 扩展运算符 / assign 均为浅拷贝
 
 ```js
 const y = [ ...x ]
@@ -312,8 +312,8 @@ console.log(x) // [ 1, { b: 0 } ]
 
 |     描述     |        示例         |
 | :----------: | :-----------------: |
-| 对象转字符串 | `Json.stringify(o)` |
-| 字符串转对象 |   `Json.parse(s)`   |
+| 对象转字符串 | Json.stringify(o) |
+| 字符串转对象 |   Json.parse(s)   |
 
 借助 JSON 实现深拷贝
 
@@ -328,10 +328,10 @@ console.log(x) // [ 1, { b: 2 } ]
 
 |                 示例                  |  结果  |
 | :-----------------------------------: | :----: |
-|           `NaN`/ `Infinity`           | `null` |
-| `undefined`/`Symbol()`/`function(){}` | 被忽略 |
-|             `new Date()`              | 字符串 |
-|                `/\d/`                 |  `{}`  |
+|           NaN/ Infinity           | null |
+| undefined/Symbol()/function(){} | 被忽略 |
+|             new Date()              | 字符串 |
+|                /\d/                 |  {}  |
 
 - 手写深拷贝
 
@@ -378,7 +378,7 @@ f(res, o)
 console.log(res)
 ```
 
-### `??`/`?.`
+### ??/?.
 
 ```js
 const o = {
@@ -388,8 +388,8 @@ const o = {
 
 | 描述 | 示例 | 结果 |
 | :--------------------------------------------: | :-------------: | :--: |
-| 左侧的值存在，访问右侧的属性 |    `o.a?.b`     | `2`  |
-| 左侧的值为`null`或 `undefined`时，使用右侧的值 | ``o.a?.c ?? 3`` | `3`  |
+| 左侧的值存在，访问右侧的属性 | o.a?.b | 2 |
+| 左侧的值为null或 undefined时，使用右侧的值 | ``o.a?.c ?? 3`` | 3 |
 
 ## 作用域
 
@@ -444,7 +444,7 @@ o.f() // f
 
 ## 基本引用类型
 
-### `Date`
+### Date
 
 ```js
 const t = new Date()
@@ -452,19 +452,19 @@ const t = new Date()
 
 |    描述    |           示例           |
 | :--------: | :----------------------: |
-| `年/月/日` | `t.toLocaleDateString()` |
-| `时:分:秒` | `t.toLocaleTimeString()` |
-|  设置时间  |    `t.setTime(1000)`     |
-|  获取时间  |      `t.getTime()`       |
+| 年/月/日 | t.toLocaleDateString() |
+| 时:分:秒 | t.toLocaleTimeString() |
+|  设置时间  |    t.setTime(1000)     |
+|  获取时间  |      t.getTime()       |
 
 ### 正则表达式
 
 | 修饰符 |        作用         |
 | :----: | :-----------------: |
-|  `i`   |    不区分大小写     |
-|  `g`   |      匹配所有       |
-|  `m`   |      多行匹配       |
-|  `s`   | `.`能匹配回车和换行 |
+|  i   |    不区分大小写     |
+|  g   |      匹配所有       |
+|  m   |      多行匹配       |
+|  s   | .能匹配回车和换行 |
 
 - 匹配首个
 
@@ -475,10 +475,10 @@ const s = '121'
 
 |                描述                 |           示例           |                             结果                             |
 | :---------------------------------: | :----------------------: | :----------------------------------------------------------: |
-|     判断字符串是否有匹配的子串      |       `r.test(s)`        |                            `true`                            |
-|       返回匹配子串的起始位置        |      `s.search(r)`       |                             `0`                              |
-| 返回[匹配子串,起始位置,字符串,分组] | `r.exec(s)`/`s.match(r)` | ![image-20220911234423810](assets/image-20220911234423810.png) |
-|       替换字符串中匹配的子串        |    `s.replace(r, '')`    |                             `21`                             |
+|     判断字符串是否有匹配的子串      |       r.test(s)        |                            true                            |
+|       返回匹配子串的起始位置        |      s.search(r)       |                             0                              |
+| 返回[匹配子串,起始位置,字符串,分组] | r.exec(s)/s.match(r) | ![image-20220911234423810](assets/image-20220911234423810.png) |
+|       替换字符串中匹配的子串        |    s.replace(r, '')    |                             21                             |
 
 - 匹配所有
 
@@ -496,13 +496,13 @@ for (let i of s.matchAll(r)) {
 console.log(s.replaceAll(r, '')) // 2
 ```
 
-### `String`
+### String
 
 | 描述 | 示例 | 结果 |
 | :------------------------: | :------------------: | :--: |
-| 删除字符串前后的所有空格符 |   `' 1  '.trim()`    | `1`  |
-| 字符串的所有字母转为大写 | `'Hi'.toUpperCase()` | `HI` |
-| 字符串的所有字母转为小写 | `'Hi'.toLowerCase()` | `hi` |
+| 删除字符串前后的所有空格符 |   ' 1  '.trim()    | 1 |
+| 字符串的所有字母转为大写 | 'Hi'.toUpperCase() | HI |
+| 字符串的所有字母转为小写 | 'Hi'.toLowerCase() | hi |
 
 ```js
 const s = '121'
@@ -510,16 +510,16 @@ const s = '121'
 
 |                描述                |         示例          |      结果      |
 | :--------------------------------: | :-------------------: | :------------: |
-|           获取字符串长度           |      `s.length`       |      `3`       |
-|         字符串是否包含子串         |   `s.includes('1')`   |     `true`     |
-| 获取子串在字符串首次出现的起始位置 |   `s.indexOf('1')`    |      `0`       |
-| 获取子串在字符串最后出现的起始位置 | `s.lastIndexOf('1')`  |      `2`       |
-|        在字符串后面拼接子串        |   `s.concat(3, 4)`    |    `12134`     |
-|  获取 [开始索引,结束索引) 的子串   |   `s.slice(0, -1)`    |      `12`      |
-|          按子串分隔成数组          |    `s.split('2')`     | `[ '1', '1' ]` |
-|             按次数复制             |     `s.repeat(2)`     |    `121121`    |
-|            替换首个子串            |  `s.replace(1, '')`   |      `21`      |
-|            替换所有子串            | `s.replaceAll(1, '')` |      `2`       |
+|           获取字符串长度           |      s.length       |      3       |
+|         字符串是否包含子串         |   s.includes('1')   |     true     |
+| 获取子串在字符串首次出现的起始位置 |   s.indexOf('1')    |      0       |
+| 获取子串在字符串最后出现的起始位置 | s.lastIndexOf('1')  |      2       |
+|        在字符串后面拼接子串        |   s.concat(3, 4)    |    12134     |
+|  获取 [开始索引,结束索引) 的子串   |   s.slice(0, -1)    |      12      |
+|          按子串分隔成数组          |    s.split('2')     | [ '1', '1' ] |
+|             按次数复制             |     s.repeat(2)     |    121121    |
+|            替换首个子串            |  s.replace(1, '')   |      21      |
+|            替换所有子串            | s.replaceAll(1, '') |      2       |
 
 ## 集合引用类型
 
@@ -550,10 +550,10 @@ for (let i of o) {
 
 - 处理异步函数回调嵌套
 
-- `yield`
+- yield
     - 暂停执行
     - 返回迭代器对象
-- `next()`
+- next()
     - 恢复执行
 
 ```js
@@ -572,7 +572,7 @@ const iter = f()
 iter.next()
 ```
 
-### `Array`
+### Array
 
 - 改变原数组的7个方法
 
@@ -582,13 +582,13 @@ const x = [ 1, 2 ]
 
 |                             描述                             |           示例            |     结果      |
 | :----------------------------------------------------------: | :-----------------------: | :-----------: |
-|                      在数组末尾添加元素                      |        `x.push(3)`        | `[ 1, 2, 3 ]` |
-|                   移除数组末尾的元素并返回                   |          `x.pop`          |  `[ 1, 2 ]`   |
-|                      在数组开头添加元素                      |      `x.unshift(0)`       | `[ 0, 1, 2 ]` |
-|                   移除数组开头的元素并返回                   |        `x.shift()`        |    `[ 2 ]`    |
-|                           反转数组                           |       `x.reverse()`       |  `[ 2, 1 ]`   |
-|                        对数组进行排序                        | `x.sort((a, b) => b - a)` |  `[ 2, 1 ]`   |
-| 在索引位置移除指定个数的元素后，<br />插入元素，并返回移除的子数组 |  `x.splice(0, 2, 3, 4)`   |  `[ 3, 4 ]`   |
+|                      在数组末尾添加元素                      |        x.push(3)        | [ 1, 2, 3 ] |
+|                   移除数组末尾的元素并返回                   |          x.pop          |  [ 1, 2 ]   |
+|                      在数组开头添加元素                      |      x.unshift(0)       | [ 0, 1, 2 ] |
+|                   移除数组开头的元素并返回                   |        x.shift()        |    [ 2 ]    |
+|                           反转数组                           |       x.reverse()       |  [ 2, 1 ]   |
+|                        对数组进行排序                        | x.sort((a, b) => b - a) |  [ 2, 1 ]   |
+| 在索引位置移除指定个数的元素后，<br />插入元素，并返回移除的子数组 |  x.splice(0, 2, 3, 4)   |  [ 3, 4 ]   |
 
 - 基本用法
 
@@ -598,13 +598,13 @@ const x = [ 1, 2 ]
 
 |              描述               |        示例        |       结果       |
 | :-----------------------------: | :----------------: | :--------------: |
-|          获取元素个数           |     `x.length`     |       `2`        |
-|      判断数组是否存在元素       |  `x.includes(1)`   |      `true`      |
-| 获取元素在数组中首次出现的索引  |   `x.indexOf(1)`   |       `0`        |
-| 获取元素在数组中最后出现的索引  | `x.lastIndexOf(1)` |       `0`        |
-|    拼接元素或数组到数组末尾     | `x.concat(3, [4])` | `[ 1, 2, 3, 4 ]` |
-| 获取[开始索引,结束索引)的子数组 |  `x.slice(0, -1)`  |     `[ 1 ]`      |
-|   用字符拼接数组元素成字符串    |    `x.join('')`    |       `12`       |
+|          获取元素个数           |     x.length     |       2        |
+|      判断数组是否存在元素       |  x.includes(1)   |      true      |
+| 获取元素在数组中首次出现的索引  |   x.indexOf(1)   |       0        |
+| 获取元素在数组中最后出现的索引  | x.lastIndexOf(1) |       0        |
+|    拼接元素或数组到数组末尾     | x.concat(3, [4]) | [ 1, 2, 3, 4 ] |
+| 获取[开始索引,结束索引)的子数组 |  x.slice(0, -1)  |     [ 1 ]      |
+|   用字符拼接数组元素成字符串    |    x.join('')    |       12       |
 
 - 迭代器的回调函数通常可接收3个参数(元素，索引，数组)
 
@@ -614,22 +614,22 @@ const x = [ 1, 2 ]
 
 |                           描述                           |               示例               |    结果    |
 | :------------------------------------------------------: | :------------------------------: | :--------: |
-|              填充[开始索引,结束索引)的元素               |      `new Array(2).fill(0)`      | `[ 0, 0 ]` |
-|                   数组元素迭代执行函数                   | `x.forEach(v => console.log(v))` |   `1 2`    |
-| 数组元素迭代执行回调函数，<br />并返回每个结果形成的数组 |     `x.map((v, i) => v + i)`     | `[ 1, 3 ]` |
-|            保留使回调函数结果为 `true` 的元素            |      `x.filter(v => v % 2)`      |  `[ 1 ]`   |
-|           判断所有元素是否使函数结果为 `true`            |      `x.every(v => v % 2)`       |  `false`   |
-|           判断是否存在元素使函数结果为 `true`            |       `x.some(v => v % 2)`       |   `true`   |
-|  初始化结果，将元素迭代执行函数，<br />返回最终迭代结果  | `x.reduce((r, v) => r += v, 0)`  |    `3`     |
+|              填充[开始索引,结束索引)的元素               |      new Array(2).fill(0)      | [ 0, 0 ] |
+|                   数组元素迭代执行函数                   | x.forEach(v => console.log(v)) |   1 2    |
+| 数组元素迭代执行回调函数，<br />并返回每个结果形成的数组 |     x.map((v, i) => v + i)     | [ 1, 3 ] |
+|            保留使回调函数结果为 true 的元素            |      x.filter(v => v % 2)      |  [ 1 ]   |
+|           判断所有元素是否使函数结果为 true            |      x.every(v => v % 2)       |  false   |
+|           判断是否存在元素使函数结果为 true            |       x.some(v => v % 2)       |   true   |
+|  初始化结果，将元素迭代执行函数，<br />返回最终迭代结果  | x.reduce((r, v) => r += v, 0)  |    3     |
 
 - 数组结构转换
 
 |             描述             |                 示例                 |     结果      |
 | :--------------------------: | :----------------------------------: | :-----------: |
-|   将迭代数组结构转化为数组   | `Array.from('12', i => parseInt(i))` |  `[ 1, 2 ]`   |
-| 将高维数组按深度转为低维数组 |   `[1, [2], [[3]]].flat(Infinity)`   | `[ 1, 2, 3 ]` |
+|   将迭代数组结构转化为数组   | Array.from('12', i => parseInt(i)) |  [ 1, 2 ]   |
+| 将高维数组按深度转为低维数组 |   [1, [2], [[3]]].flat(Infinity)   | [ 1, 2, 3 ] |
 
-### `Set`
+### Set
 
 ```js
 const s = new Set([ 1, 1 ])
@@ -637,13 +637,13 @@ const s = new Set([ 1, 1 ])
 
 |           描述            |     示例      |    结果    |
 | :-----------------------: | :-----------: | :--------: |
-|       获取元素个数        |   `s.size`    |    `1`     |
-|         添加元素          |  `s.add(2)`   | `{ 1, 2 }` |
-|   判断集合是否存在元素    |  `s.has(1)`   |   `true`   |
-| 删除元素，成功返回 `true` | `s.delete(1)` |   `true`   |
-|         清空元素          |  `s.clear()`  |            |
+|       获取元素个数        |   s.size    |    1     |
+|         添加元素          |  s.add(2)   | { 1, 2 } |
+|   判断集合是否存在元素    |  s.has(1)   |   true   |
+| 删除元素，成功返回 true | s.delete(1) |   true   |
+|         清空元素          |  s.clear()  |            |
 
-### `Map`
+### Map
 
 ```js
 // 二维数组初始化
@@ -652,12 +652,12 @@ const m = new Map([ [ 'a', 1 ] ])
 
 |            描述             |      示例       |                             结果                             |
 | :-------------------------: | :-------------: | :----------------------------------------------------------: |
-|         添加键值对          | `m.set('b', 2)` | ![image-20220911235722983](assets/image-20220911235722983.png) |
-|       获取键值对个数        |    `m.size`     |                             `1`                              |
-|       判断是否存在键        |  `m.has('a')`   |                            `true`                            |
-|       获取键对应的值        |  `m.get('a')`   |                             `1`                              |
-| 删除键值对，成功返回 `true` | `m.delete('a')` |                            `true`                            |
-|         清空键值对          |   `m.clear()`   |                                                              |
+|         添加键值对          | m.set('b', 2) | ![image-20220911235722983](assets/image-20220911235722983.png) |
+|       获取键值对个数        |    m.size     |                             1                              |
+|       判断是否存在键        |  m.has('a')   |                            true                            |
+|       获取键对应的值        |  m.get('a')   |                             1                              |
+| 删除键值对，成功返回 true | m.delete('a') |                            true                            |
+|         清空键值对          |   m.clear()   |                                                              |
 
 ## 函数
 
@@ -687,16 +687,16 @@ let f = function () {}
 ```
 
 - 匿名函数自运行
-    - 在函数声明前加上运算符成为表达式，随后通过 `()`调用
+    - 在函数声明前加上运算符成为表达式，随后通过 ()调用
     - 其内部形成封闭的作用域，内部变量不会对外部造成命名污染
 
-|                              |   `function(){}`   |    `()=>{}`    |
+|                              |   function(){}   |    ()=>{}    |
 | :--------------------------: | :----------------: | :------------: |
 |          有原型对象          |         1          |       0        |
 |        可作为构造函数        |         1          |       0        |
-|      有`arguments`对象       |         1          |       0        |
-| 支持 `call`、`apply`、`bind` |         1          |       0        |
-|            `this`            | 调用时的上下文对象 | 定义时的上下文 |
+|      有arguments对象       |         1          |       0        |
+| 支持 call、apply、bind |         1          |       0        |
+|            this            | 调用时的上下文对象 | 定义时的上下文 |
 
 ### 回调函数
 
@@ -761,18 +761,18 @@ function g() {
 f(g)
 ```
 
-### `this`
+### this
 
-#### `arguments`
+#### arguments
 
 - 普通函数被调用时，传入的全部参数形成的类数组对象
-- 改变 `this`指向
+- 改变 this指向
 
 |  示例   |         描述         |
 | :-----: | :------------------: |
-| `call`  | 接收多个数值作为参数 |
-| `apply` |   接收数组作为参数   |
-| `bind`  |       不会执行       |
+| call  | 接收多个数值作为参数 |
+| apply |   接收数组作为参数   |
+| bind  |       不会执行       |
 
 ```js
 /* 通过 call apply bind 使用构造函数 f 为 o 添加属性 */
@@ -789,7 +789,7 @@ function f(b, c) {
 }
 ```
 
-#### `call`
+#### call
 
 ```js
 /* 在对象内添加调用函数并执行，再删除
@@ -808,14 +808,14 @@ Function.prototype.myCall = function () {
 }
 ```
 
-#### `apply`
+#### apply
 
 ```js
 // 仅在这里与 call 有所不同
 [ , [ ...args ] ] = arguments
 ```
 
-#### `bind`
+#### bind
 
 ```js
 /* 将构造函数执行和删除封装成函数返回 */
@@ -847,7 +847,7 @@ $(function () {
     $('.timeout').on({
         click : function () {
             setTimeout(() => {
-                $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
+                $('ul').append(<li>${ new Date().toLocaleTimeString() }</li>)
             }, 1000)
         },
     })
@@ -857,7 +857,7 @@ $(function () {
             let n = 3
             const timer = setInterval(() => {
                 if (n--) {
-                    $('ul').append(`<li>${ new Date().toLocaleTimeString() }</li>`)
+                    $('ul').append(<li>${ new Date().toLocaleTimeString() }</li>)
                 } else {
                     clearInterval(timer)
                 }
@@ -955,7 +955,7 @@ imgs.forEach(function (i) {
 })
 ```
 
-### `Promise`
+### Promise
 
 ```js
 /* Promise 对象内部为执行器函数
@@ -995,13 +995,13 @@ setTimeout(console.log, 0, p)
 
 |       描述       |                             示例                             |            结果            |
 | :--------------: | :----------------------------------------------------------: | :------------------------: |
-| 实例化解决的期约 |                     `Promise.resolve(1)`                     | `Promise {<fulfilled>: 1}` |
-| 实例化拒绝的期约 |                     `Promise.reject(0)`                      | `Promise {<rejected>: 0}`  |
-|  所有期约都解决  |    `Promise.all([Promise.resolve(1), Promise.reject(0)])`    | `Promise {<rejected>: 0}`  |
-|   任一期约解决   |    `Promise.any([Promise.resolve(1), Promise.reject(0)])`    | `Promise {<fulfilled>: 1}` |
-|   任一期约确定   | `Promise.race([new Promise(l => setTimeout(l)), Promise.reject(0)]))` | `Promise {<rejected>: 0}`  |
+| 实例化解决的期约 |                     Promise.resolve(1)                     | Promise {<fulfilled>: 1} |
+| 实例化拒绝的期约 |                     Promise.reject(0)                      | Promise {<rejected>: 0}  |
+|  所有期约都解决  |    Promise.all([Promise.resolve(1), Promise.reject(0)])    | Promise {<rejected>: 0}  |
+|   任一期约解决   |    Promise.any([Promise.resolve(1), Promise.reject(0)])    | Promise {<fulfilled>: 1} |
+|   任一期约确定   | Promise.race([new Promise(l => setTimeout(l)), Promise.reject(0)])) | Promise {<rejected>: 0}  |
 
-#### `async`/`await`
+#### async/await
 
 ```js
 /* async 仅是异步函数的标识，和普通函数没有区别
@@ -1022,7 +1022,7 @@ console.log(2)
 // 1 2 3
 ```
 
-#### 手写`Promise`
+#### 手写Promise
 
 ```js
 /* Promise 对象的 constructor 接收执行器函数 executor
@@ -1182,7 +1182,7 @@ console.log(o.f()() === window) // true
 function url(protocol) {
     return function (hostName) {
         return function (pathName) {
-            return `${ protocol }${ hostName }${ pathName }`
+            return ${ protocol }${ hostName }${ pathName }
         }
     }
 }
@@ -1191,7 +1191,7 @@ const web = url('https://')('www.a.com')
 console.table([ web('/index.html'), web('/style.css'), web('/app.js') ])
 ```
 
-#### `add`
+#### add
 
 ![image-20220912002637432](assets/image-20220912002637432.png)
 
@@ -1243,21 +1243,21 @@ const o = {
 
 |                 描述                 |                             示例                             |                             结果                             |
 | :----------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|          读取单个属性的描述          |          `Object.getOwnPropertyDescriptor(o, 'a')`           | ![image-20220912002739565](assets/image-20220912002739565.png) |
-|          读取多个属性的描述          |            `Object.getOwnPropertyDescriptors(o)`             | ![image-20220912002910213](assets/image-20220912002910213.png) |
-|        实例对象上是否存在属性        |                   `o.hasOwnProperty('a')`                    |                            `true`                            |
-|            属性是否可枚举            |                `o.propertyIsEnumerable('a')`                 |                            `true`                            |
-|         添加单个属性及其描述         | `Object.defineProperty(o, 'c', {value : 3, enumerable : true})` | ![image-20220912003042481](assets/image-20220912003042481.png) |
-|         添加多个属性及其描述         | `Object.defineProperties(o, {c : {value : 3, enumerable : true}, d : {value : 4, enumerable : true}})` | ![image-20220912003212528](assets/image-20220912003212528.png) |
-|          获取实例的原型对象          |                  `Object.getPrototypeOf(o)`                  |                      `Object.prototype`                      |
-|          设置实例的原型对象          |        `Object.setPrototypeOf(o, Function.prototype)`        |                  `Function { a: 1, b: 2 }`                   |
-|     判断原型对象是否为实例的原型     |             `Object.prototype.isPrototypeOf(o)`              |                            `true`                            |
-|             删除对象属性             |                         `delete o.a`                         |                             `{}`                             |
-|          冻结对象，不让修改          |                      `Object.freeze(o)`                      |                                                              |
-|         浅拷贝对象可枚举属性         |               `Object.assign({}, o, {c : 3})`                | ![image-20220912003418714](assets/image-20220912003418714.png) |
-| 创建以对象为原型对象并添加属性的实例 |  `Object.create(o, {'c' : {value : 3, enumerable : true}})`  | ![image-20220912003551347](assets/image-20220912003551347.png) |
-|         将对象转换为二维数组         |                     `Object.entries(o)`                      | ![image-20220912003655396](assets/image-20220912003655396.png) |
-|         将二维数组转换为对象         |             `Object.fromEntries([ [ 'a', 1 ] ])`             |                          `{ a: 1 }`                          |
+|          读取单个属性的描述          |          Object.getOwnPropertyDescriptor(o, 'a')           | ![image-20220912002739565](assets/image-20220912002739565.png) |
+|          读取多个属性的描述          |            Object.getOwnPropertyDescriptors(o)             | ![image-20220912002910213](assets/image-20220912002910213.png) |
+|        实例对象上是否存在属性        |                   o.hasOwnProperty('a')                    |                            true                            |
+|            属性是否可枚举            |                o.propertyIsEnumerable('a')                 |                            true                            |
+|         添加单个属性及其描述         | Object.defineProperty(o, 'c', {value : 3, enumerable : true}) | ![image-20220912003042481](assets/image-20220912003042481.png) |
+|         添加多个属性及其描述         | Object.defineProperties(o, {c : {value : 3, enumerable : true}, d : {value : 4, enumerable : true}}) | ![image-20220912003212528](assets/image-20220912003212528.png) |
+|          获取实例的原型对象          |                  Object.getPrototypeOf(o)                  |                      Object.prototype                      |
+|          设置实例的原型对象          |        Object.setPrototypeOf(o, Function.prototype)        |                  Function { a: 1, b: 2 }                   |
+|     判断原型对象是否为实例的原型     |             Object.prototype.isPrototypeOf(o)              |                            true                            |
+|             删除对象属性             |                         delete o.a                         |                             {}                             |
+|          冻结对象，不让修改          |                      Object.freeze(o)                      |                                                              |
+|         浅拷贝对象可枚举属性         |               Object.assign({}, o, {c : 3})                | ![image-20220912003418714](assets/image-20220912003418714.png) |
+| 创建以对象为原型对象并添加属性的实例 |  Object.create(o, {'c' : {value : 3, enumerable : true}})  | ![image-20220912003551347](assets/image-20220912003551347.png) |
+|         将对象转换为二维数组         |                     Object.entries(o)                      | ![image-20220912003655396](assets/image-20220912003655396.png) |
+|         将二维数组转换为对象         |             Object.fromEntries([ [ 'a', 1 ] ])             |                          { a: 1 }                          |
 
 ### 创建对象
 
@@ -1295,7 +1295,7 @@ console.log(o.A()) // 1
 console.log(Object.getPrototypeOf(o) === F.prototype) // true
 ```
 
-#### 手写 `new`
+#### 手写 new
 
 ```js
 /* 以构造函数的原型对象为原型对象创建实例
@@ -1361,16 +1361,16 @@ console.log(o.A === p.A) // true
 
 - 实例对象沿着原型链向上查找或添加属性和方法
     - 实例添加与原型的同名属性和方法，会在实例上创建自有属性和方法
-- `Object` 的原型对象的 `__proto__` 指向 `null`
-- 所有原型对象的 `__proto__` 指向 `Object` 的原型对象
-- 所有构造函数的 `__proto__` 指向 `Function` 的原型对象
-- 构造函数的 `prototype` 属性与 原型对象的 `constructor` 属性互指
-- `instanceof`
+- Object 的原型对象的 __proto__ 指向 null
+- 所有原型对象的 __proto__ 指向 Object 的原型对象
+- 所有构造函数的 __proto__ 指向 Function 的原型对象
+- 构造函数的 prototype 属性与 原型对象的 constructor 属性互指
+- instanceof
 - 构造函数的原型对象是否在实例对象的原型链上
 - 判断属性是否为原型属性
-    - `in`
+    - in
         - 实例能访问到属性
-    - `hasOwnProperty`
+    - hasOwnProperty
         - 实例的自有属性
 
 ```js
