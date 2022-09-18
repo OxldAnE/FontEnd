@@ -3,3 +3,11 @@
 /workspace.xml
 # 基于编辑器的 HTTP 客户端请求
 /httpRequests/
+/dataSources/66dcbcee-6a69-4156-83d4-bd0a6243ee92.xml
+/dataSources.local.xml
+/dataSources/66dcbcee-6a69-4156-83d4-bd0a6243ee92/storage_v2/_src_/schema/information_schema.FNRwLQ.meta
+/dataSources/66dcbcee-6a69-4156-83d4-bd0a6243ee92/storage_v2/_src_/schema/information_schema.FNRwLQ.zip
+/dataSources/66dcbcee-6a69-4156-83d4-bd0a6243ee92/storage_v2/_src_/schema/mysql.osA4Bg.meta
+/dataSources/66dcbcee-6a69-4156-83d4-bd0a6243ee92/storage_v2/_src_/schema/performance_schema.kIw0nw.meta
+/dataSources/66dcbcee-6a69-4156-83d4-bd0a6243ee92/storage_v2/_src_/schema/sys.zb4BAA.meta
+/dataSources/66dcbcee-6a69-4156-83d4-bd0a6243ee92/storage_v2/_src_/schema/sys.zb4BAA.zip
