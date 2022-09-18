@@ -7,7 +7,7 @@
 | 安装脚手架 | cnpm i -g @vue/cli |
 |  创建项目  |     vue create     |
 |  启动项目  |   npm run serve    |
-|            |                    |
+|  安装 id   |  cnpm i nanoid -g  |
 |            |                    |
 |            |                    |
 |            |                    |
@@ -51,7 +51,7 @@
 |  自定义指令   | directives |
 |   混入组件   |   mixins   |
 
-|          |                  computed                   |                            watch                             |
+|          |    [computed](vue2/计算属性/index.html)     |                [watch](vue2/监听/index.html)                 |
 | :------: | :-----------------------------------------: | :----------------------------------------------------------: |
 | 适用情形 | 依赖数据改变，重新计算<br />结果依赖多个值  |          数据改变，执行操作<br />值的改变影响多个值          |
 | 支持缓存 |                      1                      |                              0                               |
@@ -155,6 +155,8 @@
 |   触屏结束   |      touchend       |
 |   屏幕旋转   | onorientationchange |
 
+- tab / ctrl / shift / alt / meta 使用 keydown
+
 ### 事件修饰符
 
 |      描述      |   示例    |
@@ -165,6 +167,244 @@
 |    使用捕获模式    | capture |
 | 只有操作的目标元素触发  |  self   |
 | 立即执行，不等待回调函数 | passive |
+
+### [数据代理](vue2/数据代理/index.html)
+
+```html
+<div id='root'>
+    <ul>
+        <li v-for='(item,index) of arr' :key='item.id'>
+            {{ item }}
+            <button @click='zero(index)'>0</button>
+        </li>
+    </ul>
+</div>
+```
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            arr : [ 1, 2 ],
+        }
+    },
+    methods : {
+        zero(i) {
+            // Vue.set(this.arr, i, 0)
+            this.arr.splice(i, 1, 0)
+        },
+    },
+})
+```
+
+- 数组元素没有响应式
+- 通过对 pop / push / shift / unshift / sort / splice / reverse 7个修改数组的方法进行封装，实现对数组的监听
+
+```js
+const data = { a : 1, b : 2 }
+const vm = {}
+vm._data = data
+for (let i in vm._data) {
+    Object.defineProperty(vm, i, {
+        get() {
+            return this._data[i]
+        },
+        set(v) {
+            this._data[i] = v
+        },
+    })
+}
+
+vm.a = 0
+console.log(vm.a) // 0
+```
+
+### [绑定样式](vue2/绑定样式/index.html)
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            // 在数组中挑一个样式使用
+            colors : [ 'red', 'yellow', 'blue' ],
+            color  : '',
+
+            // 增删数组元素，改变样式
+            border : [ 'border', 'border-radius' ],
+
+            // 通过对象的属性值决定样式是否使用
+            style : {
+                red             : true,
+                border          : true,
+                'border-radius' : true,
+            },
+        }
+    },
+    methods : {
+        changeColor() {
+            this.color = this.colors[Math.floor(Math.random() * 3)]
+        },
+    },
+})
+```
+
+### [列表渲染](vue2/列表渲染/index.html)
+
+- 默认使用 index 作为 key
+  - 效率低，且打乱顺序会出错
+- 如果 key 相同，则内容相同的部分直接复用
+
+![image-20220918234123262](Vue.assets/image-20220918234123262.png)
+
+```html
+<div id='root'>
+    <ul>
+        <li v-for='item of arr'>
+            {{ item }} <input>
+        </li>
+    </ul>
+    <button @click='prepend'>0</button>
+</div>
+```
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            arr : [ 1, 2, 3 ],
+        }
+    },
+    methods : {
+        prepend() {
+            this.arr.unshift(0)
+        },
+    },
+})
+```
+
+### [列表过滤与排序](vue2/列表过滤与排序/index.html)
+
+```html
+<div id='root'>
+    <input type='text' v-model='keyWord' placeholder='请输入关键字'>
+    <ul>
+        <li v-for='index of res' :key='item.id'>
+            {{ item.name + item.age }}
+        </li>
+    </ul>
+</div>
+```
+
+- [watch](vue2/列表过滤与排序/watch.js)
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            lists   : [
+                { id : 1, name : '马冬梅', age : 18 },
+                { id : 2, name : '周冬雨', age : 17 },
+                { id : 3, name : '周杰伦', age : 16 },
+                { id : 4, name : '温兆伦', age : 15 },
+            ],
+            keyWord : '',
+            res     : [],
+        }
+    },
+    watch : {
+        keyWord : {
+            immediate : true,
+            handler(val) {
+                this.res = this.lists.filter(i =>
+                    i.name.includes(val),
+                )
+            },
+        },
+    },
+})
+```
+
+- [computed](vue2/列表过滤与排序/computed.js)
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            lists   : [
+                { id : 1, name : '马冬梅', age : 18 },
+                { id : 2, name : '周冬雨', age : 17 },
+                { id : 3, name : '周杰伦', age : 16 },
+                { id : 4, name : '温兆伦', age : 15 },
+            ],
+            keyWord : '',
+        }
+    },
+    computed : {
+        res() {
+            return this.lists.filter(i =>
+                i.name.includes(this.keyWord),
+            )
+        },
+    },
+})
+```
+
+- [排序](vue2/列表过滤与排序/index.html)
+
+```html
+<div id='root'>
+    <input type='text' v-model='keyWord' placeholder='请输入关键字'>
+    <button @click='sortType=2'>升序</button>
+    <button @click='sortType=1'>降序</button>
+    <button @click='sortType=0'>原序</button>
+    <ul>
+        <li v-for='item of res' :key='item.id'>
+            {{ item.name + item.age }}
+        </li>
+    </ul>
+</div>
+```
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            lists    : [
+                { id : 1, name : '马冬梅', age : 18 },
+                { id : 2, name : '周冬雨', age : 16 },
+                { id : 3, name : '周杰伦', age : 17 },
+                { id : 4, name : '温兆伦', age : 15 },
+            ],
+            keyWord  : '',
+            sortType : 0,
+        }
+    },
+    /* 先依据名字里是否含有关键字过滤
+     * 再根据排序的值，进行相应排序 */
+    computed : {
+        res() {
+            let arr = this.lists.filter(i =>
+                i.name.includes(this.keyWord))
+
+            if (this.sortType) {
+                arr.sort((a, b) =>
+                    this.sortType === 2
+                    ? a.age - b.age
+                    : b.age - a.age)
+            }
+            return arr
+        },
+    },
+})
+```
+
+
 
 ## 组件传值
 
@@ -638,59 +878,6 @@ new Vue({
     render : h => h(App),
 }).$mount('#app')
 ```
-
-## 数据代理
-
-|     配置项      |  描述   |
-|:------------:|:-----:|
-|    value     |   值   |
-|  enumerable  | 是否可枚举 |
-|   writable   | 是否可修改 |
-| configurable | 是否可删除 |
-|    getter    | 访问数据  |
-|    setter    | 修改数据  |
-
-```js
-// const vm = new Vue({
-//   el  : '#app',
-//   data: {
-//     a: 0,
-//     b: 1,
-//   },
-// })
-
-const data = { a : 0, b : 1 }
-const vm = {}
-vm._data = data
-for (let k in vm._data) {
-    Object.defineProperty(vm, k, {
-        get() {
-            return vm._data[k]
-        },
-        set(value) {
-            vm.data[k] = value
-        },
-    })
-}
-
-console.log(vm.a) // 0
-```
-
-#### 绑定样式
-
-| 写法  |  描述  |
-|:---:|:----:|
-| 字符串 | 类名未定 |
-| 数组  | 个数未定 |
-| 对象  | 使用未定 |
-
-#### 侦听
-
-|      配置项       |  描述   |
-|:--------------:|:-----:|
-|   deep:true    | 深度侦听  |
-| immediate:true | 初始化调用 |
-| handler(新值,旧值) | 处理方法  |
 
 #### 自定义指令
 

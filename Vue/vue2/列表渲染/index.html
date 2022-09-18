@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <script src='../vue.js'></script>
+    <script src='main.js' defer type='text/javascript'></script>
+</head>
+<body>
+<div id='root'>
+    <ul>
+        <li v-for='item of arr'>
+            {{ item }} <input>
+        </li>
+    </ul>
+    <button @click='prepend'>0</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <script src='../vue.js'></script>
+    <script src='main.js' defer></script>
+    <style>
+        .basic {
+            display     : inline-block;
+            width       : 5em;
+            height      : 5em;
+            text-align  : center;
+            line-height : 5em;
+        }
+
+        .border {
+            border : 5px solid #000;
+        }
+
+        .border-radius {
+            border-radius : 50%;
+        }
+
+        .red {
+            background-color : red;
+        }
+
+        .yellow {
+            background-color : yellow;
+        }
+
+        .blue {
+            background-color : blue;
+        }
+    </style>
+</head>
+<body>
+
+<div id='root'>
+    <span class='basic' :class='color' @mousemove='changeColor'>1</span>
+    <span class='basic' :class='border'>2</span>
+    <span class='basic' :class='style'>3</span>
+</div>
+
+</body>
+</html>
