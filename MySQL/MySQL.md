@@ -68,27 +68,27 @@ from t;
 
 ### 条件运算符
 
-|   描述   |    示例     |
-| :------: | :---------: |
-|   过滤   |    where    |
-|   之间   | between and |
-|   之中   |    in()     |
+|  描述  |     示例      |
+|:----:|:-----------:|
+|  过滤  |    where    |
+|  之间  | between and |
+|  之中  |    in()     |
 | 模糊匹配 |    like     |
 | 单个字符 |      _      |
 | 任意字符 |      %      |
-|   为空   |   is null   |
-|   并且   |     and     |
-|   或者   |     or      |
-|    非    |     not     |
+|  为空  |   is null   |
+|  并且  |     and     |
+|  或者  |     or      |
+|  非   |     not     |
 
 ### 聚合函数
 
-|  描述  | 示例  |
-| :----: | :---: |
+| 描述  |  示例   |
+|:---:|:-----:|
 | 最大值 |  max  |
 | 最小值 |  min  |
-|  数量  | count |
-|  求和  |  sum  |
+| 数量  | count |
+| 求和  |  sum  |
 | 平均值 |  avg  |
 
 ### 分组
@@ -104,15 +104,15 @@ from t;
 
 ### 字符串
 
-|     描述     |   示例    |
-| :----------: | :-------: |
-|     拼接     |  concat   |
-|     小写     |   lower   |
-|     大写     |   upper   |
-|    左填充    |   lpad    |
-|    右填充    |   rpad    |
+|   描述   |    示例     |
+|:------:|:---------:|
+|   拼接   |  concat   |
+|   小写   |   lower   |
+|   大写   |   upper   |
+|  左填充   |   lpad    |
+|  右填充   |   rpad    |
 | 去掉头尾空格 |   trim    |
-|   返回子串   | substring |
+|  返回子串  | substring |
 
 ```sql
 select lpad('1',2,0); # 01
@@ -122,10 +122,10 @@ select substring('123',1,2); # 12
 
 ### 数值
 
-|   描述   | 示例  |
-| :------: | :---: |
-|    模    |  mod  |
-|  随机数  | rand  |
+|  描述  |  示例   |
+|:----:|:-----:|
+|  模   |  mod  |
+| 随机数  | rand  |
 | 向上取整 | ceil  |
 | 向下取整 | floor |
 | 四舍五入 | round |
@@ -137,16 +137,16 @@ select lpad(round(rand()*1e4,0),4,'0');
 
 ### 日期
 
-|      描述      |   示例   |
-| :------------: | :------: |
+|   描述    |    示例    |
+|:-------:|:--------:|
 | 当前日期和时间 |   now    |
-|    当前日期    | curdate  |
-|    当前时间    | curtime  |
-|       年       |   year   |
-|       月       |  month   |
-|       日       |   day    |
-|  增加间隔时间  | date_add |
-|    相差天数    | datediff |
+|  当前日期   | curdate  |
+|  当前时间   | curtime  |
+|    年    |   year   |
+|    月    |  month   |
+|    日    |   day    |
+| 增加间隔时间  | date_add |
+|  相差天数   | datediff |
 
 ```sql
 select date_add(now(),interval 1 day);
@@ -179,11 +179,11 @@ from t;
 | 外键 | foreign key |
 | 检查 | check |
 
-|       描述        |   示例    |
-| :---------------: | :-------: |
+|     描述     |    示例     |
+|:----------:|:---------:|
 | 不允许更新 / 删除 | no action |
-|     同样操作      |  cascade  |
-|     断开关联      | set null  |
+|    同样操作    |  cascade  |
+|    断开关联    | set null  |
 
 ```sql
 create table t
