@@ -58,20 +58,60 @@
 | 支持异步 |                      0                      |                              1                               |
 |   描述   | 默认通过 get 返回值<br />修改值，需添加 set | 接收新值和旧值作为参数<br />immediate 在加载时立即执行<br />deep 监听对象内部属性改变 |
 
-### 生命周期钩子
+### [生命周期钩子](vue2/生命周期钩子/index.html)
 
-![20201224171705552](assets/20201224171705552.png)
+![image-20220919162851285](Vue.assets/image-20220919162851285.png)
 
 |                             描述                             |     示例      |
 | :----------------------------------------------------------: | :-----------: |
 |                   完成初始化生命周期和事件                   | beforeCreate  |
 |          完成初始化数据监测和代理，可访问属性和方法          |    created    |
 |            解析 el 或 template 模板，生成虚拟 DOM            |  beforeMount  |
-| 用新创建的 $el 替换 el ，挂载到页面，<br />初始化操作：开启定时器 / 发送网络请求 / 订阅消息 / 绑定自定义事件 |    mounted    |
+| 用 $el 保存的真实 DOM 替换 el ，挂载到页面，<br />初始化操作：开启定时器 / 发送网络请求 / 订阅消息 / 绑定自定义事件 |    mounted    |
 |                  数据发生更新，未响应到页面                  | beforeUpdate  |
 |         虚拟 DOM 比较，更新页面，页面和数据保持同步          |    updated    |
 | 销毁指令被调用，能访问属性和方法，不触发数据更新 <br />收尾操作： 关闭定时器 / 取消订阅消息 / 解绑自定义事件 | beforeDestroy |
-|           实例销毁，移除属性监听、事件监听、子组件           |   Destroyed   |
+|   实例销毁，解绑指令，移除属性监听、自定义事件监听、子组件   |   Destroyed   |
+
+```html
+<div id='root'>
+    <h1 :style='{opacity}'>透明度</h1>
+    <button @click='opacity=1'>1</button>
+    <button @click='stop'>停</button>
+</div>
+```
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            opacity : 1,
+        }
+    },
+
+    // 挂载时启动定时器
+    mounted() {
+        this.timer = setInterval(() => {
+            if (this.opacity <= 0) {
+                this.opacity = 1
+            }
+            this.opacity -= 0.1
+        }, 100)
+    },
+
+    methods : {
+        // 手动销毁，调用 beforeDestroy
+        stop() {
+            this.$destroy()
+        },
+    },
+    
+    beforeDestroy() {
+        clearInterval(this.timer)
+    },
+})
+```
 
 ## 方法
 
@@ -112,23 +152,23 @@
 
 ## 指令
 
-|              描述              |  示例   |
-| :----------------------------: | :-----: |
-|            文本插值            |  {{}}   |
-|          组件绑定模板          |    :    |
-|       表单与组件双向绑定       | v-model |
-|    虚拟 DOM 节点的唯一标识     |  :key   |
-|            条件渲染            |  v-if   |
-|            条件显示            | v-show  |
-|              遍历              |  v-for  |
-|              文档              | v-html  |
-|              文本              | v-text  |
-|  模板完成解析后，自动删除属性  | v-cloak |
-|  动态渲染一次后，转为静态内容  | v-once  |
-|          跳过节点编译          |  v-pre  |
-|          对象参数占位          | $event  |
-|            绑定事件            |    @    |
-| 为元素节点或子组件注册引用信息 |   ref   |
+|                            描述                            |  示例   |
+| :--------------------------------------------------------: | :-----: |
+|                          文本插值                          |  {{}}   |
+|                        组件绑定模板                        |    :    |
+|                     表单与组件双向绑定                     | v-model |
+|                  虚拟 DOM 节点的唯一标识                   |  :key   |
+|                          条件渲染                          |  v-if   |
+|                          条件显示                          | v-show  |
+|                            遍历                            |  v-for  |
+|                 文档结构解析<br />xss 攻击                 | v-html  |
+|                            文本                            | v-text  |
+| 模板完成解析后，自动删除属性<br />[v-cloak]{display:none;} | v-cloak |
+|                动态渲染一次后，转为静态内容                | v-once  |
+|                        跳过节点编译                        |  v-pre  |
+|                        对象参数占位                        | $event  |
+|                          绑定事件                          |    @    |
+|               为元素节点或子组件注册引用信息               |   ref   |
 
 ### 事件类型
 
@@ -192,13 +232,14 @@ new Vue({
     methods : {
         zero(i) {
             // Vue.set(this.arr, i, 0)
+            // this.$set(this.arr, i, 0)
             this.arr.splice(i, 1, 0)
         },
     },
 })
 ```
 
-- 数组元素没有响应式
+- 通过索引修改数组元素，没有响应式
 - 通过对 pop / push / shift / unshift / sort / splice / reverse 7个修改数组的方法进行封装，实现对数组的监听
 
 ```js
@@ -404,7 +445,120 @@ new Vue({
 })
 ```
 
+### [表单](vue2/表单/index.html)
 
+```html
+<div id='root'>
+    <form @submit.prevent='postData'>
+        <label for='username'>用户：</label><input type='text' v-model.trim='userInfo.username' id='username'
+                                                  placeholder='请输入用户名'><br>
+        <label for='password'>密码：</label><input type='password' v-model='userInfo.password' id='password'
+                                                  placeholder='请输入密码'><br>
+        <label for='age'>年龄：</label><input type='number' id='age' v-model.number='userInfo.age'
+                                             placeholder='请输入年龄'><br>
+        <label for='region'>地区：</label><select id='region' v-model='userInfo.region'>
+        <option>请选择</option>
+        <option>北京</option>
+        <option>南京</option>
+    </select><br>
+        性别：<label for='male'>男</label><input type='radio' name='gender' v-model='userInfo.gender' value='male'
+                                                id='male'>
+        <label for='female'>女</label><input type='radio' name='gender' v-model='userInfo.gender' value='female'
+                                             id='female'><br>
+        爱好：<label for='study'>学习</label><input type='checkbox' v-model='userInfo.hobby' name='hobby' value='study'
+                                                   id='study'>
+        <label for='running'>跑步</label><input type='checkbox' v-model='userInfo.hobby' name='hobby' value='running'
+                                                id='running'><br>
+        <textarea placeholder='请输入其他信息' v-model.lazy='userInfo.other'></textarea><br>
+        <input type='checkbox' id='agree' v-model='userInfo.agree'><label for='agree'>阅读并接受</label><a
+            href='javascript:'>《用户协议》</a>
+        <button>提交</button>
+    </form>
+</div>
+```
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            userInfo : {
+                username : '',
+                password : '',
+                age      : undefined,
+                region   : '请选择',
+                gender   : '',
+                hobby    : [],
+                other    : '',
+                agree    : '',
+            },
+        }
+    },
+    methods : {
+        postData() {
+            console.log(this.userInfo)
+        },
+    },
+})
+```
+
+### [自定义指令](vue2/自定义指令/index.html)
+
+- 自定义指令(真实节点,绑定元素对象)
+- 指令绑定和模板更新时，指令会被调用
+- 自定义指令的 this 指向 window
+- 自定义指令命名
+  - 模板 v-a-b
+  - 模型 a-b
+
+
+```html
+<div id='root'>
+    <input type='text' v-fbind:value='n'><br>
+    <button @click='n++'>n++</button>
+</div>
+```
+
+```js
+new Vue({
+    el : '#root',
+    data() {
+        return {
+            n : 1,
+        }
+    },
+    directives : {
+        /* // 相当于绑定和模板更新
+         fbind(element, binding) {
+         element.value = binding.value
+         } */
+
+        fbind : {
+            // 绑定
+            bind(element, binding) {
+                element.value = binding.value
+            },
+
+            // 插入
+            inserted(element, binding) {
+                element.focus()
+            },
+
+            // 模板更新
+            update(element, binding) {
+                element.value = binding.value
+            },
+        },
+    },
+})
+```
+
+```js
+// 注册为全局指令
+Vue.directive('fbind', function (element, binding) {
+    element.value = binding.value
+})
+```
 
 ## 组件传值
 
@@ -879,17 +1033,7 @@ new Vue({
 }).$mount('#app')
 ```
 
-#### 自定义指令
 
-- 自定义指令(元素节点,组件属性)
-
-- 模板被重新解析，指令会被调用
-
-|   回调函数   |    调用     |
-|:--------:|:---------:|
-|   bind   |    绑定     |
-| inserted |  元素被插入页面  |
-|  update  | 模板结构被重新解析 |
 
 #### 全局事件总线
 

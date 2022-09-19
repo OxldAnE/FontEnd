@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <script src='../vue.js'></script>
+    <script src='main.js' defer></script>
+</head>
+<body>
+<div id='root'>
+    <form @submit.prevent='postData'>
+        <label for='username'>用户：</label><input type='text' v-model.trim='userInfo.username' id='username'
+                                                  placeholder='请输入用户名'><br>
+        <label for='password'>密码：</label><input type='password' v-model='userInfo.password' id='password'
+                                                  placeholder='请输入密码'><br>
+        <label for='age'>年龄：</label><input type='number' id='age' v-model.number='userInfo.age'
+                                             placeholder='请输入年龄'><br>
+        <label for='region'>地区：</label><select id='region' v-model='userInfo.region'>
+        <option>请选择</option>
+        <option>北京</option>
+        <option>南京</option>
+    </select><br>
+        性别：<label for='male'>男</label><input type='radio' name='gender' v-model='userInfo.gender' value='male'
+                                                id='male'>
+        <label for='female'>女</label><input type='radio' name='gender' v-model='userInfo.gender' value='female'
+                                             id='female'><br>
+        爱好：<label for='study'>学习</label><input type='checkbox' v-model='userInfo.hobby' name='hobby' value='study'
+                                                   id='study'>
+        <label for='running'>跑步</label><input type='checkbox' v-model='userInfo.hobby' name='hobby' value='running'
+                                                id='running'><br>
+        <textarea placeholder='请输入其他信息' v-model.lazy='userInfo.other'></textarea><br>
+        <input type='checkbox' id='agree' v-model='userInfo.agree'><label for='agree'>阅读并接受</label><a
+            href='javascript:'>《用户协议》</a>
+        <button>提交</button>
+    </form>
+</div>
+</body>
+</html>
