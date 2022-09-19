@@ -3,8 +3,8 @@
 <head>
     <meta charset='UTF-8'>
     <title>Title</title>
-    <script src='../vue.js'></script>
-    <script src='main.js' defer></script>
+    <script src='vue.js'></script>
+    <script src='表单/main.js' defer></script>
 </head>
 <body>
 <div id='root'>
@@ -34,5 +34,30 @@
         <button>提交</button>
     </form>
 </div>
+
+<script>
+    new Vue({
+        el : '#root',
+        data() {
+            return {
+                userInfo : {
+                    username : '',
+                    password : '',
+                    age      : undefined,
+                    region   : '请选择',
+                    gender   : '',
+                    hobby    : [],
+                    other    : '',
+                    agree    : '',
+                },
+            }
+        },
+        methods : {
+            postData() {
+                console.log(this.userInfo)
+            },
+        },
+    })
+</script>
 </body>
 </html>

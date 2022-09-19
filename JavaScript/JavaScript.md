@@ -1188,7 +1188,7 @@ function url(protocol) {
 }
 
 const web = url('https://')('www.a.com')
-console.table([ web('/index.html'), web('/style.css'), web('/app.js') ])
+console.table([ web('/列表渲染.html'), web('/style.css'), web('/app.js') ])
 ```
 
 #### add

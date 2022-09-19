@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <script src='vue.js'></script>
+</head>
+<body>
+<div id='root'>
+    <app></app>
+</div>
+
+<div id='root1'>
+    <my-b></my-b>
+</div>
+
+<script type='text/javascript'>
+    // 创建组件 Vue.extend 可省
+    const A = Vue.extend({
+        template : `<h1>{{ a }}</h1>`,
+        // 必须以返回对象形式
+        data() {
+            return {
+                a : 1,
+            }
+        },
+    })
+
+    /* Vue.extend = function (options) {
+     return function VueComponent(options) {
+     this._init(options)
+     }
+     } */
+    // 组件是 VueComponent 构造函数
+    // 不同组件为不同的构造函数
+    // 模板解析到标签，会调用该构造函数创建实例 vc
+    // 通过原型链， vc 能访问到 Vue 原型上的属性和方法
+    console.log(Object.getPrototypeOf(A.prototype) === Vue.prototype) // true
+
+
+    // 全局注册组件，会自动添加 Vue.extend
+    Vue.component('my-b', {
+        template : `<h1>{{ 2 }}</h1>`,
+    })
+
+    // app 管理所有组件
+    const app = {
+        template   : `
+<div>
+<my-a></my-a>
+<my-b></my-b>
+</div>
+`,
+        components : {
+            'my-a' : A,
+        },
+    }
+
+    new Vue({
+        // 只有 vm 绑定根元素
+        el : '#root',
+        // 注册组件
+        // 非脚手架，不支持 MyA
+        components : { app },
+    })
+
+    new Vue({
+        el : '#root1',
+    })
+</script>
+</body>
+</html>

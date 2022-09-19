@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <script src='vue.js'></script>
+</head>
+<body>
+<div id='root'>
+    a：<input type='text' v-model='a'><br>
+    b：<input type='text' v-model='b'><br>
+    c：<input type='text' v-model='c'><br>
+</div>
+
+<script>
+    new Vue({
+        el : '#root',
+        data() {
+            return {
+                a : '',
+                b : '',
+            }
+        },
+        computed : {
+            c : {
+                get() {
+                    return this.b
+                           ? this.a + ' ' + this.b
+                           : this.a
+                },
+                set(v) {
+                    const arr = v.split(' ')
+                    this.a = arr[0]
+                    this.b = arr[1] ?? ''
+                },
+            },
+        },
+    })
+</script>
+</body>
+</html>

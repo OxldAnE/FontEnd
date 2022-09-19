@@ -3,8 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <title>Title</title>
-    <script src='../vue.js'></script>
-    <script src='main.js' defer></script>
+    <script src='vue.js'></script>
     <style>
         .basic {
             display     : inline-block;
@@ -36,12 +35,38 @@
     </style>
 </head>
 <body>
-
 <div id='root'>
     <span class='basic' :class='color' @mousemove='changeColor'>1</span>
     <span class='basic' :class='border'>2</span>
     <span class='basic' :class='style'>3</span>
 </div>
 
+<script>
+    new Vue({
+        el : '#root',
+        data() {
+            return {
+                // 在数组中挑一个样式使用
+                colors : [ 'red', 'yellow', 'blue' ],
+                color  : '',
+
+                // 增删数组元素，改变样式
+                border : [ 'border', 'border-radius' ],
+
+                // 通过对象的属性值决定样式是否使用
+                style : {
+                    red             : true,
+                    border          : true,
+                    'border-radius' : true,
+                },
+            }
+        },
+        methods : {
+            changeColor() {
+                this.color = this.colors[Math.floor(Math.random() * 3)]
+            },
+        },
+    })
+</script>
 </body>
 </html>

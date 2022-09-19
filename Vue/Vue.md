@@ -28,7 +28,7 @@
 |  数据代理  |               一个对象代理另一个对象属性的读写               |
 |  状态提升  |              多个子组件共享相同父组件的数据状态              |
 
-## 模型
+### 模型
 
 ![image-20220809204047273](assets/image-20220809204047273.png)
 
@@ -51,14 +51,14 @@
 |  自定义指令   | directives |
 |   混入组件   |   mixins   |
 
-|          |    [computed](vue2/计算属性/index.html)     |                [watch](vue2/监听/index.html)                 |
+|          |    [computed](直接引入/computed.html)     |                [watch](直接引入/watch.html)                 |
 | :------: | :-----------------------------------------: | :----------------------------------------------------------: |
 | 适用情形 | 依赖数据改变，重新计算<br />结果依赖多个值  |          数据改变，执行操作<br />值的改变影响多个值          |
 | 支持缓存 |                      1                      |                              0                               |
 | 支持异步 |                      0                      |                              1                               |
 |   描述   | 默认通过 get 返回值<br />修改值，需添加 set | 接收新值和旧值作为参数<br />immediate 在加载时立即执行<br />deep 监听对象内部属性改变 |
 
-### [生命周期钩子](vue2/生命周期钩子/index.html)
+### [生命周期钩子](直接引入/生命周期钩子.html)
 
 ![image-20220919162851285](assets/image-20220919162851285.png)
 
@@ -74,6 +74,7 @@
 |   实例销毁，解绑指令，移除属性监听、自定义事件监听、子组件   |   Destroyed   |
 
 ```html
+
 <div id='root'>
     <h1 :style='{opacity}'>透明度</h1>
     <button @click='opacity=1'>1</button>
@@ -106,7 +107,7 @@ new Vue({
             this.$destroy()
         },
     },
-    
+
     beforeDestroy() {
         clearInterval(this.timer)
     },
@@ -119,8 +120,8 @@ new Vue({
 
 |                          描述                           |   示例    |
 | :-----------------------------------------------------: | :-------: |
-|                        扩展组件                         |  extend   |
-|                        使用插件                         |    use    |
+|                        创建组件                         |  extend   |
+|                        使用组件                         |    use    |
 |                      注册全局组件                       | component |
 |                      注册全局混入                       |   mixin   |
 |                      注册全局指令                       | directive |
@@ -170,6 +171,12 @@ new Vue({
 |                          绑定事件                          |    @    |
 |               为元素节点或子组件注册引用信息               |   ref   |
 
+```html
+<input v-model='a'>
+// 等价
+<input :value='a' v-on:input='a = $event.target.value'>
+```
+
 ### 事件类型
 
 |    描述    |         示例          |
@@ -208,9 +215,10 @@ new Vue({
 | 只有操作的目标元素触发  |  self   |
 | 立即执行，不等待回调函数 | passive |
 
-### [数据代理](vue2/数据代理/index.html)
+### [数据代理](直接引入/数据代理.html)
 
 ```html
+
 <div id='root'>
     <ul>
         <li v-for='(item,index) of arr' :key='item.id'>
@@ -261,7 +269,7 @@ vm.a = 0
 console.log(vm.a) // 0
 ```
 
-### [绑定样式](vue2/绑定样式/index.html)
+### [绑定样式](直接引入/绑定样式.html)
 
 ```js
 new Vue({
@@ -291,15 +299,16 @@ new Vue({
 })
 ```
 
-### [列表渲染](vue2/列表渲染/index.html)
+### [列表渲染](直接引入/列表渲染.html)
 
 - 默认使用 index 作为 key
-  - 效率低，且打乱顺序会出错
+    - 效率低，且打乱顺序会出错
 - 如果 key 相同，则内容相同的部分直接复用
 
 ![image-20220918234123262](assets/image-20220918234123262.png)
 
 ```html
+
 <div id='root'>
     <ul>
         <li v-for='item of arr'>
@@ -326,21 +335,20 @@ new Vue({
 })
 ```
 
-### [列表过滤与排序](vue2/列表过滤与排序/index.html)
+### 列表过滤
 
 ```html
+
 <div id='root'>
     <input type='text' v-model='keyWord' placeholder='请输入关键字'>
     <ul>
-        <li v-for='index of res' :key='item.id'>
+        <li v-for='item of res' :key='item.id'>
             {{ item.name + item.age }}
         </li>
     </ul>
 </div>
 ```
 
-- [watch](vue2/列表过滤与排序/watch.js)
-
 ```js
 new Vue({
     el : '#root',
@@ -353,51 +361,44 @@ new Vue({
                 { id : 4, name : '温兆伦', age : 15 },
             ],
             keyWord : '',
-            res     : [],
         }
-    },
-    watch : {
-        keyWord : {
-            immediate : true,
-            handler(val) {
-                this.res = this.lists.filter(i =>
-                    i.name.includes(val),
-                )
-            },
-        },
-    },
+    }
 })
 ```
 
-- [computed](vue2/列表过滤与排序/computed.js)
+#### [计算属性实现列表过滤](直接引入/计算属性实现列表过滤.html)
 
 ```js
-new Vue({
-    el : '#root',
-    data() {
-        return {
-            lists   : [
-                { id : 1, name : '马冬梅', age : 18 },
-                { id : 2, name : '周冬雨', age : 17 },
-                { id : 3, name : '周杰伦', age : 16 },
-                { id : 4, name : '温兆伦', age : 15 },
-            ],
-            keyWord : '',
-        }
-    },
-    computed : {
-        res() {
-            return this.lists.filter(i =>
-                i.name.includes(this.keyWord),
+computed : {
+    res()
+    {
+        return this.lists.filter(i =>
+            i.name.includes(this.keyWord),
+        )
+    }
+}
+```
+
+#### [侦听实现列表过滤](直接引入/侦听实现列表过滤.html)
+
+```js
+watch : {
+    keyWord : {
+        immediate : true,
+            handler(val)
+        {
+            this.res = this.lists.filter(i =>
+                i.name.includes(val),
             )
-        },
-    },
-})
+        }
+    }
+}
 ```
 
-- [排序](vue2/列表过滤与排序/index.html)
+### [列表排序](直接引入/列表排序.html)
 
 ```html
+
 <div id='root'>
     <input type='text' v-model='keyWord' placeholder='请输入关键字'>
     <button @click='sortType=2'>升序</button>
@@ -445,9 +446,10 @@ new Vue({
 })
 ```
 
-### [表单](vue2/表单/index.html)
+### [表单](直接引入/表单.html)
 
 ```html
+
 <div id='root'>
     <form @submit.prevent='postData'>
         <label for='username'>用户：</label><input type='text' v-model.trim='userInfo.username' id='username'
@@ -502,17 +504,17 @@ new Vue({
 })
 ```
 
-### [自定义指令](vue2/自定义指令/index.html)
+### [自定义指令](直接引入/自定义指令.html)
 
 - 自定义指令(真实节点,绑定元素对象)
 - 指令绑定和模板更新时，指令会被调用
 - 自定义指令的 this 指向 window
 - 自定义指令命名
-  - 模板 v-a-b
-  - 模型 a-b
-
+    - 模板 v-a-b
+    - 模型 a-b
 
 ```html
+
 <div id='root'>
     <input type='text' v-fbind:value='n'><br>
     <button @click='n++'>n++</button>
@@ -553,18 +555,82 @@ new Vue({
 })
 ```
 
+## 组件
+
+### [非单文件组件](直接引入/非单文件组件.html)
+
+```html
+
+<div id='root'>
+    <app></app>
+</div>
+
+<div id='root1'>
+    <my-b></my-b>
+</div>
+```
+
 ```js
-// 注册为全局指令
-Vue.directive('fbind', function (element, binding) {
-    element.value = binding.value
+// 创建组件 Vue.extend 可省
+const A = Vue.extend({
+    template : `<h1>{{ a }}</h1>`,
+    // 必须以返回对象形式
+    data() {
+        return {
+            a : 1,
+        }
+    },
+})
+
+/* Vue.extend = function (options) {
+ return function VueComponent(options) {
+ this._init(options)
+ }
+ } */
+// 组件是 VueComponent 构造函数
+// 不同组件为不同的构造函数
+// 模板解析到标签，会调用该构造函数创建实例 vc
+// 通过原型链， vc 能访问到 Vue 原型上的属性和方法
+console.log(Object.getPrototypeOf(A.prototype) === Vue.prototype) // true
+
+
+// 全局注册组件，会自动添加 Vue.extend
+Vue.component('my-b', {
+    template : `<h1>{{ 2 }}</h1>`,
+})
+
+// app 管理所有组件
+const app = {
+    template   : `
+<div>
+<my-a></my-a>
+<my-b></my-b>
+</div>
+`,
+    components : {
+        'my-a' : A,
+    },
+}
+
+new Vue({
+    // 只有 vm 绑定根元素
+    el : '#root',
+    // 注册组件
+    // 非脚手架，不支持 MyA
+    components : { app },
+})
+
+new Vue({
+    el : '#root1',
 })
 ```
 
 ## 组件传值
 
-### [父传子](vue2/父传子/App.vue)
+### [父传子](直接引入/父传子/App.vue)
 
 ```vue
+
 <template>
   <div id='app'>
     <!-- 父组件的 A 流向子组件的 a -->
@@ -588,6 +654,7 @@ export default {
 ```
 
 ```vue
+
 <template>
   <div>
     {{ a }}
@@ -602,9 +669,10 @@ export default {
 </script>
 ```
 
-### [子传父](vue2/子传父/App.vue)
+### [子传父](直接引入/子传父/App.vue)
 
 ```vue
+
 <template>
   <div id='app'>
     <!-- 事件 e 触发方法 H -->
@@ -635,6 +703,7 @@ export default {
 ```
 
 ```vue
+
 <template>
   <div>
     <!-- 点击触发方法 h -->
@@ -662,7 +731,7 @@ export default {
 
 ### 通用
 
-#### [共享状态](vue2/共享状态/App.vue)
+#### [共享状态](直接引入/共享状态/App.vue)
 
 ```js
 export default {
@@ -697,6 +766,7 @@ export default {
 ```
 
 ```vue
+
 <template>
   <div>
     {{ state.a }}
@@ -724,6 +794,7 @@ export default {
 ```
 
 ```vue
+
 <template>
   <div>
     {{ state.a }}
@@ -750,9 +821,10 @@ export default {
 </script>
 ```
 
-## [插槽](vue2/插槽/App.vue)
+## [插槽](直接引入/插槽/App.vue)
 
 ```vue
+
 <template>
   <div id='app'>
     <Son>
@@ -777,6 +849,7 @@ export default {
 ```
 
 ```vue
+
 <template>
   <div>
     <!-- 按照插槽的位置渲染 -->
@@ -792,7 +865,7 @@ export default {
 </script>
 ```
 
-## [提交表单](vue2/提交表单/App.vue)
+## [提交表单](直接引入/提交表单/App.vue)
 
 ```vue
 <!-- 前端页面 -->
@@ -890,6 +963,7 @@ app.listen(8080, () => {
 ## 路由
 
 ```vue
+
 <template>
   <div id='app'>
     <!-- 导航栏 -->
@@ -974,6 +1048,7 @@ export default router
 ```
 
 ```vue
+
 <template>
   <div>Home</div>
 </template>
@@ -986,6 +1061,7 @@ export default {
 ```
 
 ```vue
+
 <template>
   <div>
     <form @submit.prevent='myLogin'>
@@ -1032,8 +1108,6 @@ new Vue({
     render : h => h(App),
 }).$mount('#app')
 ```
-
-
 
 #### 全局事件总线
 

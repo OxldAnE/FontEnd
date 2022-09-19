@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <script src='vue.js'></script>
+</head>
+<body>
+<div id='root'>
+    <h1 :style='{opacity}'>透明度</h1>
+    <button @click='opacity=1'>1</button>
+    <button @click='stop'>停</button>
+</div>
+
+<script>
+    new Vue({
+        el : '#root',
+        data() {
+            return {
+                opacity : 1,
+            }
+        },
+
+        // 挂载时启动定时器
+        mounted() {
+            this.timer = setInterval(() => {
+                if (this.opacity <= 0) {
+                    this.opacity = 1
+                }
+                this.opacity -= 0.1
+            }, 100)
+        },
+
+        methods : {
+            // 手动销毁，调用 beforeDestroy
+            stop() {
+                this.$destroy()
+            },
+        },
+
+        beforeDestroy() {
+            clearInterval(this.timer)
+        },
+    })
+</script>
+</body>
+</html>

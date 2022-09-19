@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <script src='vue.js'></script>
+</head>
+<body>
+<div id='root'>
+    <input type='text' v-model='keyWord' placeholder='请输入关键字'>
+    <button @click='sortType=2'>升序</button>
+    <button @click='sortType=1'>降序</button>
+    <button @click='sortType=0'>原序</button>
+    <ul>
+        <li v-for='item of res' :key='item.id'>
+            {{ item.name + item.age }}
+        </li>
+    </ul>
+</div>
+
+<script>
+    new Vue({
+        el : '#root',
+        data() {
+            return {
+                lists    : [
+                    { id : 1, name : '马冬梅', age : 18 },
+                    { id : 2, name : '周冬雨', age : 16 },
+                    { id : 3, name : '周杰伦', age : 17 },
+                    { id : 4, name : '温兆伦', age : 15 },
+                ],
+                keyWord  : '',
+                sortType : 0,
+            }
+        },
+        /* 先依据名字里是否含有关键字过滤
+         * 再根据排序的值，进行相应排序 */
+        computed : {
+            res() {
+                let arr = this.lists.filter(i =>
+                    i.name.includes(this.keyWord))
+
+                if (this.sortType) {
+                    arr.sort((a, b) =>
+                        this.sortType === 2
+                        ? a.age - b.age
+                        : b.age - a.age)
+                }
+                return arr
+            },
+        },
+    })
+</script>
+</body>
+</html>
