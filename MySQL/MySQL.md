@@ -201,7 +201,7 @@ create table t
 
 #### 一对一
 
-![image-20220917193654302](MySQL.assets/image-20220917193654302.png)
+![image-20220917193654302](assets/image-20220917193654302.png)
 
 ```sql
 /* 讲学生的信息拆分为，个人信息和教育背景
@@ -223,7 +223,7 @@ create table education
 
 #### 一对多
 
-![image-20220917215613377](MySQL.assets/image-20220917215613377.png)
+![image-20220917215613377](assets/image-20220917215613377.png)
 
 ```sql
 /* 一个班级有多名学生
@@ -243,7 +243,7 @@ create table student
 
 #### 多对多
 
-![image-20220917194212043](MySQL.assets/image-20220917194212043.png)
+![image-20220917194212043](assets/image-20220917194212043.png)
 
 ```sql
 /* 多个学生各自选择多门课程
@@ -274,7 +274,7 @@ create table student_course
 
 ### 外连接
 
-![image-20220917230210715](MySQL.assets/image-20220917230210715.png)![image-20220917230223151](MySQL.assets/image-20220917230223151.png)
+![image-20220917230210715](assets/image-20220917230210715.png)![image-20220917230223151](assets/image-20220917230223151.png)
 
 ```sql
 create table if not exists l
@@ -289,7 +289,7 @@ create table if not exists r
 );
 ```
 
-![image-20220917230911928](MySQL.assets/image-20220917230911928.png)<img src="MySQL.assets/image-20220917230927333.png" alt="image-20220917230927333" style="zoom:80%;" /><img src="MySQL.assets/image-20220917230948030.png" alt="image-20220917230948030" style="zoom:80%;" />
+![image-20220917230911928](assets/image-20220917230911928.png)<img src="assets/image-20220917230927333.png" alt="image-20220917230927333" style="zoom:80%;" /><img src="assets/image-20220917230948030.png" alt="image-20220917230948030" style="zoom:80%;" />
 
 ```sql
 # 内连接 
@@ -310,9 +310,9 @@ from l
 
 ### 自连接
 
-![image-20220917233626336](MySQL.assets/image-20220917233626336.png)
+![image-20220917233626336](assets/image-20220917233626336.png)
 
-![image-20220917233524429](MySQL.assets/image-20220917233524429.png)![image-20220917233538974](MySQL.assets/image-20220917233538974.png)![image-20220917233557846](MySQL.assets/image-20220917233557846.png)
+![image-20220917233524429](assets/image-20220917233524429.png)![image-20220917233538974](assets/image-20220917233538974.png)![image-20220917233557846](assets/image-20220917233557846.png)
 
 ```sql
 # 内连接
